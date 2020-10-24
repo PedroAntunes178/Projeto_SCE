@@ -73,8 +73,6 @@ int Timer1(void);
 
 unsigned char get_Temprature(void);
 
-int converter(int *);
-
 #endif	/* PROJECT_H */
 /**
  End of File

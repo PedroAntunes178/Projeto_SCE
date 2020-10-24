@@ -88,10 +88,11 @@ int Timer1(void) {
         projectState = RUNNING;
     }
     if (projectState == RUNNING) {
-        while(!TMR1_HasOverflowOccured());       
-        TMR1IF = 0;                
-        TMR1_Reload();
-        return 1;
+        if(TMR1_HasOverflowOccured()){
+            TMR1IF = 0;                
+            TMR1_Reload();
+            return 1;
+        }    
     }
     else return 0;
 }
@@ -257,25 +258,33 @@ void main(void)
             if(seconds==60){
                 minutes += 1;
                 seconds = 0;
+                NOP();
+                LCDcmd(0x83);
+                sprintf(buf, "%02d:", minutes);
+                LCDstr(buf);
             }
             if(minutes==60){
                 hours += 1;
                 minutes = 0;
+                NOP();
+                LCDcmd(0x80)
+                sprintf(buf, "%02d:%02d:", hours, minutes);
+                LCDstr(buf);
             }
             if(hours==24){
                 hours = 0;
             }
             
             NOP();
-            LCDcmd(0x80);
-            sprintf(buf, "%02d : %02d : %02d", hours, minutes, seconds);
+            LCDcmd(0x86);
+            sprintf(buf, "%02d", seconds);
             LCDstr(buf);
         }
         if(seconds%3 == 0){
             NOP();
             c = get_Temprature();
             LCDcmd(0xc0);
-            sprintf(buf, "Temp %02d C", c);
+            sprintf(buf, "%02d C", c);
             LCDstr(buf);
             LCDcmd(0x81);
         }
