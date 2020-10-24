@@ -44,12 +44,15 @@
 #include "mcc_generated_files/mcc.h"
 #include "I2C/i2c.h"
 #include "stdio.h"
+#include "mcc_generated_files/pin_manager.h"
+#include "mcc_generated_files/tmr1.h"
+#include "project.h"
 
 /*
                          Main application
  */
 
-unsigned char tsttc (void)
+unsigned char get_Temprature(void)
 {
 	unsigned char value;
 do{
@@ -201,6 +204,10 @@ void main(void)
     unsigned char c2;
     unsigned char buf[17];
     
+    unsigned int hours = 0;
+    unsigned int minutes = 0;
+    unsigned int seconds = 0;
+    
     // initialize the device
     SYSTEM_Initialize();
 
@@ -226,28 +233,28 @@ void main(void)
     WPUC4 = 1;
     LCDinit();
 
-    while (1)
-    {
+    while (1) {
+        
         // Add your application code
                 
         NOP();
-	c = tsttc();
-	//        hc = (c / 10);
-	//        lc = (c % 10);
+        c = get_Temprature();
+        //        hc = (c / 10);
+        //        lc = (c % 10);
         LCDcmd(0x80);
         LCDstr("Temp");
         LCDcmd(0xc0);
-	//        LCDchar(hc + 48);LCDchar(lc + 48);LCDchar(' ');LCDchar('C');
-	sprintf(buf, "%02d C", c);
-	LCDstr(buf);
-    LCDcmd(0x81);
-//    LCDchar('A');
-//    LCDcmd(0x81);
-	c1 = LCDrecv(0);
-	c2 = LCDrecv(LCD_RS);
-    LCDcmd(0xc8);
-	sprintf(buf, "%02x %02x", c1, c2);
-	LCDstr(buf);
+        //        LCDchar(hc + 48);LCDchar(lc + 48);LCDchar(' ');LCDchar('C');
+        sprintf(buf, "%02d C", c);
+        LCDstr(buf);
+        LCDcmd(0x81);
+        //    LCDchar('A');
+        //    LCDcmd(0x81);
+        c1 = LCDrecv(0);
+        c2 = LCDrecv(LCD_RS);
+        LCDcmd(0xc8);
+        sprintf(buf, "%02x %02x", c1, c2);
+        LCDstr(buf);
         NOP();
         __delay_ms(3000);
     }
