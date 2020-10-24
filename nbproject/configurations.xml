@@ -16,6 +16,7 @@
         <itemPath>mcc_generated_files/i2c1_driver.h</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
       </logicalFolder>
+      <itemPath>project.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
