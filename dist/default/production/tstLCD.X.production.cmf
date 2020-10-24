@@ -1,0 +1,955 @@
+%CMF
+# %PSECTS Section
+# For each object file, details of its psects are enumerated here.
+# The begining of the section is indicated by %PSECTS.  The first
+# line indicates the name of the first object file, e.g.
+#    $foo.obj
+# Each line that follows describes a psect in that object file, until
+# the next object file.  The lines that describe a psect have the
+# format:
+#    <psect name> <class name> <space> <link address> <load addresses> <length> <delta>
+# All addresses and the length are given in unqualified hexadecimal
+# in delta units.  Any other numeric values are decimal.
+%PSECTS
+$dist/default/production/tstLCD.X.production.o
+cinit CODE 0 1E 1E 9 2
+text1 CODE 0 384 384 10D 2
+text2 CODE 0 27 27 217 2
+text3 CODE 0 7DF 7DF 12 2
+text4 CODE 0 772 772 1F 2
+text5 CODE 0 73E 73E 34 2
+text6 CODE 0 6C7 6C7 3C 2
+text7 CODE 0 7F1 7F1 C 2
+text8 CODE 0 FF6 FF6 A 2
+text9 CODE 0 FE5 FE5 8 2
+text10 CODE 0 703 703 3B 2
+text11 CODE 0 FED FED 9 2
+text12 CODE 0 791 791 1B 2
+text13 CODE 0 FDD FDD 8 2
+text14 CODE 0 23E 23E 146 2
+text15 CODE 0 7AC 7AC 1A 2
+text16 CODE 0 5C8 5C8 71 2
+text17 CODE 0 684 684 43 2
+text18 CODE 0 FD6 FD6 7 2
+text19 CODE 0 491 491 B3 2
+text20 CODE 0 639 639 4B 2
+maintext CODE 0 544 544 84 2
+cstackCOMMON COMMON 1 70 70 E 1
+cstackBANK0 BANK0 1 20 20 2C 1
+stringtext1 STRCODE 0 7FD 7FD A 2
+stringtext2 STRCODE 0 7C6 7C6 19 2
+stringtext3 STRCODE 0 807 807 A 2
+stringtext4 STRCODE 0 1000 1000 7 2
+stringtext5 STRCODE 0 1007 1007 5 2
+intentry CODE 0 4 4 18 2
+bssBANK0 BANK0 1 4C 4C 4 1
+config CONFIG 4 8007 8007 5 2
+$/tmp/xcXglLAKE.o
+reset_vec CODE 0 0 0 2 2
+end_init CODE 0 1C 1C 2 2
+config CONFIG 4 8007 8007 5 2
+# %UNUSED Section
+# This section enumerates the unused ranges of each CLASS. Each entry
+# is described on a single line as follows:
+#    <class name> <range> <delta>
+# Addresses given in the range are in hexadecimal and units of delta.
+%UNUSED
+RAM 50-6F 1
+RAM A0-EF 1
+RAM 120-16F 1
+RAM 1A0-1EF 1
+RAM 220-26F 1
+RAM 2A0-2EF 1
+RAM 320-36F 1
+RAM 3A0-3EF 1
+RAM 420-46F 1
+RAM 4A0-4EF 1
+RAM 520-56F 1
+RAM 5A0-5EF 1
+RAM 620-64F 1
+BANK0 50-6F 1
+BANK1 A0-EF 1
+BANK2 120-16F 1
+BANK3 1A0-1EF 1
+BANK4 220-26F 1
+BANK5 2A0-2EF 1
+BANK6 320-36F 1
+BANK7 3A0-3EF 1
+BANK8 420-46F 1
+BANK9 4A0-4EF 1
+CONST 2-3 2
+CONST 811-FD5 2
+CONST 100C-1FFF 2
+ENTRY 2-3 2
+ENTRY 811-FD5 2
+ENTRY 100C-1FFF 2
+IDLOC 8000-8003 2
+SFR10 500-51F 1
+SFR11 580-59F 1
+SFR12 600-61F 1
+SFR13 680-6EF 1
+SFR14 700-76F 1
+SFR15 780-7EF 1
+SFR16 800-86F 1
+SFR17 880-8EF 1
+SFR18 900-96F 1
+SFR19 980-9EF 1
+SFR20 A00-A6F 1
+SFR21 A80-AEF 1
+SFR22 B00-B6F 1
+SFR23 B80-BEF 1
+SFR24 C00-C6F 1
+SFR25 C80-CEF 1
+SFR26 D00-D6F 1
+SFR27 D80-DEF 1
+SFR28 E00-E6F 1
+SFR29 E80-EEF 1
+SFR30 F00-F6F 1
+SFR31 F80-FEF 1
+STACK 2030-23EF 1
+CODE 2-3 2
+CODE 811-FD5 2
+CODE 100C-1FFF 2
+SFR0 0-1F 1
+SFR1 80-9F 1
+SFR2 100-11F 1
+SFR3 180-19F 1
+SFR4 200-21F 1
+SFR5 280-29F 1
+SFR6 300-31F 1
+SFR7 380-39F 1
+SFR8 400-41F 1
+SFR9 480-49F 1
+BANK10 520-56F 1
+BANK11 5A0-5EF 1
+BANK12 620-64F 1
+BIGRAM 2000-23EF 1
+EEDATA F000-F0FF 2
+STRCODE 2-3 2
+STRCODE 811-FD5 2
+STRCODE 100C-1FFF 2
+STRING 2-3 2
+STRING 811-FD5 2
+STRING 100C-1FFF 2
+# %LINETAB Section
+# This section enumerates the file/line to address mappings.
+# The beginning of the section is indicated by %LINETAB.
+# The first line indicates the name of the first object file, e.g.
+#   $foo.obj
+# Each line that follows describes a single mapping until the next
+# object file.  Mappings have the following format:
+#    <address> <psect name> <class name> ><line number>:<file name>
+# The address is absolute and given given in unqualified hex 
+# in delta units of the psect. All mappings within an object file
+# are in ascending order of addresses.
+# All other numeric values are in decimal.
+%LINETAB
+$dist/default/production/tstLCD.X.production.o
+1E cinit CODE >8029:/tmp/xcXFJdbNH.s
+1E cinit CODE >8032:/tmp/xcXFJdbNH.s
+1E cinit CODE >8047:/tmp/xcXFJdbNH.s
+1F cinit CODE >8048:/tmp/xcXFJdbNH.s
+20 cinit CODE >8049:/tmp/xcXFJdbNH.s
+21 cinit CODE >8050:/tmp/xcXFJdbNH.s
+22 cinit CODE >8051:/tmp/xcXFJdbNH.s
+23 cinit CODE >8057:/tmp/xcXFJdbNH.s
+23 cinit CODE >8059:/tmp/xcXFJdbNH.s
+24 cinit CODE >8060:/tmp/xcXFJdbNH.s
+25 cinit CODE >8061:/tmp/xcXFJdbNH.s
+4 intentry CODE >52:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+6 intentry CODE >55:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+A intentry CODE >57:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+14 intentry CODE >61:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+1A intentry CODE >68:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+1A intentry CODE >74:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/interrupt_manager.c
+639 text20 CODE >47:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+63A text20 CODE >49:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+63D text20 CODE >50:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+642 text20 CODE >54:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+654 text20 CODE >56:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+655 text20 CODE >57:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+65A text20 CODE >59:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+661 text20 CODE >68:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+673 text20 CODE >70:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+677 text20 CODE >71:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+682 text20 CODE >72:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+683 text20 CODE >78:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+491 text19 CODE >126:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+492 text19 CODE >131:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+497 text19 CODE >132:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4A3 text19 CODE >134:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4AF text19 CODE >135:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4BF text19 CODE >136:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4CF text19 CODE >137:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4E1 text19 CODE >138:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+4F3 text19 CODE >140:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+505 text19 CODE >141:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+517 text19 CODE >142:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+529 text19 CODE >144:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+53B text19 CODE >145:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+540 text19 CODE >146:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+543 text19 CODE >147:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FD6 text18 CODE >172:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FD7 text18 CODE >174:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FDC text18 CODE >175:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+684 text17 CODE >87:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+685 text17 CODE >89:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+691 text17 CODE >90:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+6A1 text17 CODE >91:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+6B1 text17 CODE >92:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+6C1 text17 CODE >93:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+6C6 text17 CODE >94:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5C8 text16 CODE >149:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5C8 text16 CODE >151:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5D0 text16 CODE >152:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5D4 text16 CODE >153:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5E0 text16 CODE >154:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5E4 text16 CODE >155:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5E8 text16 CODE >156:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5F4 text16 CODE >157:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5F8 text16 CODE >158:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5FC text16 CODE >159:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+608 text16 CODE >160:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+60C text16 CODE >161:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+610 text16 CODE >162:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+61C text16 CODE >163:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+620 text16 CODE >165:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+625 text16 CODE >166:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+62A text16 CODE >167:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+62F text16 CODE >168:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+634 text16 CODE >169:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+638 text16 CODE >170:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+7AC text15 CODE >32:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+7AC text15 CODE >34:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+7BF text15 CODE >35:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+7C0 text15 CODE >36:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+7C4 text15 CODE >37:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+7C5 text15 CODE >38:/home/pedro-linux/Documents/SCE/tstLCD.X/I2C/i2c.c
+23E text14 CODE >95:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+23F text14 CODE >100:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+24B text14 CODE >101:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+25B text14 CODE >102:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+26B text14 CODE >103:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+27C text14 CODE >104:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+28D text14 CODE >106:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+29E text14 CODE >107:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2AE text14 CODE >108:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2C0 text14 CODE >109:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2C6 text14 CODE >110:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2D6 text14 CODE >111:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2E6 text14 CODE >112:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+2F7 text14 CODE >113:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+308 text14 CODE >115:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+319 text14 CODE >116:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+329 text14 CODE >117:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+33B text14 CODE >118:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+341 text14 CODE >119:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+351 text14 CODE >120:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+361 text14 CODE >121:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+372 text14 CODE >122:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+377 text14 CODE >123:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+383 text14 CODE >124:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FDD text13 CODE >177:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FDE text13 CODE >179:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FE4 text13 CODE >180:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+791 text12 CODE >182:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+791 text12 CODE >186:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+7AB text12 CODE >187:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+FED text11 CODE >57:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FED text11 CODE >60:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF0 text11 CODE >62:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF1 text11 CODE >64:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF2 text11 CODE >66:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF4 text11 CODE >68:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF5 text11 CODE >69:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+703 text10 CODE >57:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+703 text10 CODE >62:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+705 text10 CODE >63:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+706 text10 CODE >64:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+707 text10 CODE >65:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+708 text10 CODE >66:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+709 text10 CODE >71:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+70B text10 CODE >72:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+70D text10 CODE >73:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+70F text10 CODE >74:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+711 text10 CODE >75:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+713 text10 CODE >80:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+716 text10 CODE >81:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+718 text10 CODE >82:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+71A text10 CODE >83:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+71C text10 CODE >84:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+71E text10 CODE >89:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+71F text10 CODE >90:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+720 text10 CODE >91:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+721 text10 CODE >92:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+722 text10 CODE >93:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+723 text10 CODE >98:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+724 text10 CODE >99:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+725 text10 CODE >100:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+726 text10 CODE >101:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+727 text10 CODE >102:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+728 text10 CODE >107:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+72A text10 CODE >108:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+72C text10 CODE >109:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+72E text10 CODE >110:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+730 text10 CODE >111:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+732 text10 CODE >120:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+735 text10 CODE >121:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+738 text10 CODE >122:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+73A text10 CODE >123:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+73D text10 CODE >124:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/pin_manager.c
+FE5 text9 CODE >71:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FE5 text9 CODE >74:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FE7 text9 CODE >76:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FE8 text9 CODE >78:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FE9 text9 CODE >80:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FEA text9 CODE >82:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FEB text9 CODE >84:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FEC text9 CODE >85:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF6 text8 CODE >50:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF6 text8 CODE >52:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FF9 text8 CODE >53:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FFC text8 CODE >54:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+FFF text8 CODE >55:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/mcc.c
+7F1 text7 CODE >83:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7F1 text7 CODE >85:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7F6 text7 CODE >87:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7F7 text7 CODE >88:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7F9 text7 CODE >89:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7FA text7 CODE >90:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+7FC text7 CODE >95:/home/pedro-linux/Documents/SCE/tstLCD.X/mcc_generated_files/i2c1_driver.c
+6C7 text6 CODE >5:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6C7 text6 CODE >13:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6C9 text6 CODE >14:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6CF text6 CODE >15:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6D1 text6 CODE >16:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6D2 text6 CODE >17:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6D7 text6 CODE >18:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6DB text6 CODE >16:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6DF text6 CODE >21:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6E4 text6 CODE >22:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6EE text6 CODE >23:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6F2 text6 CODE >24:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6F3 text6 CODE >26:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6F8 text6 CODE >27:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+6FE text6 CODE >29:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+702 text6 CODE >30:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwdiv.c
+73E text5 CODE >5:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+73E text5 CODE >12:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+744 text5 CODE >13:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+746 text5 CODE >14:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+747 text5 CODE >15:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+74C text5 CODE >16:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+750 text5 CODE >14:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+754 text5 CODE >19:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+75E text5 CODE >20:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+762 text5 CODE >21:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+767 text5 CODE >22:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+76D text5 CODE >24:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+771 text5 CODE >25:/opt/microchip/xc8/v2.20/pic/sources/c90/common/lwmod.c
+772 text4 CODE >15:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+772 text4 CODE >43:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+774 text4 CODE >45:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+778 text4 CODE >46:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+77C text4 CODE >47:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+781 text4 CODE >48:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+786 text4 CODE >49:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+78C text4 CODE >52:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+790 text4 CODE >53:/opt/microchip/xc8/v2.20/pic/sources/c90/common/Umul16.c
+7DF text3 CODE >8:/opt/microchip/xc8/v2.20/pic/sources/c90/common/isdigit.c
+7E0 text3 CODE >14:/opt/microchip/xc8/v2.20/pic/sources/c90/common/isdigit.c
+7F0 text3 CODE >15:/opt/microchip/xc8/v2.20/pic/sources/c90/common/isdigit.c
+27 text2 CODE >505:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+29 text2 CODE >550:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+2D text2 CODE >553:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+2E text2 CODE >555:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+34 text2 CODE >558:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+3F text2 CODE >559:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+40 text2 CODE >563:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+42 text2 CODE >565:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+44 text2 CODE >596:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+44 text2 CODE >597:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+45 text2 CODE >598:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+49 text2 CODE >568:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+52 text2 CODE >614:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+5E text2 CODE >615:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+61 text2 CODE >617:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+72 text2 CODE >618:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+85 text2 CODE >619:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+92 text2 CODE >744:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+92 text2 CODE >747:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+93 text2 CODE >749:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+94 text2 CODE >661:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+AF text2 CODE >848:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+AF text2 CODE >1277:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+B3 text2 CODE >1285:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+BE text2 CODE >1287:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+C2 text2 CODE >1288:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+C6 text2 CODE >1289:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+CC text2 CODE >1312:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+D8 text2 CODE >1325:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+D8 text2 CODE >1331:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+DA text2 CODE >1332:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+F4 text2 CODE >1331:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+FF text2 CODE >1340:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+FF text2 CODE >1342:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+101 text2 CODE >1343:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+11B text2 CODE >1342:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+126 text2 CODE >1320:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+12F text2 CODE >1371:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+13B text2 CODE >1372:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+13F text2 CODE >1407:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+14A text2 CODE >1408:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+153 text2 CODE >1410:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+156 text2 CODE >1413:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+15A text2 CODE >1418:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+160 text2 CODE >1419:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+16B text2 CODE >1441:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+171 text2 CODE >1443:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+17C text2 CODE >1444:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+187 text2 CODE >1454:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+18D text2 CODE >1456:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+198 text2 CODE >1457:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1A2 text2 CODE >1464:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1A8 text2 CODE >1465:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1B3 text2 CODE >1498:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1B7 text2 CODE >1500:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1B8 text2 CODE >1515:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1DF text2 CODE >1517:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1E0 text2 CODE >1526:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+1FC text2 CODE >1532:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+207 text2 CODE >1536:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+208 text2 CODE >1502:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+211 text2 CODE >1550:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+21C text2 CODE >1500:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+225 text2 CODE >553:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+239 text2 CODE >1564:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+23D text2 CODE >1567:/opt/microchip/xc8/v2.20/pic/sources/c90/common/doprnt.c
+384 text1 CODE >52:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+384 text1 CODE >55:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+384 text1 CODE >56:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+390 text1 CODE >57:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3A0 text1 CODE >59:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3B0 text1 CODE >60:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3C0 text1 CODE >61:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3D0 text1 CODE >62:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3E0 text1 CODE >63:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+3F2 text1 CODE >64:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+403 text1 CODE >65:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+408 text1 CODE >66:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+40C text1 CODE >68:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+417 text1 CODE >69:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+427 text1 CODE >70:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+437 text1 CODE >71:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+447 text1 CODE >72:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+457 text1 CODE >73:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+467 text1 CODE >74:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+479 text1 CODE >75:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+48A text1 CODE >76:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+48F text1 CODE >78:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+490 text1 CODE >79:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+544 maintext CODE >195:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+544 maintext CODE >205:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+547 maintext CODE >222:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+54A maintext CODE >223:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+54C maintext CODE >224:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+54D maintext CODE >225:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+54F maintext CODE >226:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+550 maintext CODE >227:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+553 maintext CODE >233:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+554 maintext CODE >234:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+55B maintext CODE >237:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+55F maintext CODE >238:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+566 maintext CODE >239:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+56A maintext CODE >241:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+57A maintext CODE >242:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+581 maintext CODE >243:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+585 maintext CODE >246:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+58D maintext CODE >247:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+595 maintext CODE >248:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+599 maintext CODE >249:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5B0 maintext CODE >250:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5B7 maintext CODE >251:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+5B8 maintext CODE >252:/home/pedro-linux/Documents/SCE/tstLCD.X/main.c
+# %SYMTAB Section
+# An enumeration of all symbols in the program.
+# The beginning of the section is indicated by %SYMTAB.
+# Each line describes a single symbol as follows:
+#    <label> <value> [-]<load-adj> <class> <space> <psect> <file-name>
+# The value and load-adj are both in unqualified hexadecimal.
+# All other numeric values are in decimal.  The load-adj is the
+# quantity one needs to add to the symbol value in order to obtain the load
+# address of the symbol.  This value may be signed. If the symbol
+# was defined in a psect then <psect> will be "-". File-name
+# is the name of the object file in which the symbol was defined.
+%SYMTAB
+___latbits 2 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___lwmod@counter 7D 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__Hspace_0 100C 0 ABS 0 - -
+__Hspace_1 7E 0 ABS 0 - -
+__Hspace_2 0 0 ABS 0 - -
+__Hspace_3 0 0 ABS 0 - -
+__Hspace_4 10013 0 ABS 0 - -
+_SSP1STATbits 18F 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Heeprom_data 0 0 EEDATA 3 eeprom_data -
+__end_of_LCDcmd 1FBA 0 CODE 0 text18 dist/default/production/tstLCD.X.production.o
+__end_of_LCDstr F58 0 CODE 0 text12 dist/default/production/tstLCD.X.production.o
+_PMD_Initialize 1FCA 0 CODE 0 text9 dist/default/production/tstLCD.X.production.o
+main@c 49 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__Hstrings 0 0 ABS 0 strings -
+_LATA 16 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_LATB 17 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_LATC 18 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_LATD 19 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_LATE 1A 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD0 796 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD1 797 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD2 798 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD3 799 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD4 79A 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PMD5 79B 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUA F39 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUB F44 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUC F4F 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUD F5A 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUE F65 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___sp 0 0 STACK 2 stack /tmp/xcXglLAKE.o
+_main A88 0 CODE 0 maintext dist/default/production/tstLCD.X.production.o
+btemp 7E 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+start 38 0 CODE 0 init /tmp/xcXglLAKE.o
+__size_of_main 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of___lwdiv 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of___lwmod 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+LCDsend2x4@hc 76 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+LCDsend2x4@lc 77 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+?___wmul 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__size_of_LCDchar 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of_LCDinit 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of_LCDrecv 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of_LCDsend 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Hpowerup 0 0 CODE 0 powerup -
+__size_of_SYSTEM_Initialize 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+intlevel0 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+intlevel1 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+intlevel2 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+intlevel3 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+intlevel4 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+intlevel5 0 0 ENTRY 0 functab /tmp/xcXglLAKE.o
+_i2c1_driver_open FE2 0 CODE 0 text7 dist/default/production/tstLCD.X.production.o
+wtemp0 7E 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Hfunctab 0 0 ENTRY 0 functab -
+__end_of_PMD_Initialize 1FDA 0 CODE 0 text9 dist/default/production/tstLCD.X.production.o
+__Hclrtext 0 0 ABS 0 clrtext -
+___wmul@multiplicand 72 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_i2c1_driver_i2cISR 4C 0 BANK0 1 bssBANK0 dist/default/production/tstLCD.X.production.o
+_ANSELA F38 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ANSELB F43 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ANSELC F4E 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ANSELD F59 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ANSELE F64 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of_INTERRUPT_InterruptManager 38 0 CODE 0 intentry dist/default/production/tstLCD.X.production.o
+__size_of_ReadI2C 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of___wmul F22 0 CODE 0 text4 dist/default/production/tstLCD.X.production.o
+LCDsend2x4@mode 72 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+main@buf 38 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__Lmaintext 0 0 ABS 0 maintext -
+__size_of_sprintf 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___lwmod@divisor 78 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__end_of___lwdiv E06 0 CODE 0 text6 dist/default/production/tstLCD.X.production.o
+__end_of___lwmod EE4 0 CODE 0 text5 dist/default/production/tstLCD.X.production.o
+__size_of_isdigit 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___stackhi 23EF 0 ABS 0 - /tmp/xcXglLAKE.o
+___stacklo 2030 0 ABS 0 - /tmp/xcXglLAKE.o
+__end_of_LCDchar 1FCA 0 CODE 0 text13 dist/default/production/tstLCD.X.production.o
+__end_of_LCDinit C72 0 CODE 0 text16 dist/default/production/tstLCD.X.production.o
+__end_of_LCDrecv 708 0 CODE 0 text14 dist/default/production/tstLCD.X.production.o
+__end_of_LCDsend D8E 0 CODE 0 text17 dist/default/production/tstLCD.X.production.o
+_dpowers FFA 0 STRCODE 0 stringtext1 dist/default/production/tstLCD.X.production.o
+___lwdiv@quotient 75 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_LCDcmd 1FAC 0 CODE 0 text18 dist/default/production/tstLCD.X.production.o
+_LCDstr F22 0 CODE 0 text12 dist/default/production/tstLCD.X.production.o
+__size_of_tsttc 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___lwmod@dividend 7A 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_PIN_MANAGER_Initialize E06 0 CODE 0 text10 dist/default/production/tstLCD.X.production.o
+__end_of_i2c1_driver_open FFA 0 CODE 0 text7 dist/default/production/tstLCD.X.production.o
+start_initialization 3C 0 CODE 0 cinit dist/default/production/tstLCD.X.production.o
+_ODCONA F3A 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ODCONB F45 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ODCONC F50 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ODCOND F5B 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_ODCONE F66 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of_hexpowers F9C 0 STRCODE 0 stringtext2 dist/default/production/tstLCD.X.production.o
+_OSCFRQ 893 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_TRISCbits 13 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of_i2c1_driver_open 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_RC3PPS F23 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_RC4PPS F24 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of_SYSTEM_Initialize 2000 0 CODE 0 text8 dist/default/production/tstLCD.X.production.o
+__pcstackBANK0 20 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+_hexpowers F8C 0 STRCODE 0 stringtext2 dist/default/production/tstLCD.X.production.o
+_LCDsend2x4 922 0 CODE 0 text19 dist/default/production/tstLCD.X.production.o
+tsttc@value 73 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+LCDsend2x4@c 75 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__size_of_LCDcmd 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__size_of_LCDstr 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of_ReadI2C F8C 0 CODE 0 text15 dist/default/production/tstLCD.X.production.o
+___int_sp 0 0 STACK 2 stack /tmp/xcXglLAKE.o
+__Hbank0 0 0 ABS 0 bank0 -
+__Hbank1 0 0 ABS 0 bank1 -
+__Hbank2 0 0 ABS 0 bank2 -
+__Hbank3 0 0 ABS 0 bank3 -
+__Hbank4 0 0 ABS 0 bank4 -
+__Hbank5 0 0 ABS 0 bank5 -
+__Hbank6 0 0 ABS 0 bank6 -
+__Hbank7 0 0 ABS 0 bank7 -
+__Hbank8 0 0 ABS 0 bank8 -
+__Hbank9 0 0 ABS 0 bank9 -
+__Hcinit 4E 0 CODE 0 cinit -
+__size_of_OSCILLATOR_Initialize 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Hsfr10 0 0 ABS 0 sfr10 -
+__Hsfr11 0 0 ABS 0 sfr11 -
+__Hsfr12 0 0 ABS 0 sfr12 -
+__Hsfr13 0 0 ABS 0 sfr13 -
+__Hsfr14 0 0 ABS 0 sfr14 -
+__Hsfr15 0 0 ABS 0 sfr15 -
+__Hsfr16 0 0 ABS 0 sfr16 -
+__Hsfr17 0 0 ABS 0 sfr17 -
+__Hsfr18 0 0 ABS 0 sfr18 -
+__Hsfr19 0 0 ABS 0 sfr19 -
+__Hsfr20 0 0 ABS 0 sfr20 -
+__Hsfr21 0 0 ABS 0 sfr21 -
+__Hsfr22 0 0 ABS 0 sfr22 -
+__Hsfr23 0 0 ABS 0 sfr23 -
+__Hsfr24 0 0 ABS 0 sfr24 -
+__Hsfr25 0 0 ABS 0 sfr25 -
+__Hsfr26 0 0 ABS 0 sfr26 -
+__Hsfr27 0 0 ABS 0 sfr27 -
+__Hsfr28 0 0 ABS 0 sfr28 -
+__Hsfr29 0 0 ABS 0 sfr29 -
+__Hsfr30 0 0 ABS 0 sfr30 -
+__Hsfr31 0 0 ABS 0 sfr31 -
+__Hstack 0 0 STACK 2 stack -
+___lwdiv@counter 77 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+LCDcmd@c 78 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__Hbank10 0 0 ABS 0 bank10 -
+__Hbank11 0 0 ABS 0 bank11 -
+__Hbank12 0 0 ABS 0 bank12 -
+__Hbank13 0 0 BANK13 1 bank13 -
+__Hbank14 0 0 BANK14 1 bank14 -
+__Hbank15 0 0 BANK15 1 bank15 -
+__Hbank16 0 0 BANK16 1 bank16 -
+__Hbank17 0 0 BANK17 1 bank17 -
+__Hbank18 0 0 BANK18 1 bank18 -
+__Hbank19 0 0 BANK19 1 bank19 -
+__Hbank20 0 0 BANK20 1 bank20 -
+__Hbank21 0 0 BANK21 1 bank21 -
+__Hbank22 0 0 BANK22 1 bank22 -
+__Hbank23 0 0 BANK23 1 bank23 -
+__Hbank24 0 0 BANK24 1 bank24 -
+__Hbank25 0 0 BANK25 1 bank25 -
+__Hbank26 0 0 BANK26 1 bank26 -
+__Hbank27 0 0 BANK27 1 bank27 -
+__Hbank28 0 0 BANK28 1 bank28 -
+__Hbank29 0 0 BANK29 1 bank29 -
+__Hbank30 0 0 BANK30 1 bank30 -
+__Hbank31 0 0 BANK31 1 bank31 -
+__Hbigram 0 0 ABS 0 bigram -
+__Hmaintext 0 0 ABS 0 maintext -
+LCDstr@c 20 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+LCDstr@p 79 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__end_of_sprintf 47C 0 CODE 0 text2 dist/default/production/tstLCD.X.production.o
+__Hcommon 0 0 ABS 0 common -
+__Hconfig 10018 0 CONFIG 4 config -
+__Lbank0 0 0 ABS 0 bank0 -
+__Lbank1 0 0 ABS 0 bank1 -
+__Lbank2 0 0 ABS 0 bank2 -
+__Lbank3 0 0 ABS 0 bank3 -
+__Lbank4 0 0 ABS 0 bank4 -
+__Lbank5 0 0 ABS 0 bank5 -
+__Lbank6 0 0 ABS 0 bank6 -
+__Lbank7 0 0 ABS 0 bank7 -
+__Lbank8 0 0 ABS 0 bank8 -
+__Lbank9 0 0 ABS 0 bank9 -
+__end_of_isdigit FE2 0 CODE 0 text3 dist/default/production/tstLCD.X.production.o
+__Lcinit 3C 0 CODE 0 cinit -
+__Lsfr10 0 0 ABS 0 sfr10 -
+__Lsfr11 0 0 ABS 0 sfr11 -
+__Lsfr12 0 0 ABS 0 sfr12 -
+__Lsfr13 0 0 ABS 0 sfr13 -
+__Lsfr14 0 0 ABS 0 sfr14 -
+__Lsfr15 0 0 ABS 0 sfr15 -
+__Lsfr16 0 0 ABS 0 sfr16 -
+__Lsfr17 0 0 ABS 0 sfr17 -
+__Lsfr18 0 0 ABS 0 sfr18 -
+__Lsfr19 0 0 ABS 0 sfr19 -
+__Lsfr20 0 0 ABS 0 sfr20 -
+__Lsfr21 0 0 ABS 0 sfr21 -
+__Lsfr22 0 0 ABS 0 sfr22 -
+__Lsfr23 0 0 ABS 0 sfr23 -
+__Lsfr24 0 0 ABS 0 sfr24 -
+__Lsfr25 0 0 ABS 0 sfr25 -
+__Lsfr26 0 0 ABS 0 sfr26 -
+__Lsfr27 0 0 ABS 0 sfr27 -
+__Lsfr28 0 0 ABS 0 sfr28 -
+__Lsfr29 0 0 ABS 0 sfr29 -
+__Lsfr30 0 0 ABS 0 sfr30 -
+__Lsfr31 0 0 ABS 0 sfr31 -
+__Lstack 0 0 STACK 2 stack -
+_INTCONbits B 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Habs1 0 0 ABS 0 abs1 -
+__Hcode 0 0 ABS 0 code -
+__Hinit 38 0 CODE 0 init -
+__Hsfr0 0 0 ABS 0 sfr0 -
+__Hsfr1 0 0 ABS 0 sfr1 -
+__Hsfr2 0 0 ABS 0 sfr2 -
+__Hsfr3 0 0 ABS 0 sfr3 -
+__Hsfr4 0 0 ABS 0 sfr4 -
+__Hsfr5 0 0 ABS 0 sfr5 -
+__Hsfr6 0 0 ABS 0 sfr6 -
+__Hsfr7 0 0 ABS 0 sfr7 -
+__Hsfr8 0 0 ABS 0 sfr8 -
+__Hsfr9 0 0 ABS 0 sfr9 -
+__Htext 0 0 ABS 0 text -
+__Labs1 0 0 ABS 0 abs1 -
+__Lcode 0 0 ABS 0 code -
+__Linit 38 0 CODE 0 init -
+__Lsfr0 0 0 ABS 0 sfr0 -
+__Lsfr1 0 0 ABS 0 sfr1 -
+__Lsfr2 0 0 ABS 0 sfr2 -
+__Lsfr3 0 0 ABS 0 sfr3 -
+__Lsfr4 0 0 ABS 0 sfr4 -
+__Lsfr5 0 0 ABS 0 sfr5 -
+__Lsfr6 0 0 ABS 0 sfr6 -
+__Lsfr7 0 0 ABS 0 sfr7 -
+__Lsfr8 0 0 ABS 0 sfr8 -
+__Lsfr9 0 0 ABS 0 sfr9 -
+__Ltext 0 0 ABS 0 text -
+__pstringtext1 FFA 0 STRCODE 0 stringtext1 dist/default/production/tstLCD.X.production.o
+__pstringtext2 F8C 0 STRCODE 0 stringtext2 dist/default/production/tstLCD.X.production.o
+__pstringtext3 100E 0 STRCODE 0 stringtext3 dist/default/production/tstLCD.X.production.o
+__pstringtext4 2000 0 STRCODE 0 stringtext4 dist/default/production/tstLCD.X.production.o
+__pstringtext5 200E 0 STRCODE 0 stringtext5 dist/default/production/tstLCD.X.production.o
+__pstringtext6 0 0 STRCODE 0 stringtext6 dist/default/production/tstLCD.X.production.o
+_SSP1CON1 190 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1CON2 191 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1STAT 18F 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+___wmul EE4 0 CODE 0 text4 dist/default/production/tstLCD.X.production.o
+__LcstackBANK0 0 0 ABS 0 cstackBANK0 -
+int$flags 7E 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__HcstackCOMMON 0 0 ABS 0 cstackCOMMON -
+__size_of_INTERRUPT_InterruptManager 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__S0 100C 0 ABS 0 - -
+__S1 7E 0 ABS 0 - -
+__S2 0 0 ABS 0 - -
+__S3 0 0 ABS 0 - -
+__end_of_LCDsend2x4 A88 0 CODE 0 text19 dist/default/production/tstLCD.X.production.o
+sprintf@idx 2A 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+sprintf@val 2D 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+_SYSTEM_Initialize 1FEC 0 CODE 0 text8 dist/default/production/tstLCD.X.production.o
+__Lintentry 8 0 CODE 0 intentry -
+reset_vec 0 0 CODE 0 reset_vec /tmp/xcXglLAKE.o
+__size_of___wmul 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__LbssBANK0 0 0 ABS 0 bssBANK0 -
+__Lstringtext1 0 0 ABS 0 stringtext1 -
+__Lstringtext2 0 0 ABS 0 stringtext2 -
+__Lstringtext3 0 0 ABS 0 stringtext3 -
+__Lstringtext4 0 0 ABS 0 stringtext4 -
+__Lstringtext5 0 0 ABS 0 stringtext5 -
+__Lstringtext6 0 0 ABS 0 stringtext6 -
+_INTERRUPT_InterruptManager 8 0 CODE 0 intentry dist/default/production/tstLCD.X.production.o
+__size_of_PMD_Initialize 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_PIE3bits 719 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+sprintf@flag 2F 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+sprintf@prec 2C 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__size_of_WriteI2C 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__ptext10 E06 0 CODE 0 text10 dist/default/production/tstLCD.X.production.o
+__ptext11 1FDA 0 CODE 0 text11 dist/default/production/tstLCD.X.production.o
+__ptext12 F22 0 CODE 0 text12 dist/default/production/tstLCD.X.production.o
+__ptext13 1FBA 0 CODE 0 text13 dist/default/production/tstLCD.X.production.o
+__ptext14 47C 0 CODE 0 text14 dist/default/production/tstLCD.X.production.o
+__ptext15 F58 0 CODE 0 text15 dist/default/production/tstLCD.X.production.o
+__ptext16 B90 0 CODE 0 text16 dist/default/production/tstLCD.X.production.o
+__ptext17 D08 0 CODE 0 text17 dist/default/production/tstLCD.X.production.o
+__ptext18 1FAC 0 CODE 0 text18 dist/default/production/tstLCD.X.production.o
+__ptext19 922 0 CODE 0 text19 dist/default/production/tstLCD.X.production.o
+__ptext20 C72 0 CODE 0 text20 dist/default/production/tstLCD.X.production.o
+__end_of_PIN_MANAGER_Initialize E7C 0 CODE 0 text10 dist/default/production/tstLCD.X.production.o
+___lwdiv D8E 0 CODE 0 text6 dist/default/production/tstLCD.X.production.o
+___lwmod E7C 0 CODE 0 text5 dist/default/production/tstLCD.X.production.o
+__Lbank10 0 0 ABS 0 bank10 -
+__Lbank11 0 0 ABS 0 bank11 -
+__Lbank12 0 0 ABS 0 bank12 -
+__Lbank13 0 0 BANK13 1 bank13 -
+__Lbank14 0 0 BANK14 1 bank14 -
+__Lbank15 0 0 BANK15 1 bank15 -
+__Lbank16 0 0 BANK16 1 bank16 -
+__Lbank17 0 0 BANK17 1 bank17 -
+__Lbank18 0 0 BANK18 1 bank18 -
+__Lbank19 0 0 BANK19 1 bank19 -
+__Lbank20 0 0 BANK20 1 bank20 -
+__Lbank21 0 0 BANK21 1 bank21 -
+__Lbank22 0 0 BANK22 1 bank22 -
+__Lbank23 0 0 BANK23 1 bank23 -
+__Lbank24 0 0 BANK24 1 bank24 -
+__Lbank25 0 0 BANK25 1 bank25 -
+__Lbank26 0 0 BANK26 1 bank26 -
+__Lbank27 0 0 BANK27 1 bank27 -
+__Lbank28 0 0 BANK28 1 bank28 -
+__Lbank29 0 0 BANK29 1 bank29 -
+__Lbank30 0 0 BANK30 1 bank30 -
+__Lbank31 0 0 BANK31 1 bank31 -
+__pmaintext A88 0 CODE 0 maintext dist/default/production/tstLCD.X.production.o
+__Lbigram 0 0 ABS 0 bigram -
+__Lcommon 0 0 ABS 0 common -
+__Lconfig 0 0 CONFIG 4 config -
+_LCDchar 1FBA 0 CODE 0 text13 dist/default/production/tstLCD.X.production.o
+_LCDinit B90 0 CODE 0 text16 dist/default/production/tstLCD.X.production.o
+_LCDrecv 47C 0 CODE 0 text14 dist/default/production/tstLCD.X.production.o
+_LCDsend D08 0 CODE 0 text17 dist/default/production/tstLCD.X.production.o
+___wmul@multiplier 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+___lwdiv@divisor 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+WriteI2C@data_out 71 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_SSP1CLKPPS EC5 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_OSCCON1 88D 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_OSCCON3 88F 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_OSCTUNE 892 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1DATPPS EC6 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Lspace_0 0 0 ABS 0 - -
+__Lspace_1 0 0 ABS 0 - -
+__Lspace_2 0 0 ABS 0 - -
+__Lspace_3 0 0 ABS 0 - -
+__Lspace_4 0 0 ABS 0 - -
+main@c1 4A 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+main@c2 4B 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__HcstackBANK0 0 0 ABS 0 cstackBANK0 -
+_PIR3bits 70F 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Lend_init 38 0 CODE 0 end_init -
+__LcstackCOMMON 0 0 ABS 0 cstackCOMMON -
+end_of_initialization 46 0 CODE 0 cinit dist/default/production/tstLCD.X.production.o
+_WriteI2C C72 0 CODE 0 text20 dist/default/production/tstLCD.X.production.o
+__Hintentry 38 0 CODE 0 intentry -
+LCDchar@c 78 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__Lstrings 0 0 ABS 0 strings -
+___lwdiv@dividend 72 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+?___lwdiv 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+?___lwmod 78 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__Hreset_vec 4 0 CODE 0 reset_vec -
+__HbssBANK0 0 0 ABS 0 bssBANK0 -
+__end_of_WriteI2C D08 0 CODE 0 text20 dist/default/production/tstLCD.X.production.o
+_ReadI2C F58 0 CODE 0 text15 dist/default/production/tstLCD.X.production.o
+__ptext1 708 0 CODE 0 text1 dist/default/production/tstLCD.X.production.o
+__ptext2 4E 0 CODE 0 text2 dist/default/production/tstLCD.X.production.o
+__ptext3 FBE 0 CODE 0 text3 dist/default/production/tstLCD.X.production.o
+__ptext4 EE4 0 CODE 0 text4 dist/default/production/tstLCD.X.production.o
+__ptext5 E7C 0 CODE 0 text5 dist/default/production/tstLCD.X.production.o
+__ptext6 D8E 0 CODE 0 text6 dist/default/production/tstLCD.X.production.o
+__ptext7 FE2 0 CODE 0 text7 dist/default/production/tstLCD.X.production.o
+__ptext8 1FEC 0 CODE 0 text8 dist/default/production/tstLCD.X.production.o
+__ptext9 1FCA 0 CODE 0 text9 dist/default/production/tstLCD.X.production.o
+_i2c1_driver_busCollisionISR 4E 0 BANK0 1 bssBANK0 dist/default/production/tstLCD.X.production.o
+_sprintf 4E 0 CODE 0 text2 dist/default/production/tstLCD.X.production.o
+__Lpowerup 0 0 CODE 0 powerup -
+__Leeprom_data 0 0 EEDATA 3 eeprom_data -
+LCDrecv@mode 76 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+sprintf@ap 2B 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+sprintf@sp 32 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+_isdigit FBE 0 CODE 0 text3 dist/default/production/tstLCD.X.production.o
+__Lreset_vec 0 0 CODE 0 reset_vec -
+__Hstringtext1 0 0 ABS 0 stringtext1 -
+__Hstringtext2 0 0 ABS 0 stringtext2 -
+__Hstringtext3 0 0 ABS 0 stringtext3 -
+__Hstringtext4 0 0 ABS 0 stringtext4 -
+__Hstringtext5 0 0 ABS 0 stringtext5 -
+__Hstringtext6 0 0 ABS 0 stringtext6 -
+__size_of_LCDsend2x4 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SLRCONA F3B 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SLRCONB F46 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SLRCONC F51 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SLRCOND F5C 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SLRCONE F67 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of__initialization 46 0 CODE 0 cinit dist/default/production/tstLCD.X.production.o
+__Lfunctab 0 0 ENTRY 0 functab -
+__Lclrtext 0 0 ABS 0 clrtext -
+_SSP1CON1bits 190 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1CON2bits 191 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+LCDrecv@hc 74 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+LCDrecv@lc 75 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__pcstackCOMMON 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+LCDsend@c 73 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_SSP1ADD 18D 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1BUF 18C 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_SSP1MSK 18E 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__Hend_init 3C 0 CODE 0 end_init -
+sprintf@c 33 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+sprintf@f 20 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__end_of_main B90 0 CODE 0 maintext dist/default/production/tstLCD.X.production.o
+isdigit@c 71 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+__end_of_dpowers 100E 0 STRCODE 0 stringtext1 dist/default/production/tstLCD.X.production.o
+?_sprintf 20 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+_OSCEN 891 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_isdigit$1514 70 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_TRISA 11 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_TRISB 12 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_TRISC 13 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_TRISD 14 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_TRISE 15 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUC3 7A7B 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+_WPUC4 7A7C 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__end_of_tsttc 922 0 CODE 0 text1 dist/default/production/tstLCD.X.production.o
+__Hram 0 0 ABS 0 ram -
+__Lram 0 0 ABS 0 ram -
+_tsttc 708 0 CODE 0 text1 dist/default/production/tstLCD.X.production.o
+__size_of_PIN_MANAGER_Initialize 0 0 ABS 0 - dist/default/production/tstLCD.X.production.o
+__pintentry 8 0 CODE 0 intentry dist/default/production/tstLCD.X.production.o
+sprintf@width 30 0 BANK0 1 cstackBANK0 dist/default/production/tstLCD.X.production.o
+__end_of_OSCILLATOR_Initialize 1FEC 0 CODE 0 text11 dist/default/production/tstLCD.X.production.o
+__initialization 3C 0 CODE 0 cinit dist/default/production/tstLCD.X.production.o
+__pbssBANK0 4C 0 BANK0 1 bssBANK0 dist/default/production/tstLCD.X.production.o
+___wmul@product 74 0 COMMON 1 cstackCOMMON dist/default/production/tstLCD.X.production.o
+_OSCILLATOR_Initialize 1FDA 0 CODE 0 text11 dist/default/production/tstLCD.X.production.o
+# %SPLITSTAB Section
+# This section enumerates all the psect splits performed by the assembler.
+# The beginning of the section is indicated by %SPLITSTAB.
+# Each line is a record a particular split, where the parent psect is on
+# the left and the child on the right.  Note that a child psect is always
+# split form the top of the parent psect. All splits from a given parent
+# are listed in the order in which they occurred.
+%SPLITSTAB
+# %DABS Section
+# This section contains a table of all usuage of the assember
+# directive DABS in the program. Each line has the following format:
+#   <name> <space> <address> <size>
+# If the DABS was originally labelled then that shall be <name>,
+# otherwise name will be "-".  The <space> number is in decimal.
+# <address> and <size> are in byte units as unqaulified hexadecimal
+%DABS
+- 1 7E 2
+# %SEGMENTS Section
+# This sections enumerates the segments of the program.  Each segment
+# is described on a single line as follows:
+#    <name> <space> <link address> <file address> <size> <delta>
+# Addresses and size are in unqualified hexadecimal.  The link address
+# and size are in units of delta. The file address is in units of bytes.
+# All other numeric quantities are in decimal.
+%SEGMENTS
+text3 0 7DF FBE 1E 2
+text8 0 FF6 1FEC A 2
+text9 0 FE5 1FCA 8 2
+text11 0 FED 1FDA 9 2
+text13 0 FDD 1FBA 8 2
+text18 0 FD6 1FAC 7 2
+cstackCOMMON 1 70 70 E 1
+cstackBANK0 1 20 20 30 1
+stringtext1 0 7FD FFA 14 2
+stringtext2 0 7C6 F8C 19 2
+stringtext4 0 1000 2000 C 2
+intentry 0 4 8 7C2 2
+reset_vec 0 0 0 2 2
+# %NOTES Section
+# This section contains data of all the note-psects.  The beginning of the section
+# is indicated by %NOTES. The first line indicates the name and decimal
+# byte-length of the first note-psect, e.g.
+#   $codecov_info_hdr 16
+# Each line that follows contains the byte-data of the psect in hexadecimal as a
+# space-separated list. These lines are limited to 16 bytes of data.
+%NOTES
