@@ -81,6 +81,21 @@ do{
 	return value;
 }
 
+
+int Timer1(void) {
+    if (projectState == NOT_RUNNING) {
+        TMR1_StartTimer();
+        projectState = RUNNING;
+    }
+    if (projectState == RUNNING) {
+        while(!TMR1_HasOverflowOccured());       
+        TMR1IF = 0;                
+        TMR1_Reload();
+        return 1;
+    }
+    else return 0;
+}
+
 #define LCD_ADDR 0x4e   // 0x27 << 1
 #define LCD_BL 0x08
 #define LCD_EN 0x04
@@ -204,6 +219,7 @@ void main(void)
     unsigned char c2;
     unsigned char buf[17];
     
+    
     unsigned int hours = 0;
     unsigned int minutes = 0;
     unsigned int seconds = 0;
@@ -236,27 +252,33 @@ void main(void)
     while (1) {
         
         // Add your application code
-                
-        NOP();
-        c = get_Temprature();
-        //        hc = (c / 10);
-        //        lc = (c % 10);
-        LCDcmd(0x80);
-        LCDstr("Temp");
-        LCDcmd(0xc0);
-        //        LCDchar(hc + 48);LCDchar(lc + 48);LCDchar(' ');LCDchar('C');
-        sprintf(buf, "%02d C", c);
-        LCDstr(buf);
-        LCDcmd(0x81);
-        //    LCDchar('A');
-        //    LCDcmd(0x81);
-        c1 = LCDrecv(0);
-        c2 = LCDrecv(LCD_RS);
-        LCDcmd(0xc8);
-        sprintf(buf, "%02x %02x", c1, c2);
-        LCDstr(buf);
-        NOP();
-        __delay_ms(3000);
+        if( Timer1()){
+            seconds = seconds +1;
+            if(seconds==60){
+                minutes += 1;
+                seconds = 0;
+            }
+            if(minutes==60){
+                hours += 1;
+                minutes = 0;
+            }
+            if(hours==24){
+                hours = 0;
+            }
+            
+            NOP();
+            LCDcmd(0x80);
+            sprintf(buf, "%02d : %02d : %02d", hours, minutes, seconds);
+            LCDstr(buf);
+        }
+        if(seconds%3 == 0){
+            NOP();
+            c = get_Temprature();
+            LCDcmd(0xc0);
+            sprintf(buf, "Temp %02d C", c);
+            LCDstr(buf);
+            LCDcmd(0x81);
+        }
     }
 }
 /**

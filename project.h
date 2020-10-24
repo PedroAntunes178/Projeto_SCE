@@ -47,8 +47,12 @@
 
     #define INTERRUPT_TMR0InterruptEnable()         do { TMR0IE = 1; } while(0)
     #define INTERRUPT_TMR0InterruptDisable()        do { TMR0IE = 0; } while(0)
+/**
+  Section: Variable Definitions
+ */
+    uint8_t projectState = NOT_RUNNING;
 
-void Timer1(void);
+int Timer1(void);
 
 /**
   @Summary
@@ -66,6 +70,10 @@ void Timer1(void);
   @Param
     none
 */
+
+unsigned char get_Temprature(void);
+
+int converter(int *);
 
 #endif	/* PROJECT_H */
 /**
