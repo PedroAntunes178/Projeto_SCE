@@ -88,11 +88,10 @@ int Timer1(void) {
         projectState = RUNNING;
     }
     if (projectState == RUNNING) {
-        if(TMR1_HasOverflowOccured()){
-            TMR1IF = 0;                
-            TMR1_Reload();
-            return 1;
-        }    
+        if(!TMR1_HasOverflowOccured());       
+        TMR1IF = 0;                
+        TMR1_Reload();
+        return 1;
     }
     else return 0;
 }
@@ -250,6 +249,10 @@ void main(void)
     WPUC4 = 1;
     LCDinit();
 
+    LCDcmd(0x80);
+    int t=0;
+    sprintf(buf, "%02d:%02d:%02d", t,t,t);
+    LCDstr(buf);
     while (1) {
         
         // Add your application code
@@ -257,22 +260,27 @@ void main(void)
             seconds = seconds +1;
             if(seconds==60){
                 minutes += 1;
-                seconds = 0;
                 NOP();
                 LCDcmd(0x83);
                 sprintf(buf, "%02d:", minutes);
                 LCDstr(buf);
+                
+                seconds = 0;
             }
             if(minutes==60){
                 hours += 1;
                 minutes = 0;
                 NOP();
-                LCDcmd(0x80)
+                LCDcmd(0x80);
                 sprintf(buf, "%02d:%02d:", hours, minutes);
                 LCDstr(buf);
             }
             if(hours==24){
                 hours = 0;
+                NOP();
+                LCDcmd(0x86);
+                sprintf(buf, "%02d:", hours);
+                LCDstr(buf);
             }
             
             NOP();
