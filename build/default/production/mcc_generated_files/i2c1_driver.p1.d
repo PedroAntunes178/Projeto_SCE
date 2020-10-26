@@ -12,6 +12,7 @@ mcc_generated_files/device_config.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/htc.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h  \
 mcc_generated_files/interrupt_manager.h  \
+mcc_generated_files/tmr1.h  \
 mcc_generated_files/pin_manager.h  \
 mcc_generated_files/i2c1_driver.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/pic.h  \

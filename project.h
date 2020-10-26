@@ -53,7 +53,6 @@
     uint8_t projectState = NOT_RUNNING;
 
 int Timer1(void);
-
 /**
   @Summary
     Performs the Interrupt Lab.
@@ -65,13 +64,47 @@ int Timer1(void);
     SYSTEM_Initialize() functions should have been called before calling this function.
 
   @Returns
-    None
+    true ou false dependendo se existe overflow do timer
 
   @Param
     none
 */
 
 unsigned char get_Temprature(void);
+/**
+  @Summary
+    Parte logica do projecto
+
+  @Description
+    Conta o tempo
+
+  @Preconditions
+    SYSTEM_Initialize() functions should have been called before calling this function.
+
+  @Returns
+    char com a Temperatura
+
+  @Param
+    none
+*/
+
+unsigned char get_Luminosity(void);
+/**
+  @Summary
+    Parte logica do projecto
+
+  @Description
+    Conta a luminiosidade
+
+  @Preconditions
+    SYSTEM_Initialize() functions should have been called before calling this function.
+
+  @Returns
+   char com a luminiosidade
+
+  @Param
+    none
+*/
 
 #endif	/* PROJECT_H */
 /**

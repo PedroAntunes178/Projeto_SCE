@@ -21244,13 +21244,43 @@ inline void i2c1_driver_setI2cISR(interruptHandler handler);
 void (*i2c1_driver_busCollisionISR)(void);
 void (*i2c1_driver_i2cISR)(void);
 
-# 70 "mcc_generated_files/mcc.h"
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
+# 100 "mcc_generated_files/tmr1.h"
+void TMR1_Initialize(void);
+
+# 129
+void TMR1_StartTimer(void);
+
+# 161
+void TMR1_StopTimer(void);
+
+# 196
+uint16_t TMR1_ReadTimer(void);
+
+# 235
+void TMR1_WriteTimer(uint16_t timerVal);
+
+# 271
+void TMR1_Reload(void);
+
+# 310
+void TMR1_StartSinglePulseAcquisition(void);
+
+# 349
+uint8_t TMR1_CheckGateValueStatus(void);
+
+# 387
+bool TMR1_HasOverflowOccured(void);
+
+# 71 "mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
 
-# 83
+# 84
 void OSCILLATOR_Initialize(void);
 
-# 96
+# 97
 void PMD_Initialize(void);
 
 # 154 "I2C/i2c.h"
@@ -21267,8 +21297,16 @@ signed char WriteI2C( unsigned char data_out );
 
 signed char getsI2C( unsigned char *rdptr, unsigned char length );
 
-# 52 "main.c"
-unsigned char tsttc (void)
+# 53 "project.h"
+uint8_t projectState = 0;
+
+int Timer1(void);
+
+# 74
+unsigned char get_Temprature(void);
+
+# 55 "main.c"
+unsigned char get_Temprature(void)
 {
 unsigned char value;
 do{
@@ -21297,7 +21335,23 @@ SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
 return value;
 }
 
-# 87
+
+int Timer1(void) {
+if (projectState == 0) {
+TMR1_StartTimer();
+projectState = 1;
+}
+if (projectState == 1) {
+if(TMR1_HasOverflowOccured()){
+TMR1IF = 0;
+TMR1_Reload();
+return 1;
+}
+}
+else return 0;
+}
+
+# 106
 void LCDsend(unsigned char c)
 {
 while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
@@ -21316,7 +21370,7 @@ SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STAT
 WriteI2C(0x4e | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0xf0 | 0x08 | 0x02 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0xf0 | 0x08 | 0x04 | 0x02 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-_delay((unsigned long)((1)*(1000000/4000000.0)));
+_delay((unsigned long)((1)*(500000/4000000.0)));
 SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0x4e | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 hc = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
@@ -21325,7 +21379,7 @@ SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1ST
 WriteI2C(0x4e | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0xf0 | 0x08 | 0x02 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0xf0 | 0x08 | 0x04 | 0x02 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-_delay((unsigned long)((1)*(1000000/4000000.0)));
+_delay((unsigned long)((1)*(500000/4000000.0)));
 SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(0x4e | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 lc = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
@@ -21350,37 +21404,37 @@ SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STAT
 WriteI2C(0x4e | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(hc | 0x08 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(hc | 0x08 | 0x04 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-_delay((unsigned long)((1)*(1000000/4000000.0)));
+_delay((unsigned long)((1)*(500000/4000000.0)));
 WriteI2C(hc | 0x08 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(lc | 0x08 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 WriteI2C(lc | 0x08 | 0x04 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-_delay((unsigned long)((1)*(1000000/4000000.0)));
+_delay((unsigned long)((1)*(500000/4000000.0)));
 WriteI2C(lc | 0x08 | mode); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
-_delay((unsigned long)((50)*(1000000/4000000.0)));
+_delay((unsigned long)((50)*(500000/4000000.0)));
 }
 
 void LCDinit(void)
 {
-_delay((unsigned long)((50)*(1000000/4000.0)));
+_delay((unsigned long)((50)*(500000/4000.0)));
 LCDsend(0x30);
-LCDsend(0x34); _delay((unsigned long)((500)*(1000000/4000000.0))); LCDsend(0x30);
-_delay((unsigned long)((5)*(1000000/4000.0)));
+LCDsend(0x34); _delay((unsigned long)((500)*(500000/4000000.0))); LCDsend(0x30);
+_delay((unsigned long)((5)*(500000/4000.0)));
 LCDsend(0x30);
-LCDsend(0x34); _delay((unsigned long)((500)*(1000000/4000000.0))); LCDsend(0x30);
-_delay((unsigned long)((100)*(1000000/4000000.0)));
+LCDsend(0x34); _delay((unsigned long)((500)*(500000/4000000.0))); LCDsend(0x30);
+_delay((unsigned long)((100)*(500000/4000000.0)));
 LCDsend(0x30);
-LCDsend(0x34); _delay((unsigned long)((500)*(1000000/4000000.0))); LCDsend(0x30);
-_delay((unsigned long)((100)*(1000000/4000000.0)));
+LCDsend(0x34); _delay((unsigned long)((500)*(500000/4000000.0))); LCDsend(0x30);
+_delay((unsigned long)((100)*(500000/4000000.0)));
 LCDsend(0x20);
-LCDsend(0x24); _delay((unsigned long)((500)*(1000000/4000000.0))); LCDsend(0x20);
-_delay((unsigned long)((5)*(1000000/4000.0)));
+LCDsend(0x24); _delay((unsigned long)((500)*(500000/4000000.0))); LCDsend(0x20);
+_delay((unsigned long)((5)*(500000/4000.0)));
 
 LCDsend2x4(0x28, 0);
 LCDsend2x4(0x06, 0);
 LCDsend2x4(0x0f, 0);
 LCDsend2x4(0x01, 0);
-_delay((unsigned long)((2)*(1000000/4000.0)));
+_delay((unsigned long)((2)*(500000/4000.0)));
 }
 
 void LCDcmd(unsigned char c)
@@ -21416,9 +21470,14 @@ unsigned char c2;
 unsigned char buf[17];
 
 
+unsigned int hours = 0;
+unsigned int minutes = 0;
+unsigned int seconds = 0;
+
+
 SYSTEM_Initialize();
 
-# 222
+# 246
 i2c1_driver_open();
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
@@ -21426,30 +21485,44 @@ WPUC3 = 1;
 WPUC4 = 1;
 LCDinit();
 
-while (1)
-{
+while (1) {
 
+
+if( Timer1()){
+seconds = seconds +1;
+if(seconds==60){
+minutes += 1;
+seconds = 0;
+__nop();
+LCDcmd(0x83);
+sprintf(buf, "%02d:", minutes);
+LCDstr(buf);
+}
+if(minutes==60){
+hours += 1;
+minutes = 0;
+__nop();
+LCDcmd(0x80)
+sprintf(buf, "%02d:%02d:", hours, minutes);
+LCDstr(buf);
+}
+if(hours==24){
+hours = 0;
+}
 
 __nop();
-c = tsttc();
-
-
-LCDcmd(0x80);
-LCDstr("Temp");
+LCDcmd(0x86);
+sprintf(buf, "%02d", seconds);
+LCDstr(buf);
+}
+if(seconds%3 == 0){
+__nop();
+c = get_Temprature();
 LCDcmd(0xc0);
-
 sprintf(buf, "%02d C", c);
 LCDstr(buf);
 LCDcmd(0x81);
-
-
-c1 = LCDrecv(0);
-c2 = LCDrecv(0x01);
-LCDcmd(0xc8);
-sprintf(buf, "%02x %02x", c1, c2);
-LCDstr(buf);
-__nop();
-_delay((unsigned long)((3000)*(1000000/4000.0)));
+}
 }
 }
 

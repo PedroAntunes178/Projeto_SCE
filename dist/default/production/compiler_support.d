@@ -1,1 +1,0 @@
- dist/default/production/compiler_support.d  dist/default/production/compiler_support.p1:  /opt/microchip/xc8/v2.20/pic/sources/c90/pic/compiler_support.c /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/language_support.h

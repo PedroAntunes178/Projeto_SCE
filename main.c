@@ -45,62 +45,19 @@
 #include "I2C/i2c.h"
 #include "stdio.h"
 #include "mcc_generated_files/pin_manager.h"
-#include "mcc_generated_files/tmr1.h"
 #include "project.h"
 
 /*
                          Main application
  */
 
-unsigned char get_Temprature(void)
-{
-	unsigned char value;
-do{
-	IdleI2C();
-	StartI2C(); IdleI2C();
-    
-	WriteI2C(0x9a | 0x00); IdleI2C();
-	WriteI2C(0x01); IdleI2C();
-	RestartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x01); IdleI2C();
-	value = ReadI2C(); IdleI2C();
-	NotAckI2C(); IdleI2C();
-	StopI2C();
-} while (!(value & 0x40));
-
-	IdleI2C();
-	StartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x00); IdleI2C();
-	WriteI2C(0x00); IdleI2C();
-	RestartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x01); IdleI2C();
-	value = ReadI2C(); IdleI2C();
-	NotAckI2C(); IdleI2C();
-	StopI2C();
-
-	return value;
-}
-
-
-int Timer1(void) {
-    if (projectState == NOT_RUNNING) {
-        TMR1_StartTimer();
-        projectState = RUNNING;
-    }
-    if (projectState == RUNNING) {
-        if(!TMR1_HasOverflowOccured());       
-        TMR1IF = 0;                
-        TMR1_Reload();
-        return 1;
-    }
-    else return 0;
-}
-
 #define LCD_ADDR 0x4e   // 0x27 << 1
 #define LCD_BL 0x08
 #define LCD_EN 0x04
 #define LCD_RW 0x02
 #define LCD_RS 0x01
+
+#define MAX_ADC  1023.00
 
 void LCDsend(unsigned char c)
 {
@@ -226,7 +183,8 @@ void main(void)
     
     // initialize the device
     SYSTEM_Initialize();
-
+    __delay_ms(4000);                                                           // Delay for sensors
+    
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
 
@@ -294,9 +252,66 @@ void main(void)
             LCDcmd(0xc0);
             sprintf(buf, "%02d C", c);
             LCDstr(buf);
-            LCDcmd(0x81);
+            NOP();
+            LCDcmd(0xc9);
+            sprintf(buf, "%1.1f L", get_Luminosity());
+            LCDstr(buf);
         }
     }
+}
+
+
+int Timer1(void) {
+    if (projectState == NOT_RUNNING) {
+        TMR1_StartTimer();
+        projectState = RUNNING;
+    }
+    if (projectState == RUNNING) {
+        if(!TMR1_HasOverflowOccured());       
+        TMR1IF = 0;                
+        TMR1_Reload();
+        return 1;
+    }
+    else return 0;
+}
+
+unsigned char get_Temprature(void)
+{
+	unsigned char value;
+    do{
+        IdleI2C();
+        StartI2C(); IdleI2C();
+
+        WriteI2C(0x9a | 0x00); IdleI2C();
+        WriteI2C(0x01); IdleI2C();
+        RestartI2C(); IdleI2C();
+        WriteI2C(0x9a | 0x01); IdleI2C();
+        value = ReadI2C(); IdleI2C();
+        NotAckI2C(); IdleI2C();
+        StopI2C();
+    } while (!(value & 0x40));
+
+        IdleI2C();
+        StartI2C(); IdleI2C();
+        WriteI2C(0x9a | 0x00); IdleI2C();
+        WriteI2C(0x00); IdleI2C();
+        RestartI2C(); IdleI2C();
+        WriteI2C(0x9a | 0x01); IdleI2C();
+        value = ReadI2C(); IdleI2C();
+        NotAckI2C(); IdleI2C();
+        StopI2C();
+
+	return value;
+}
+
+float get_Luminosity(){
+    uint16_t lumi = 0;
+    float Voltage = 0.00;
+    
+    lumi = ADCC_GetSingleConversion(/*É preciso meter o canal do potenciometro*/);                             // Read Potenciometer aka "Luminosity" sensor
+    Voltage = (lumi/MAX_ADC);    
+    Voltage = Voltage*5;
+    return Voltage;
 }
 /**
  End of File

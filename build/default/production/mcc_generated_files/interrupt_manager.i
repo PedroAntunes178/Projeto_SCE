@@ -21244,13 +21244,43 @@ inline void i2c1_driver_setI2cISR(interruptHandler handler);
 void (*i2c1_driver_busCollisionISR)(void);
 void (*i2c1_driver_i2cISR)(void);
 
-# 70 "mcc_generated_files/mcc.h"
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
+# 100 "mcc_generated_files/tmr1.h"
+void TMR1_Initialize(void);
+
+# 129
+void TMR1_StartTimer(void);
+
+# 161
+void TMR1_StopTimer(void);
+
+# 196
+uint16_t TMR1_ReadTimer(void);
+
+# 235
+void TMR1_WriteTimer(uint16_t timerVal);
+
+# 271
+void TMR1_Reload(void);
+
+# 310
+void TMR1_StartSinglePulseAcquisition(void);
+
+# 349
+uint8_t TMR1_CheckGateValueStatus(void);
+
+# 387
+bool TMR1_HasOverflowOccured(void);
+
+# 71 "mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
 
-# 83
+# 84
 void OSCILLATOR_Initialize(void);
 
-# 96
+# 97
 void PMD_Initialize(void);
 
 # 52 "mcc_generated_files/interrupt_manager.c"

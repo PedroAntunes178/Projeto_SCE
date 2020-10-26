@@ -1,5 +1,5 @@
 
-# 1 "/opt/microchip/xc8/v2.20/pic/sources/c90/pic/__eeprom.c"
+# 1 "mcc_generated_files/tmr1.c"
 
 # 18 "/home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/xc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -21121,181 +21121,137 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 
-# 5 "/opt/microchip/xc8/v2.20/pic/sources/c90/pic/__eeprom.c"
-void
-__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
+# 100 "mcc_generated_files/tmr1.h"
+void TMR1_Initialize(void);
+
+# 129
+void TMR1_StartTimer(void);
+
+# 161
+void TMR1_StopTimer(void);
+
+# 196
+uint16_t TMR1_ReadTimer(void);
+
+# 235
+void TMR1_WriteTimer(uint16_t timerVal);
+
+# 271
+void TMR1_Reload(void);
+
+# 310
+void TMR1_StartSinglePulseAcquisition(void);
+
+# 349
+uint8_t TMR1_CheckGateValueStatus(void);
+
+# 387
+bool TMR1_HasOverflowOccured(void);
+
+# 57 "mcc_generated_files/tmr1.c"
+volatile uint16_t timer1ReloadVal;
+
+# 63
+void TMR1_Initialize(void)
 {
-volatile unsigned char *cp = to;
 
-# 22
-while (NVMCON1bits.WR) {
-continue;
-}
-NVMCON1bits.NVMREGS = 1;
-NVMADRL = (unsigned char) from;
-NVMADRH = 0x70;
-while (size--) {
-NVMCON1bits.RD = 1;
-*cp++ = NVMDATL;
-NVMADRL++;
+
+
+T1GCON = 0x00;
+
+
+T1GATE = 0x00;
+
+
+T1CLK = 0x01;
+
+
+TMR1H = 0xF8;
+
+
+TMR1L = 0x6E;
+
+
+timer1ReloadVal=(uint16_t)((TMR1H << 8) | TMR1L);
+
+
+PIR4bits.TMR1IF = 0;
+
+
+T1CON = 0x01;
 }
 
-# 36
-}
-
-void
-__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
+void TMR1_StartTimer(void)
 {
-const unsigned char *ptr =from;
 
-# 69
-while (NVMCON1bits.WR) {
-continue;
-}
-NVMCON1bits.NVMREGS = 1;
-NVMADRL = (unsigned char) to - 1U;
-NVMADRH = 0x70;
-NVMDATH = 0;
-while (size--) {
-while (NVMCON1bits.WR) {
-continue;
-}
-NVMDATL = *ptr++;
-NVMADRL++;
-STATUSbits.CARRY = 0;
-if (INTCONbits.GIE) {
-STATUSbits.CARRY = 1;
-}
-NVMCON1bits.WREN = 1;
-NVMCON2 = 0x55;
-NVMCON2 = 0xAA;
-NVMCON1bits.WR = 1;
-while (NVMCON1bits.WR) {
-continue;
-}
-NVMCON1bits.WREN = 0;
-if (STATUSbits.CARRY) {
-INTCONbits.GIE = 1;
-}
+T1CONbits.TMR1ON = 1;
 }
 
-# 101
-}
-
-unsigned char
-__eetoc(__eeprom void *addr)
+void TMR1_StopTimer(void)
 {
-unsigned char data;
-__eecpymem((unsigned char *) &data,addr,1);
-return data;
+
+T1CONbits.TMR1ON = 0;
 }
 
-unsigned int
-__eetoi(__eeprom void *addr)
+uint16_t TMR1_ReadTimer(void)
 {
-unsigned int data;
-__eecpymem((unsigned char *) &data,addr,2);
-return data;
+uint16_t readVal;
+uint8_t readValHigh;
+uint8_t readValLow;
+
+T1CONbits.T1RD16 = 1;
+
+readValLow = TMR1L;
+readValHigh = TMR1H;
+
+readVal = ((uint16_t)readValHigh << 8) | readValLow;
+
+return readVal;
 }
 
-#pragma warning push
-#pragma warning disable 2040
-__uint24
-__eetom(__eeprom void *addr)
+void TMR1_WriteTimer(uint16_t timerVal)
 {
-__uint24 data;
-__eecpymem((unsigned char *) &data,addr,3);
-return data;
-}
-#pragma warning pop
+if (T1CONbits.nT1SYNC == 1)
+{
 
-unsigned long
-__eetol(__eeprom void *addr)
-{
-unsigned long data;
-__eecpymem((unsigned char *) &data,addr,4);
-return data;
-}
+T1CONbits.TMR1ON = 0;
 
-#pragma warning push
-#pragma warning disable 1516
-unsigned long long
-__eetoo(__eeprom void *addr)
-{
-unsigned long long data;
-__eecpymem((unsigned char *) &data,addr,8);
-return data;
-}
-#pragma warning pop
 
-unsigned char
-__ctoee(__eeprom void *addr, unsigned char data)
+TMR1H = (timerVal >> 8);
+TMR1L = timerVal;
+
+
+T1CONbits.TMR1ON =1;
+}
+else
 {
-__memcpyee(addr,(unsigned char *) &data,1);
-return data;
+
+TMR1H = (timerVal >> 8);
+TMR1L = timerVal;
+}
 }
 
-unsigned int
-__itoee(__eeprom void *addr, unsigned int data)
+void TMR1_Reload(void)
 {
-__memcpyee(addr,(unsigned char *) &data,2);
-return data;
+TMR1_WriteTimer(timer1ReloadVal);
 }
 
-#pragma warning push
-#pragma warning disable 2040
-__uint24
-__mtoee(__eeprom void *addr, __uint24 data)
+void TMR1_StartSinglePulseAcquisition(void)
 {
-__memcpyee(addr,(unsigned char *) &data,3);
-return data;
-}
-#pragma warning pop
-
-unsigned long
-__ltoee(__eeprom void *addr, unsigned long data)
-{
-__memcpyee(addr,(unsigned char *) &data,4);
-return data;
+T1GCONbits.T1GGO = 1;
 }
 
-#pragma warning push
-#pragma warning disable 1516
-unsigned long long
-__otoee(__eeprom void *addr, unsigned long long data)
+uint8_t TMR1_CheckGateValueStatus(void)
 {
-__memcpyee(addr,(unsigned char *) &data,8);
-return data;
-}
-#pragma warning pop
-
-float
-__eetoft(__eeprom void *addr)
-{
-float data;
-__eecpymem((unsigned char *) &data,addr,3);
-return data;
+return (T1GCONbits.T1GVAL);
 }
 
-double
-__eetofl(__eeprom void *addr)
+bool TMR1_HasOverflowOccured(void)
 {
-double data;
-__eecpymem((unsigned char *) &data,addr,4);
-return data;
-}
 
-float
-__fttoee(__eeprom void *addr, float data)
-{
-__memcpyee(addr,(unsigned char *) &data,3);
-return data;
-}
-
-double
-__fltoee(__eeprom void *addr, double data)
-{
-__memcpyee(addr,(unsigned char *) &data,4);
-return data;
+return(PIR4bits.TMR1IF);
 }
 
