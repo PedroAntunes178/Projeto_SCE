@@ -54,6 +54,8 @@ void SYSTEM_Initialize(void)
     OSCILLATOR_Initialize();
     ADCC_Initialize();
     TMR1_Initialize();
+    EXT_INT_Initialize();
+    TMR0_Initialize();
 }
 
 void OSCILLATOR_Initialize(void)
