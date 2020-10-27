@@ -52,7 +52,7 @@
  */
     uint8_t projectState = NOT_RUNNING;
 
-int Timer1(void);
+void Timer1(void);
 /**
   @Summary
     Performs the Interrupt Lab.
@@ -105,6 +105,9 @@ unsigned char get_Luminosity(void);
   @Param
     none
 */
+
+void count_time_ISR(void);
+void sensor_ISR(void);
 
 #endif	/* PROJECT_H */
 /**

@@ -44,7 +44,6 @@
 #include "mcc_generated_files/mcc.h"
 #include "I2C/i2c.h"
 #include "stdio.h"
-#include "mcc_generated_files/pin_manager.h"
 #include "project.h"
 
 /*
@@ -58,6 +57,10 @@
 #define LCD_RS 0x01
 
 #define MAX_ADC  1023.00
+
+unsigned int hours = 0;
+unsigned int minutes = 0;
+unsigned int seconds = 0;
 
 void LCDsend(unsigned char c)
 {
@@ -177,9 +180,7 @@ void main(void)
     unsigned char buf[17];
     
     
-    unsigned int hours = 0;
-    unsigned int minutes = 0;
-    unsigned int seconds = 0;
+    
     
     // initialize the device
     SYSTEM_Initialize();
@@ -208,71 +209,30 @@ void main(void)
     LCDinit();
 
     LCDcmd(0x80);
-    int t=0;
-    sprintf(buf, "%02d:%02d:%02d", t,t,t);
+    
+    sprintf(buf, "%02d:%02d:%02d", hours, minutes,seconds);
     LCDstr(buf);
+    Timer1();
+    
     while (1) {
         
+        
         // Add your application code
-        if( Timer1()){
-            seconds = seconds +1;
-            if(seconds==60){
-                minutes += 1;
-                NOP();
-                LCDcmd(0x83);
-                sprintf(buf, "%02d:", minutes);
-                LCDstr(buf);
-                
-                seconds = 0;
-            }
-            if(minutes==60){
-                hours += 1;
-                minutes = 0;
-                NOP();
-                LCDcmd(0x80);
-                sprintf(buf, "%02d:%02d:", hours, minutes);
-                LCDstr(buf);
-            }
-            if(hours==24){
-                hours = 0;
-                NOP();
-                LCDcmd(0x86);
-                sprintf(buf, "%02d:", hours);
-                LCDstr(buf);
-            }
-            
-            NOP();
-            LCDcmd(0x86);
-            sprintf(buf, "%02d", seconds);
-            LCDstr(buf);
-        }
-        if(seconds%3 == 0){
-            NOP();
-            c = get_Temprature();
-            LCDcmd(0xc0);
-            sprintf(buf, "%02d C", c);
-            LCDstr(buf);
-            NOP();
-            LCDcmd(0xc9);
-            sprintf(buf, "%1.1f L", get_Luminosity());
-            LCDstr(buf);
-        }
+
+        
     }
 }
 
 
-int Timer1(void) {
+void Timer1(void) {
     if (projectState == NOT_RUNNING) {
-        TMR1_StartTimer();
+        
+        INTERRUPT_GlobalInterruptEnable();
+        INTERRUPT_PeripheralInterruptEnable();
+        TMR1_SetInterruptHandler(count_time_ISR);
+        TMR0_SetInterruptHandler(sensor_ISR);
         projectState = RUNNING;
-    }
-    if (projectState == RUNNING) {
-        if(!TMR1_HasOverflowOccured());       
-        TMR1IF = 0;                
-        TMR1_Reload();
-        return 1;
-    }
-    else return 0;
+    }   
 }
 
 unsigned char get_Temprature(void)
@@ -304,15 +264,70 @@ unsigned char get_Temprature(void)
 	return value;
 }
 
-float get_Luminosity(){
+unsigned char get_Luminosity(){
     uint16_t lumi = 0;
     float Voltage = 0.00;
     
-    lumi = ADCC_GetSingleConversion(/*É preciso meter o canal do potenciometro*/);                             // Read Potenciometer aka "Luminosity" sensor
+    lumi = ADCC_GetSingleConversion(channel_ANA0); 
+    // Read Potenciometer aka "Luminosity" sensor
     Voltage = (lumi/MAX_ADC);    
     Voltage = Voltage*5;
     return Voltage;
 }
+
+
+void count_time_ISR() { 
+    unsigned char buf[17];
+    seconds = seconds +1;
+    if(seconds==60){
+        minutes += 1;
+        NOP();
+        LCDcmd(0x83);
+        sprintf(buf, "%02d:", minutes);
+        LCDstr(buf);
+
+        seconds = 0;
+    }
+    if(minutes==60){
+        hours += 1;
+        minutes = 0;
+        NOP();
+        LCDcmd(0x80);
+        sprintf(buf, "%02d:%02d:", hours, minutes);
+        LCDstr(buf);
+    }
+    if(hours==24){
+        hours = 0;
+        NOP();
+        LCDcmd(0x86);
+        sprintf(buf, "%02d:", hours);
+        LCDstr(buf);
+    }
+
+    NOP();
+    LCDcmd(0x86);
+    sprintf(buf, "%02d", seconds);
+    LCDstr(buf);
+    
+}
+
+void sensor_ISR()
+{
+    unsigned char buf[17];
+    unsigned char c;
+    
+    NOP();
+    c = get_Temprature();
+    LCDcmd(0xc0);
+    sprintf(buf, "%02d C", c);
+    LCDstr(buf);
+    NOP();
+    LCDcmd(0xc9);
+    sprintf(buf, "%1.1f L", get_Luminosity());
+    LCDstr(buf);
+    
+}
+
 /**
  End of File
 */
