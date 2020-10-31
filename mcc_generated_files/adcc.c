@@ -95,8 +95,8 @@ void ADCC_Initialize(void)
     ADACT = 0x00;
     // ADCCS FOSC/2; 
     ADCLK = 0x00;
-    // ADGO stop; ADFM left; ADON enabled; ADCONT disabled; ADCS FOSC/ADCLK; 
-    ADCON0 = 0x80;
+    // ADGO stop; ADFM left; ADON enabled; ADCONT disabled; ADCS FRC; 
+    ADCON0 = 0x90;
     // ADACQ 0; 
     ADACQ = 0x00;
     
@@ -147,6 +147,7 @@ adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel)
     // Wait for the conversion to finish
     while (ADCON0bits.ADGO)
     {
+        CLRWDT();
     }
     
     

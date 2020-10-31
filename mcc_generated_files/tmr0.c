@@ -62,11 +62,11 @@ void TMR0_Initialize(void)
 {
     // Set TMR0 to the options selected in the User Interface
 
-    // T0CS T0CKI_PIN; T0CKPS 1:1; T0ASYNC not_synchronised; 
-    T0CON1 = 0x10;
+    // T0CS FOSC/4; T0CKPS 1:32; T0ASYNC not_synchronised; 
+    T0CON1 = 0x55;
 
-    // TMR0H 255; 
-    TMR0H = 0xFF;
+    // TMR0H 29; 
+    TMR0H = 0x1D;
 
     // TMR0L 0; 
     TMR0L = 0x00;
