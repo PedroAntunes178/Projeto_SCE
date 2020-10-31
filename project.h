@@ -107,7 +107,7 @@ unsigned char get_Luminosity(void);
 */
 
 void count_time_ISR(void);
-void sensor_ISR(void);
+void sensor(void);
 
 #endif	/* PROJECT_H */
 /**

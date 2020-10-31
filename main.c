@@ -183,7 +183,8 @@ void main(void)
     
     
     // initialize the device
-    SYSTEM_Initialize();                                                  // Delay for sensors
+    SYSTEM_Initialize();
+    //__delay_ms(4000);                                                           // Delay for sensors
     
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -200,35 +201,55 @@ void main(void)
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
     
+   
+    
     i2c1_driver_open();
     I2C_SCL = 1;
     I2C_SDA = 1;
-    WPUC3 = 1;
-    WPUC4 = 1;
+    //WPUC3 = 1;
+    //WPUC4 = 1;
     LCDinit();
 
     LCDcmd(0x80);
     
     sprintf(buf, "%02d:%02d:%02d", hours, minutes,seconds);
     LCDstr(buf);
-    Timer1();
+    //Timer1();
+    
+    //INTERRUPT_GlobalInterruptEnable();
+    //INTERRUPT_PeripheralInterruptEnable();
+    
+    //INTERRUPT_TMR1InterruptEnable();
+    //TMR1_SetInterruptHandler(count_time_ISR);
+    
+    INTERRUPT_TMR0InterruptEnable();
+    NOP();
+    TMR0_SetInterruptHandler(count_time_ISR);
+    
     
     while (1) {
+        
+        
         // Add your application code
 
         
     }
 }
-
+/*
 
 void Timer1(void) {
     if (projectState == NOT_RUNNING) {
-        TMR1_SetInterruptHandler(count_time_ISR);
-        TMR0_SetInterruptHandler(sensor_ISR);
+        
+        INTERRUPT_GlobalInterruptEnable();
+        INTERRUPT_PeripheralInterruptEnable();
+        INTERRUPT_TMR0InterruptEnable();
+        //INTERRUPT_TMR1InterruptEnable();
+        //TMR1_SetInterruptHandler(count_time_ISR);
+        TMR0_SetInterruptHandler(count_time_ISR);
         projectState = RUNNING;
     }   
 }
-
+*/
 unsigned char get_Temprature(void)
 {
 	unsigned char value;
@@ -282,6 +303,7 @@ void count_time_ISR() {
 
         seconds = 0;
     }
+    
     if(minutes==60){
         hours += 1;
         minutes = 0;
@@ -297,15 +319,18 @@ void count_time_ISR() {
         sprintf(buf, "%02d:", hours);
         LCDstr(buf);
     }
-
+    
     NOP();
     LCDcmd(0x86);
     sprintf(buf, "%02d", seconds);
     LCDstr(buf);
     
+    if ((seconds%3) == 0)
+        sensor();
+    
 }
 
-void sensor_ISR()
+void sensor()
 {
     unsigned char buf[17];
     unsigned char c;
@@ -315,6 +340,8 @@ void sensor_ISR()
     LCDcmd(0xc0);
     sprintf(buf, "%02d C", c);
     LCDstr(buf);
+    
+    
     NOP();
     LCDcmd(0xc9);
     sprintf(buf, "%1.1f L", get_Luminosity());
@@ -322,6 +349,3 @@ void sensor_ISR()
     
 }
 
-/**
- End of File
-*/
