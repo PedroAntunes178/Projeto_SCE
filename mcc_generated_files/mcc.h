@@ -54,8 +54,9 @@
 #include "interrupt_manager.h"
 #include "i2c1_driver.h"
 #include "adcc.h"
-#include "ext_int.h"
 #include "tmr1.h"
+#include "memory.h"
+#include "ext_int.h"
 #include "tmr0.h"
 
 #define WDTCWS  7

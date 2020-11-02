@@ -54,21 +54,21 @@ void SYSTEM_Initialize(void)
     OSCILLATOR_Initialize();
     WWDT_Initialize();
     ADCC_Initialize();
-    EXT_INT_Initialize();
     TMR1_Initialize();
+    EXT_INT_Initialize();
     TMR0_Initialize();
 }
 
 void OSCILLATOR_Initialize(void)
 {
-    // NOSC LFINTOSC; NDIV 4; 
-    OSCCON1 = 0x52;
+    // NOSC HFINTOSC; NDIV 4; 
+    OSCCON1 = 0x62;
     // CSWHOLD may proceed; SOSCPWR Low power; 
     OSCCON3 = 0x00;
     // MFOEN disabled; LFOEN disabled; ADOEN disabled; SOSCEN disabled; EXTOEN disabled; HFOEN disabled; 
     OSCEN = 0x00;
-    // HFFRQ 2_MHz; 
-    OSCFRQ = 0x01;
+    // HFFRQ 4_MHz; 
+    OSCFRQ = 0x02;
     // HFTUN 0; 
     OSCTUNE = 0x00;
 }
