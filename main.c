@@ -56,11 +56,30 @@
 #define LCD_RW 0x02
 #define LCD_RS 0x01
 
-#define MAX_ADC  1023.00
+#define MAX_ADC 1023.00
 
-unsigned int hours = 0;
-unsigned int minutes = 0;
-unsigned int seconds = 0;
+#define EEAddr  0x7000        // EEPROM starting address
+
+#define NREG 25 //number of data registers
+#define PMON 3  //sec monitoring period
+#define TALA 5  //sec duration of alarm signal (PWM)
+#define ALAH 12 //hours of alarm clock
+#define ALAM 0  //minutes of alarm clock
+#define ALAS 0  //seconds of alarm clock
+#define ALAT 28 //oC threshold for temperature alarm
+#define ALAL 4  //threshold for luminosity level alarm
+#define ALAF 0  //alarm flag initially disabled
+#define CLKH 0  //initial value for clock hours
+#define CLKM 0  //initial value for clock minutes
+        
+uint8_t hours = ALAH;
+uint8_t minutes = ALAM;
+uint8_t seconds = ALAS;
+
+unsigned char t, old_t;
+unsigned char  l, old_l;
+
+uint8_t register_counter = 0;
 
 void LCDsend(unsigned char c)
 {
@@ -172,19 +191,9 @@ int LCDbusy()
 
 void main(void)
 {
-    unsigned char c;
-    unsigned char hc;
-    unsigned char lc;
-    unsigned char c1;
-    unsigned char c2;
-    unsigned char buf[17];
-    
-    
-    
     
     // initialize the device
     SYSTEM_Initialize();
-    //__delay_ms(4000);                                                           // Delay for sensors
     
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -210,17 +219,7 @@ void main(void)
     //WPUC4 = 1;
     LCDinit();
 
-    LCDcmd(0x80);
-    
-    sprintf(buf, "%02d:%02d:%02d", hours, minutes,seconds);
-    LCDstr(buf);
-    //Timer1();
-    
-    //INTERRUPT_GlobalInterruptEnable();
-    //INTERRUPT_PeripheralInterruptEnable();
-    
-    //INTERRUPT_TMR1InterruptEnable();
-    //TMR1_SetInterruptHandler(count_time_ISR);
+    LCD_write();
     
     INTERRUPT_TMR0InterruptEnable();
     NOP();
@@ -235,21 +234,22 @@ void main(void)
         
     }
 }
-/*
+void LCD_write()
+{
+    unsigned char buf[17];
+    
+    LCDcmd(0x80);
+    sprintf(buf, "%02d:%02d:%02d", hours, minutes,seconds);
+    LCDstr(buf);
 
-void Timer1(void) {
-    if (projectState == NOT_RUNNING) {
-        
-        INTERRUPT_GlobalInterruptEnable();
-        INTERRUPT_PeripheralInterruptEnable();
-        INTERRUPT_TMR0InterruptEnable();
-        //INTERRUPT_TMR1InterruptEnable();
-        //TMR1_SetInterruptHandler(count_time_ISR);
-        TMR0_SetInterruptHandler(count_time_ISR);
-        projectState = RUNNING;
-    }   
+    LCDcmd(0xc0);
+    sprintf(buf, "%02d C", t);
+    LCDstr(buf);
+
+    LCDcmd(0xc9);
+    sprintf(buf, "L %02d", l);
+    LCDstr(buf);
 }
-*/
 unsigned char get_Temprature(void)
 {
 	unsigned char value;
@@ -279,21 +279,17 @@ unsigned char get_Temprature(void)
 	return value;
 }
 
-unsigned char get_Luminosity(){
-    uint16_t lumi = 0;
-    float Voltage = 0.00;
-    
-    lumi = ADCC_GetSingleConversion(channel_ANA0); 
-    // Read Potenciometer aka "Luminosity" sensor
-    Voltage = (lumi/MAX_ADC);    
-    Voltage = Voltage*5;
-    return Voltage;
+void get_Luminosity(char *buf){
+    //unsigned char Voltage;
+    old_l = l;
+    l = ADCC_GetSingleConversion(channel_ANA0)>>13;
+    sprintf(buf, "L %01d", l);
 }
 
 
 void count_time_ISR() { 
     unsigned char buf[17];
-    seconds = seconds +1;
+    seconds = seconds + 1;
     if(seconds==60){
         minutes += 1;
         NOP();
@@ -325,27 +321,61 @@ void count_time_ISR() {
     sprintf(buf, "%02d", seconds);
     LCDstr(buf);
     
-    if ((seconds%3) == 0)
-        sensor();
-    
+    if(PMON != 0){
+        if ((seconds%PMON) == 0){
+            sensor();
+            //int *Addr_t = EEAddr+(register_counter*5)+(3);
+            old_t = DATAEE_ReadByte(EEAddr+(register_counter*5)+(3));
+            old_l = DATAEE_ReadByte(EEAddr+(register_counter*5)+4);
+            if(t != old_t || l != old_l){
+                save_sensor(); 
+            }
+        }   
+    }
 }
 
 void sensor()
 {
     unsigned char buf[17];
-    unsigned char c;
     
     NOP();
-    c = get_Temprature();
-    LCDcmd(0xc0);
-    sprintf(buf, "%02d C", c);
-    LCDstr(buf);
-    
-    
-    NOP();
-    LCDcmd(0xc9);
-    sprintf(buf, "%1.1f L", get_Luminosity());
-    LCDstr(buf);
-    
-}
+    t = get_Temprature();
 
+    LCDcmd(0xc0);
+    sprintf(buf, "%02d C", t);
+    LCDstr(buf);
+    
+    
+    NOP();
+    get_Luminosity(buf);
+    LCDcmd(0xc9);
+    LCDstr(buf);
+}
+/*
+void alarm()
+{
+
+}
+*/
+void save_sensor()
+{      
+    unsigned int Addr;
+
+    Addr = EEAddr;
+    //int var = EEAddr;
+    Addr += (register_counter*(5));
+    register_counter++;
+    
+    if (register_counter == NREG)
+        register_counter = 0;
+    
+    DATAEE_WriteByte(Addr, hours);
+    Addr += 8;
+    DATAEE_WriteByte(Addr, minutes);
+    Addr += 8;
+    DATAEE_WriteByte(Addr, seconds);
+    Addr += 8;
+    DATAEE_WriteByte(Addr, t);
+    Addr += 8;
+    DATAEE_WriteByte(Addr, l);
+}
