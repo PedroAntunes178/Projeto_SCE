@@ -124,6 +124,8 @@ void change_seconds(void);
 void change_clock_alarm(void);
 void change_temp_alarm(void);
 void change_lumi_alarm(void);
+void PWM_Output_D4_Enable (void);
+void PWM_Output_D4_Disable (void);
 
 
 #endif	/* PROJECT_H */

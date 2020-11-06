@@ -76,6 +76,8 @@ int alarm = 0;
 uint8_t hours = CLKH;
 uint8_t minutes = CLKM;
 uint8_t seconds = 0;
+uint8_t alarm_secs = -1;
+uint8_t alarm_state = 1;
 
 uint8_t alah = ALAH;
 uint8_t alam = ALAM;
@@ -227,6 +229,9 @@ void main(void)
 
     LCD_write();
     
+    PWM_Output_D4_Enable();
+    PWM6_LoadDutyValue(50);
+    
     INTERRUPT_TMR0InterruptEnable();
     NOP();
     TMR0_SetInterruptHandler(count_time_ISR);
@@ -243,6 +248,7 @@ void main(void)
             LCDcmd(0x8B);
             sprintf(buf, "    a");
             LCDstr(buf);
+            
         }
         else if( button_1==1 && alarm == 0){
             button_1=0;
@@ -250,7 +256,6 @@ void main(void)
             modify();
             INTERRUPT_TMR0InterruptEnable();
         }
-        
     }
 }
 
@@ -312,6 +317,12 @@ void get_Luminosity(char *buf){
 void count_time_ISR() { 
     unsigned char buf[17];
     seconds = seconds + 1;
+    
+    if( alarm_secs == seconds){
+        alarm_secs = -1;
+        PWM6_LoadDutyValue(50);
+    }
+    LED_4_Toggle();
     if(seconds==60){
         minutes += 1;
         NOP();
@@ -388,39 +399,53 @@ void check_alarm()
     unsigned char buf[17];
     t = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+3);
     l = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+4);
-    
-    if(hours >= alah && (minutes >= alam || seconds >= alas)){
-        LCDcmd(0x8B);
-        sprintf(buf, "C");
-        LCDstr(buf);
-        
-        alarm_check = 1;
-    }
-        
-    if ( t >= alat ){
-        LCDcmd(0x8C);
-        sprintf(buf, "T");
-        LCDstr(buf);
-        
-        alarm_check = 1;
-    }
-    
-    if ( l <= alal ){
-        LCDcmd(0x8D);
-        sprintf(buf, "L");
-        LCDstr(buf);
-        
-        alarm_check = 1;
+    if (alarm_state==1) {
+        if(hours >= alah && (minutes >= alam || seconds >= alas)){
+            LCDcmd(0x8B);
+            sprintf(buf, "C");
+            LCDstr(buf);
+
+            alarm_check = 1;
+        }
+
+        if ( t >= alat ){
+            LCDcmd(0x8C);
+            sprintf(buf, "T");
+            LCDstr(buf);
+            LED_2_SetHigh();
+
+            alarm_check = 1;
+        }
+        else{
+            LED_2_SetLow();
+        }
+
+        if ( l <= alal ){
+            LCDcmd(0x8D);
+            sprintf(buf, "L");
+            LCDstr(buf);
+            LED_1_SetHigh();
+
+            alarm_check = 1;
+        }
+        else{
+            LED_1_SetLow();
+        }
+
+        if(alarm_check == 1){
+
+            alarm_secs = seconds + TALA;
+            if (alarm_secs > 60){
+                alarm_secs = alarm_secs-60;
+            }
+            PWM6_LoadDutyValue(500);
+            alarm = 1;
+            LCDcmd(0x8F);
+            sprintf(buf, "A");
+            LCDstr(buf);  
+        }
     }
 
-    
-    if(alarm_check == 1){
-        alarm = 1;
-        LCDcmd(0x8F);
-        sprintf(buf, "A");
-        LCDstr(buf);
-    }
-    
 }
 
 void save_sensor()
@@ -428,7 +453,6 @@ void save_sensor()
     unsigned int Addr;
 
     Addr = EEAddr;
-    
     Addr += (register_counter*(5));
     
     register_counter++;
@@ -447,39 +471,8 @@ void save_sensor()
     Addr ++;
     DATAEE_WriteByte(Addr, l);
 }
-/*
-void PWM_Output_D5_Enable (void){
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
-    // Set D5 as the output of PWM6
-    RA7PPS = 0x0E;
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
-}
-void PWM_Output_D5_Disable (void){
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
-    // Set D5 as GPIO pin
-    RA7PPS = 0x00;
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
-}
-*/
+
 void checkButtonS1(void) {
-    /*
-    if (SWITCH_S1_PORT == LOW) {
-        //SWITCH_S1_PORT = HIGH;
-        //__delay_ms(100);
-        return 1;
-    }
-    else if (SWITCH_S1_PORT == HIGH) {
-        return 0;
-    }*/
-    uint8_t buf[17];
     
     if (btn1State == NOT_PRESSED) {
         if (SWITCH_S1_PORT == LOW) {
@@ -495,15 +488,7 @@ void checkButtonS1(void) {
     
 
 void checkButtonS2(void) {
-    /*
-    if (SWITCH_S2_PORT == LOW) {
-        //SWITCH_S2_PORT = HIGH;
-        __delay_ms(100);
-        return 1;
-    }
-    else if (SWITCH_S2_PORT == HIGH) {
-        return 0;
-    }*/
+
     if (btn2State == NOT_PRESSED) {
     if (SWITCH_S2_PORT == LOW) {
         __delay_ms(100);
@@ -514,100 +499,6 @@ void checkButtonS2(void) {
         button_2 = 1;
     }
 }
-/*
-void modify(void)
-{
-    int i = 0;
-    unsigned char buf[17];
-    
-    LCDcmd(0x89);
-    sprintf(buf, "CTL");
-    LCDstr(buf);
-                
-    while( i != 6)
-    {
-        if (checkButtonS1()==1){
-            i++;
-        }
-        
-        if(i==0){
-            LCDcmd(0x80);
-            if (checkButtonS2()==1){
-                hours++;
-                if (hours == 24){
-                    hours = 0;
-                }
-                sprintf(buf, "%02d", hours);
-                LCDstr(buf);
-            }
-        }
-        if(i==1){
-            LCDcmd(0x83);
-            if (checkButtonS2()==1){
-                minutes++;
-                if(minutes == 60){
-                    minutes = 0;
-                } 
-                sprintf(buf, "%02d", minutes);
-                LCDstr(buf);
-                
-            }
-        }
-        if(i==2){
-            LCDcmd(0x86);
-            if (checkButtonS2()==1){
-               seconds++; 
-               if(seconds == 60){
-                   seconds = 0;
-               }
-               sprintf(buf, "%02d", seconds);
-               LCDstr(buf);
-            }   
-        }
-        if(i==3){
-            LCDcmd(0x80);
-            sprintf(buf, "%02d:%02d:%02d", alah, alam, alas);
-            LCDstr(buf);
-            change_clock_alarm();
-            i++;
-            
-            LCDcmd(0x80);
-            sprintf(buf, "%02d:%02d:%02d", hours, minutes, seconds);
-            LCDstr(buf);
-        }
-        if(i==4){
-            
-            LCDcmd(0xc0);
-            sprintf(buf, "%02d C", alat);
-            LCDstr(buf);
-            LCDcmd(0x8A);
-            
-            if (checkButtonS2()==1){
-                alat++;  
-            }
-        
-        }
-        if(i==5){
-            LCDcmd(0xc0);
-            sprintf(buf, "%02d C", t);
-            LCDstr(buf);
-            
-            LCDcmd(0xc9);
-            sprintf(buf, "L %01d", alal);
-            LCDstr(buf);
-            LCDcmd(0x8B);
-            
-            if (checkButtonS2()==1){
-                alal++;
-            }
-        }
-    }
-    
-    LCDcmd(0xc9);
-    sprintf(buf, "%01d", l);
-    LCDstr(buf);
-}
-*/
 
 void modify(void)
 {
@@ -624,6 +515,7 @@ void modify(void)
     change_clock_alarm();
     change_temp_alarm();
     change_lumi_alarm();
+    change_alarm();
        
     LCDcmd(0x8B);
     sprintf(buf, "   ");
@@ -751,8 +643,7 @@ void change_clock_alarm(void)
                 LCDcmd(0x83);
                 sprintf(buf, "%02d", alam);
                 LCDstr(buf);
-                LCDcmd(0x8B);
-                
+                LCDcmd(0x8B); 
             }
         }
         if(i==2){
@@ -789,6 +680,9 @@ void change_temp_alarm()
         if (button_2==1){
             button_2 = 0;
             alat++;  
+            if (alat == 51){
+                alat = 0;
+            }
             LCDcmd(0xc0);
             sprintf(buf, "%02d C", alat);
             LCDstr(buf);
@@ -820,6 +714,9 @@ void change_lumi_alarm()
         if (button_2==1){
             button_2 = 0;
             alal++;  
+            if(alal == 8){
+                alal = 0;
+            }      
             LCDcmd(0xcD);
             sprintf(buf, "L %01d", alal);
             LCDstr(buf);
@@ -834,4 +731,67 @@ void change_lumi_alarm()
     LCDcmd(0xcD);
     sprintf(buf, "L %01d", l);
     LCDstr(buf);
+}
+
+void change_alarm(void)
+{
+    unsigned char buf[17];
+    while(1)
+    {
+        checkButtonS1();
+        checkButtonS2();
+
+        if (alarm_state == 1){
+            LCDcmd(0x8F);
+            sprintf(buf, "A");
+            LCDstr(buf);
+        }
+        else{
+            LCDcmd(0x8F);
+            sprintf(buf, "a");
+            LCDstr(buf);
+        }
+        
+        if (button_2==1){
+            button_2 = 0;
+            if (alarm_state ==1){ //Deactivates alarms
+                alarm_state=0;
+                LCDcmd(0x8F);
+                sprintf(buf, "a");
+                LCDstr(buf);
+            }
+            else{ //Activate alarm
+                alarm_state=1;
+                LCDcmd(0x8F);
+                sprintf(buf, "A");
+                LCDstr(buf);
+            }
+        }
+        if (button_1==1){
+            button_1 = 0;
+           break;
+        } 
+    }
+}
+
+void PWM_Output_D4_Enable (void){
+PPSLOCK = 0x55;
+PPSLOCK = 0xAA;
+PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
+// Set D4 as the output of PWM6
+RA6PPS = 0x0E;
+PPSLOCK = 0x55;
+PPSLOCK = 0xAA;
+PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
+}
+
+void PWM_Output_D4_Disable (void){
+PPSLOCK = 0x55;
+PPSLOCK = 0xAA;
+PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
+// Set D4 as GPIO pin
+RA6PPS = 0x00;
+PPSLOCK = 0x55;
+PPSLOCK = 0xAA;
+PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
 }
