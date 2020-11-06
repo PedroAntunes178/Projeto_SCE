@@ -51,6 +51,10 @@
   Section: Variable Definitions
  */
     uint8_t projectState = NOT_RUNNING;
+    uint8_t btn1State = NOT_PRESSED; 
+    uint8_t btn2State = NOT_PRESSED;  
+    uint8_t button_1 = 0;
+    uint8_t button_2 = 0;
 
 /*
 void Timer1(void);
@@ -110,6 +114,16 @@ void LCD_write(void);
 void count_time_ISR(void);
 void sensor(void);
 void save_sensor(void);
+void check_alarm(void);
+void modify(void);
+void checkButtonS1(void);
+void checkButtonS2(void);
+void change_hours(void);
+void change_minutes(void);
+void change_seconds(void);
+void change_clock_alarm(void);
+void change_temp_alarm(void);
+void change_lumi_alarm(void);
 
 
 #endif	/* PROJECT_H */
