@@ -126,6 +126,8 @@ void change_temp_alarm(void);
 void change_lumi_alarm(void);
 void PWM_Output_D4_Enable (void);
 void PWM_Output_D4_Disable (void);
+void change_alarm(void);
+void read_memory(void);
 
 
 #endif	/* PROJECT_H */

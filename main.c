@@ -58,32 +58,37 @@
 
 #define MAX_ADC 1023.00
 
-#define EEAddr  0x7000        // EEPROM starting address
+#define MAGIC_NUMBER 0xF000 // this memory slot will save if we already runned the program ones or not
+#define NREG 0xF001 //number of data registers
+#define PMON 0xF002  //sec monitoring period
+#define TALA 0xF003  //sec duration of alarm signal (PWM)
+#define ALAH 0xF004 //hours of alarm clock
+#define ALAM 0xF005  //minutes of alarm clock
+#define ALAS 0xF006  //seconds of alarm clock
+#define ALAT 0xF007 //oC threshold for temperature alarm
+#define ALAL 0xF008  //threshold for luminosity level alarm
+#define ALAF 0xF009  //alarm flag initially disabled
+#define CLKH 0xF00A  //initial value for clock hours
+#define CLKM 0xF00B  //initial value for clock minutes
+#define LAST_REG 0xF00C //this memory slot will save the last register number we used
 
-#define NREG 25 //number of data registers
-#define PMON 3  //sec monitoring period
-#define TALA 5  //sec duration of alarm signal (PWM)
-#define ALAH 12 //hours of alarm clock
-#define ALAM 0  //minutes of alarm clock
-#define ALAS 0  //seconds of alarm clock
-#define ALAT 28 //oC threshold for temperature alarm
-#define ALAL 2  //threshold for luminosity level alarm
-#define ALAF 0  //alarm flag initially disabled
-#define CLKH 0  //initial value for clock hours
-#define CLKM 0  //initial value for clock minutes
+#define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
         
 int alarm = 0;
-uint8_t hours = CLKH;
-uint8_t minutes = CLKM;
+uint8_t hours = 0;
+uint8_t minutes = 0;
 uint8_t seconds = 0;
 uint8_t alarm_secs = -1;
-uint8_t alarm_state = 1;
+uint8_t sensor_enable = 1;
 
-uint8_t alah = ALAH;
-uint8_t alam = ALAM;
-uint8_t alas = ALAS;
-uint8_t alat = ALAT;
-uint8_t alal = ALAL;
+uint8_t alah = 12;
+uint8_t alam = 0;
+uint8_t alas = 0;
+uint8_t alat = 28;
+uint8_t alal = 4;
+uint8_t nreg = 25;
+uint8_t pmon = 3;
+uint8_t tala = 5;
 unsigned char t, old_t;
 unsigned char  l, old_l;
 
@@ -202,6 +207,8 @@ void main(void)
     
     // initialize the device
     SYSTEM_Initialize();
+    read_memory();
+    
     
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -223,8 +230,8 @@ void main(void)
     i2c1_driver_open();
     I2C_SCL = 1;
     I2C_SDA = 1;
-    //WPUC3 = 1;
-    //WPUC4 = 1;
+    WPUC3 = 1;
+    WPUC4 = 1;
     LCDinit();
 
     LCD_write();
@@ -245,10 +252,13 @@ void main(void)
         if( button_1==1 && alarm == 1){
             button_1=0;
             alarm = 0;
+            sensor_enable = 1;
             LCDcmd(0x8B);
-            sprintf(buf, "    a");
+            sprintf(buf, "   ");
             LCDstr(buf);
-            
+            LCDcmd(0x8F);
+            sprintf(buf, "a");
+            LCDstr(buf);
         }
         else if( button_1==1 && alarm == 0){
             button_1=0;
@@ -259,6 +269,63 @@ void main(void)
     }
 }
 
+void read_memory(void)
+{
+    uint8_t magic_nr = 55;
+    uint16_t mem;
+    uint16_t count;
+    if (DATAEE_ReadByte(MAGIC_NUMBER)==magic_nr){
+        mem = START_REG + 5*DATAEE_ReadByte(LAST_REG);
+        mem = mem + 3;
+        t = DATAEE_ReadByte(mem);
+        mem ++;
+        l = DATAEE_ReadByte(mem);
+       
+        alah = DATAEE_ReadByte(ALAH);
+        alam = DATAEE_ReadByte(ALAM);
+        alas = DATAEE_ReadByte(ALAS);
+        alat = DATAEE_ReadByte(ALAT);
+        alal = DATAEE_ReadByte(ALAL);
+        nreg = DATAEE_ReadByte(NREG);
+        pmon = DATAEE_ReadByte(PMON);
+        tala = DATAEE_ReadByte(TALA);
+        register_counter =  DATAEE_ReadByte(LAST_REG);
+        count = alah + alam + alas + alat + alal + nreg + pmon + tala;
+        if (count<33 || count >260){
+            alah = 12;
+            alam = 0;
+            alas = 0;
+            alat = 28;
+            alal = 4;
+            nreg = 25;
+            pmon = 3;
+            tala = 5;
+            register_counter = 0;
+            DATAEE_WriteByte(ALAH, alah);
+            DATAEE_WriteByte(ALAM, alam);
+            DATAEE_WriteByte(ALAS, alas);
+            DATAEE_WriteByte(ALAT, alat);
+            DATAEE_WriteByte(ALAL, alal);
+            DATAEE_WriteByte(NREG, nreg);
+            DATAEE_WriteByte(PMON, pmon);
+            DATAEE_WriteByte(TALA, tala);
+            DATAEE_WriteByte(LAST_REG, register_counter);
+            
+        }
+    }
+    else{
+        DATAEE_WriteByte(MAGIC_NUMBER, magic_nr);
+        DATAEE_WriteByte(ALAH, alah);
+        DATAEE_WriteByte(ALAM, alam);
+        DATAEE_WriteByte(ALAS, alas);
+        DATAEE_WriteByte(ALAT, alat);
+        DATAEE_WriteByte(ALAL, alal);
+        DATAEE_WriteByte(NREG, nreg);
+        DATAEE_WriteByte(PMON, pmon);
+        DATAEE_WriteByte(TALA, tala);
+        DATAEE_WriteByte(LAST_REG, register_counter);
+    }
+}
 void LCD_write()
 {
     unsigned char buf[17];
@@ -316,6 +383,9 @@ void get_Luminosity(char *buf){
 
 void count_time_ISR() { 
     unsigned char buf[17];
+    uint16_t mem;
+    uint8_t last_reg;
+    
     seconds = seconds + 1;
     
     if( alarm_secs == seconds){
@@ -354,23 +424,21 @@ void count_time_ISR() {
     sprintf(buf, "%02d", seconds);
     LCDstr(buf);
     
-    if(PMON != 0){
-        if ((seconds%PMON) == 0){
+    if(pmon != 0){
+        if ((seconds%pmon) == 0){
             sensor();
             
-            if (register_counter != 0){ 
-                old_t = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+3);
-                old_l = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+4);
-            
-                if(t != old_t || l != old_l){
-                    save_sensor(); 
-                    check_alarm();
-                }     
-            }
-            else{
-                save_sensor();
+            last_reg = DATAEE_ReadByte(LAST_REG);
+            mem = START_REG + last_reg*5 + 3;
+            old_t = DATAEE_ReadByte(mem);
+            mem++;
+            old_l = DATAEE_ReadByte(mem);
+
+            if(t != old_t || l != old_l){
+                save_sensor(); 
                 check_alarm();
             }
+            check_alarm();
         }   
     }
 }
@@ -378,18 +446,20 @@ void count_time_ISR() {
 void sensor()
 {
     unsigned char buf[17];
-    
-    NOP();
-    t = get_Temprature();
+    if (sensor_enable == 1)
+    {
+        NOP();
+        t = get_Temprature();
 
-    LCDcmd(0xc0);
-    sprintf(buf, "%02d C", t);
-    LCDstr(buf);
-    
-    NOP();
-    get_Luminosity(buf);
-    LCDcmd(0xcD);
-    LCDstr(buf);
+        LCDcmd(0xc0);
+        sprintf(buf, "%02d C", t);
+        LCDstr(buf);
+
+        NOP();
+        get_Luminosity(buf);
+        LCDcmd(0xcD);
+        LCDstr(buf);
+    }
 
 }
 
@@ -397,9 +467,7 @@ void check_alarm()
 {
     uint8_t alarm_check = 0;
     unsigned char buf[17];
-    t = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+3);
-    l = DATAEE_ReadByte(EEAddr+((register_counter-1)*5)+4);
-    if (alarm_state==1) {
+    if (sensor_enable == 1) {
         if(hours >= alah && (minutes >= alam || seconds >= alas)){
             LCDcmd(0x8B);
             sprintf(buf, "C");
@@ -434,7 +502,7 @@ void check_alarm()
 
         if(alarm_check == 1){
 
-            alarm_secs = seconds + TALA;
+            alarm_secs = seconds + tala;
             if (alarm_secs > 60){
                 alarm_secs = alarm_secs-60;
             }
@@ -450,17 +518,10 @@ void check_alarm()
 
 void save_sensor()
 {      
-    unsigned int Addr;
-
-    Addr = EEAddr;
-    Addr += (register_counter*(5));
+    uint16_t Addr;   
     
-    register_counter++;
+    Addr = START_REG+register_counter*5;
     
-    if (register_counter == NREG)
-        register_counter = 0;
-    
-   
     DATAEE_WriteByte(Addr, hours);
     Addr ++;
     DATAEE_WriteByte(Addr, minutes);
@@ -470,6 +531,12 @@ void save_sensor()
     DATAEE_WriteByte(Addr, t);
     Addr ++;
     DATAEE_WriteByte(Addr, l);
+    
+    DATAEE_WriteByte(LAST_REG, register_counter);
+    register_counter++;
+    
+    if (register_counter == nreg)
+        register_counter = 0;
 }
 
 void checkButtonS1(void) {
@@ -627,6 +694,7 @@ void change_clock_alarm(void)
                 if(alah == 24){
                     alah = 0;
                 }
+                DATAEE_WriteByte(ALAH, alah);
                 LCDcmd(0x80);
                 sprintf(buf, "%02d", alah);
                 LCDstr(buf);
@@ -640,6 +708,7 @@ void change_clock_alarm(void)
                 if(alam == 60){
                     alam = 0;
                 }
+                DATAEE_WriteByte(ALAM, alam);
                 LCDcmd(0x83);
                 sprintf(buf, "%02d", alam);
                 LCDstr(buf);
@@ -653,6 +722,7 @@ void change_clock_alarm(void)
                if(alas == 60){
                    alas = 0;
                }
+               DATAEE_WriteByte(ALAS, alas);
                LCDcmd(0x86);
                sprintf(buf, "%02d", alas);
                LCDstr(buf);
@@ -683,6 +753,7 @@ void change_temp_alarm()
             if (alat == 51){
                 alat = 0;
             }
+            DATAEE_WriteByte(ALAT, alat);
             LCDcmd(0xc0);
             sprintf(buf, "%02d C", alat);
             LCDstr(buf);
@@ -716,7 +787,8 @@ void change_lumi_alarm()
             alal++;  
             if(alal == 8){
                 alal = 0;
-            }      
+            }   
+            DATAEE_WriteByte(ALAL, alal);
             LCDcmd(0xcD);
             sprintf(buf, "L %01d", alal);
             LCDstr(buf);
@@ -741,7 +813,7 @@ void change_alarm(void)
         checkButtonS1();
         checkButtonS2();
 
-        if (alarm_state == 1){
+        if (alarm == 1){
             LCDcmd(0x8F);
             sprintf(buf, "A");
             LCDstr(buf);
@@ -754,14 +826,16 @@ void change_alarm(void)
         
         if (button_2==1){
             button_2 = 0;
-            if (alarm_state ==1){ //Deactivates alarms
-                alarm_state=0;
+            if (alarm == 1){ //Deactivates alarms
+                alarm = 0;
+                sensor_enable = 1;
                 LCDcmd(0x8F);
                 sprintf(buf, "a");
-                LCDstr(buf);
+                LCDstr(buf);    
             }
             else{ //Activate alarm
-                alarm_state=1;
+                alarm = 1;
+                sensor_enable = 0;
                 LCDcmd(0x8F);
                 sprintf(buf, "A");
                 LCDstr(buf);
