@@ -128,6 +128,7 @@ void PWM_Output_D4_Enable (void);
 void PWM_Output_D4_Disable (void);
 void change_alarm(void);
 void read_memory(void);
+void write_checksum(void);
 
 
 #endif	/* PROJECT_H */

@@ -71,6 +71,7 @@
 #define CLKH 0xF00A  //initial value for clock hours
 #define CLKM 0xF00B  //initial value for clock minutes
 #define LAST_REG 0xF00C //this memory slot will save the last register number we used
+#define CHECKSUM 0xF00D //The sum is going to be saved in byte 0xF00D and 0xF00E cause its 16 bits
 
 #define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
         
@@ -291,7 +292,8 @@ void read_memory(void)
         tala = DATAEE_ReadByte(TALA);
         register_counter =  DATAEE_ReadByte(LAST_REG);
         count = alah + alam + alas + alat + alal + nreg + pmon + tala;
-        if (count<33 || count >260){
+        
+        if (DATAEE_ReadByte(CHECKSUM)!=count){
             alah = 12;
             alam = 0;
             alas = 0;
@@ -310,6 +312,7 @@ void read_memory(void)
             DATAEE_WriteByte(PMON, pmon);
             DATAEE_WriteByte(TALA, tala);
             DATAEE_WriteByte(LAST_REG, register_counter);
+            write_checksum();
             
         }
     }
@@ -324,7 +327,17 @@ void read_memory(void)
         DATAEE_WriteByte(PMON, pmon);
         DATAEE_WriteByte(TALA, tala);
         DATAEE_WriteByte(LAST_REG, register_counter);
+        write_checksum();
     }
+}
+
+void write_checksum()
+{
+    uint16_t count;
+    
+    count = alah + alam + alas + alat + alal + nreg + pmon + tala;
+    
+    DATAEE_WriteByte(CHECKSUM, count);
 }
 void LCD_write()
 {
@@ -695,6 +708,7 @@ void change_clock_alarm(void)
                     alah = 0;
                 }
                 DATAEE_WriteByte(ALAH, alah);
+                write_checksum();
                 LCDcmd(0x80);
                 sprintf(buf, "%02d", alah);
                 LCDstr(buf);
@@ -709,6 +723,7 @@ void change_clock_alarm(void)
                     alam = 0;
                 }
                 DATAEE_WriteByte(ALAM, alam);
+                write_checksum();
                 LCDcmd(0x83);
                 sprintf(buf, "%02d", alam);
                 LCDstr(buf);
@@ -723,6 +738,7 @@ void change_clock_alarm(void)
                    alas = 0;
                }
                DATAEE_WriteByte(ALAS, alas);
+               write_checksum();
                LCDcmd(0x86);
                sprintf(buf, "%02d", alas);
                LCDstr(buf);
@@ -754,6 +770,7 @@ void change_temp_alarm()
                 alat = 0;
             }
             DATAEE_WriteByte(ALAT, alat);
+            write_checksum();
             LCDcmd(0xc0);
             sprintf(buf, "%02d C", alat);
             LCDstr(buf);
@@ -789,6 +806,7 @@ void change_lumi_alarm()
                 alal = 0;
             }   
             DATAEE_WriteByte(ALAL, alal);
+            write_checksum();
             LCDcmd(0xcD);
             sprintf(buf, "L %01d", alal);
             LCDstr(buf);
