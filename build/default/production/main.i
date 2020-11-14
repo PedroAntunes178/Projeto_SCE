@@ -21121,10 +21121,10 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 
-# 112 "mcc_generated_files/pin_manager.h"
+# 156 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
 
-# 124
+# 168
 void PIN_MANAGER_IOC(void);
 
 # 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
@@ -21247,6 +21247,103 @@ void (*i2c1_driver_i2cISR)(void);
 # 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
 typedef unsigned char bool;
 
+# 72 "mcc_generated_files/adcc.h"
+typedef uint16_t adc_result_t;
+
+# 89
+typedef enum
+{
+channel_ANA0 = 0x0,
+channel_VSS = 0x3C,
+channel_Temp = 0x3D,
+channel_DAC1 = 0x3E,
+channel_FVR_buf1 = 0x3F
+} adcc_channel_t;
+
+# 130
+void ADCC_Initialize(void);
+
+# 159
+void ADCC_StartConversion(adcc_channel_t channel);
+
+# 189
+bool ADCC_IsConversionDone();
+
+# 221
+adc_result_t ADCC_GetConversionResult(void);
+
+# 252
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+
+# 277
+void ADCC_StopConversion(void);
+
+# 304
+void ADCC_SetStopOnInterrupt(void);
+
+# 329
+void ADCC_DischargeSampleCapacitor(void);
+
+# 355
+void ADCC_LoadAcquisitionRegister(uint8_t);
+
+# 381
+void ADCC_SetPrechargeTime(uint8_t);
+
+# 406
+void ADCC_SetRepeatCount(uint8_t);
+
+# 434
+uint8_t ADCC_GetCurrentCountofConversions(void);
+
+# 458
+void ADCC_ClearAccumulator(void);
+
+# 483
+uint16_t ADCC_GetAccumulatorValue(void);
+
+# 511
+bool ADCC_HasAccumulatorOverflowed(void);
+
+# 536
+uint16_t ADCC_GetFilterValue(void);
+
+# 564
+uint16_t ADCC_GetPreviousResult(void);
+
+# 590
+void ADCC_DefineSetPoint(uint16_t);
+
+# 616
+void ADCC_SetUpperThreshold(uint16_t);
+
+# 642
+void ADCC_SetLowerThreshold(uint16_t);
+
+# 669
+uint16_t ADCC_GetErrorCalculation(void);
+
+# 696
+void ADCC_EnableDoubleSampling(void);
+
+# 720
+void ADCC_EnableContinuousConversion(void);
+
+# 744
+void ADCC_DisableContinuousConversion(void);
+
+# 772
+bool ADCC_HasErrorCrossedUpperThreshold(void);
+
+# 800
+bool ADCC_HasErrorCrossedLowerThreshold(void);
+
+# 827
+uint8_t ADCC_GetConversionStageStatus(void);
+
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
 # 100 "mcc_generated_files/tmr1.h"
 void TMR1_Initialize(void);
 
@@ -21271,16 +21368,76 @@ void TMR1_StartSinglePulseAcquisition(void);
 # 349
 uint8_t TMR1_CheckGateValueStatus(void);
 
-# 387
-bool TMR1_HasOverflowOccured(void);
+# 367
+void TMR1_ISR(void);
 
-# 71 "mcc_generated_files/mcc.h"
+# 385
+void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 403
+extern void (*TMR1_InterruptHandler)(void);
+
+# 421
+void TMR1_DefaultInterruptHandler(void);
+
+# 250 "mcc_generated_files/ext_int.h"
+void EXT_INT_Initialize(void);
+
+# 272
+void INT_ISR(void);
+
+# 296
+void INT_CallBack(void);
+
+# 319
+void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 343
+extern void (*INT_InterruptHandler)(void);
+
+# 367
+void INT_DefaultInterruptHandler(void);
+
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
+# 100 "mcc_generated_files/tmr0.h"
+void TMR0_Initialize(void);
+
+# 129
+void TMR0_StartTimer(void);
+
+# 161
+void TMR0_StopTimer(void);
+
+# 196
+uint8_t TMR0_ReadTimer(void);
+
+# 235
+void TMR0_WriteTimer(uint8_t timerVal);
+
+# 272
+void TMR0_Reload(uint8_t periodVal);
+
+# 291
+void TMR0_ISR(void);
+
+# 310
+void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 328
+extern void (*TMR0_InterruptHandler)(void);
+
+# 346
+void TMR0_DefaultInterruptHandler(void);
+
+# 74 "mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
 
-# 84
+# 87
 void OSCILLATOR_Initialize(void);
 
-# 97
+# 100
 void PMD_Initialize(void);
 
 # 154 "I2C/i2c.h"
@@ -21300,58 +21457,23 @@ signed char getsI2C( unsigned char *rdptr, unsigned char length );
 # 53 "project.h"
 uint8_t projectState = 0;
 
-int Timer1(void);
+void Timer1(void);
 
-# 74
+# 73
 unsigned char get_Temprature(void);
 
-# 55 "main.c"
-unsigned char get_Temprature(void)
-{
-unsigned char value;
-do{
-while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+# 91
+unsigned char get_Luminosity(void);
 
-WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
-} while (!(value & 0x40));
+# 109
+void count_time_ISR(void);
+void sensor_ISR(void);
 
-while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
+# 61 "main.c"
+unsigned int hours = 0;
+unsigned int minutes = 0;
+unsigned int seconds = 0;
 
-return value;
-}
-
-
-int Timer1(void) {
-if (projectState == 0) {
-TMR1_StartTimer();
-projectState = 1;
-}
-if (projectState == 1) {
-if(TMR1_HasOverflowOccured()){
-TMR1IF = 0;
-TMR1_Reload();
-return 1;
-}
-}
-else return 0;
-}
-
-# 106
 void LCDsend(unsigned char c)
 {
 while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
@@ -21469,15 +21591,16 @@ unsigned char c1;
 unsigned char c2;
 unsigned char buf[17];
 
-
-unsigned int hours = 0;
-unsigned int minutes = 0;
-unsigned int seconds = 0;
-
-
+# 186
 SYSTEM_Initialize();
 
-# 246
+# 192
+(INTCONbits.GIE = 1);
+
+
+(INTCONbits.PEIE = 1);
+
+# 203
 i2c1_driver_open();
 TRISCbits.TRISC3 = 1;
 TRISCbits.TRISC4 = 1;
@@ -21485,44 +21608,118 @@ WPUC3 = 1;
 WPUC4 = 1;
 LCDinit();
 
+LCDcmd(0x80);
+
+sprintf(buf, "%02d:%02d:%02d", hours, minutes,seconds);
+LCDstr(buf);
+Timer1();
+
 while (1) {
 
 
-if( Timer1()){
+
+}
+}
+
+
+void Timer1(void) {
+if (projectState == 0) {
+TMR1_SetInterruptHandler(count_time_ISR);
+TMR0_SetInterruptHandler(sensor_ISR);
+projectState = 1;
+}
+}
+
+unsigned char get_Temprature(void)
+{
+unsigned char value;
+do{
+while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+
+WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
+} while (!(value & 0x40));
+
+while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN);
+
+return value;
+}
+
+unsigned char get_Luminosity(){
+uint16_t lumi = 0;
+float Voltage = 0.00;
+
+lumi = ADCC_GetSingleConversion(channel_ANA0);
+
+Voltage = (lumi/1023.00);
+Voltage = Voltage*5;
+return Voltage;
+}
+
+
+void count_time_ISR() {
+unsigned char buf[17];
 seconds = seconds +1;
 if(seconds==60){
 minutes += 1;
-seconds = 0;
 __nop();
 LCDcmd(0x83);
 sprintf(buf, "%02d:", minutes);
 LCDstr(buf);
+
+seconds = 0;
 }
 if(minutes==60){
 hours += 1;
 minutes = 0;
 __nop();
-LCDcmd(0x80)
+LCDcmd(0x80);
 sprintf(buf, "%02d:%02d:", hours, minutes);
 LCDstr(buf);
 }
 if(hours==24){
 hours = 0;
+__nop();
+LCDcmd(0x86);
+sprintf(buf, "%02d:", hours);
+LCDstr(buf);
 }
 
 __nop();
 LCDcmd(0x86);
 sprintf(buf, "%02d", seconds);
 LCDstr(buf);
+
 }
-if(seconds%3 == 0){
+
+void sensor_ISR()
+{
+unsigned char buf[17];
+unsigned char c;
+
 __nop();
 c = get_Temprature();
 LCDcmd(0xc0);
 sprintf(buf, "%02d C", c);
 LCDstr(buf);
-LCDcmd(0x81);
-}
-}
+__nop();
+LCDcmd(0xc9);
+sprintf(buf, "%1.1f L", get_Luminosity());
+LCDstr(buf);
+
 }
 

@@ -1,68 +1,15 @@
 
-# 1 "mcc_generated_files/i2c1_driver.c"
+# 1 "/opt/microchip/xc8/v2.20/pic/sources/c90/pic/__eeprom.c"
 
-# 4 "/home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/__size_t.h"
-typedef unsigned size_t;
+# 18 "/home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/xc.h"
+extern const char __xc8_OPTIM_SPEED;
 
-# 7 "/opt/microchip/xc8/v2.20/pic/include/c90/stdarg.h"
-typedef void * va_list[1];
-
-#pragma intrinsic(__va_start)
-extern void * __va_start(void);
-
-#pragma intrinsic(__va_arg)
-extern void * __va_arg(void *, ...);
-
-# 43 "/opt/microchip/xc8/v2.20/pic/include/c90/stdio.h"
-struct __prbuf
-{
-char * ptr;
-void (* func)(char);
-};
-
-# 29 "/opt/microchip/xc8/v2.20/pic/include/c90/errno.h"
-extern int errno;
-
-# 12 "/opt/microchip/xc8/v2.20/pic/include/c90/conio.h"
-extern void init_uart(void);
-
-extern char getch(void);
-extern char getche(void);
-extern void putch(char);
-extern void ungetch(char);
-
-extern __bit kbhit(void);
-
-# 23
-extern char * cgets(char *);
-extern void cputs(const char *);
-
-# 88 "/opt/microchip/xc8/v2.20/pic/include/c90/stdio.h"
-extern int cprintf(char *, ...);
-#pragma printf_check(cprintf)
+extern double __fpnormalize(double);
 
 
-
-extern int _doprnt(struct __prbuf *, const register char *, register va_list);
-
-
-# 180
-#pragma printf_check(vprintf) const
-#pragma printf_check(vsprintf) const
-
-extern char * gets(char *);
-extern int puts(const char *);
-extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
-extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
-extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
-extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
-extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
-extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
-
-#pragma printf_check(printf) const
-#pragma printf_check(sprintf) const
-extern int sprintf(char *, const char *, ...);
-extern int printf(const char *, ...);
+# 13 "/opt/microchip/xc8/v2.20/pic/include/c90/xc8debug.h"
+#pragma intrinsic(__builtin_software_breakpoint)
+extern void __builtin_software_breakpoint(void);
 
 # 13 "/opt/microchip/xc8/v2.20/pic/include/c90/stdint.h"
 typedef signed char int8_t;
@@ -149,19 +96,6 @@ typedef int16_t intptr_t;
 
 
 typedef uint16_t uintptr_t;
-
-# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
-typedef unsigned char bool;
-
-# 18 "/home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/xc.h"
-extern const char __xc8_OPTIM_SPEED;
-
-extern double __fpnormalize(double);
-
-
-# 13 "/opt/microchip/xc8/v2.20/pic/include/c90/xc8debug.h"
-#pragma intrinsic(__builtin_software_breakpoint)
-extern void __builtin_software_breakpoint(void);
 
 
 # 7 "/home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/builtins.h"
@@ -21187,468 +21121,181 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 
-# 156 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
-
-# 168
-void PIN_MANAGER_IOC(void);
-
-# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
-typedef unsigned char bool;
-
-# 15
-typedef unsigned char bool;
-
-# 33 "mcc_generated_files/i2c1_driver.h"
-typedef void (*interruptHandler)(void);
-
-
-inline void i2c1_driver_close(void);
-
-
-inline void mssp1_enableIRQ(void);
-inline __bit mssp1_IRQisEnabled(void);
-inline void mssp1_disableIRQ(void);
-inline void mssp1_clearIRQ(void);
-inline void mssp1_setIRQ(void);
-inline __bit mssp1_IRQisSet(void);
-inline void mssp1_waitForEvent(uint16_t*);
-
-
-__bit i2c1_driver_open(void);
-inline char i2c1_driver_getRXData(void);
-inline char i2c1_driver_getAddr(void);
-inline void i2c1_driver_setAddr(char addr);
-inline void i2c1_driver_setMask(char mask);
-inline void i2c1_driver_TXData(char d);
-inline void i2c1_driver_resetBus(void);
-inline void i2c1_driver_start(void);
-inline void i2c1_driver_restart(void);
-inline void i2c1_driver_stop(void);
-inline __bit i2c1_driver_isNACK(void);
-inline void i2c1_driver_startRX(void);
-inline void i2c1_driver_sendACK(void);
-inline void i2c1_driver_sendNACK(void);
-inline void i2c1_driver_clearBusCollision(void);
-
-__bit i2c1_driver_initSlaveHardware(void);
-inline void i2c1_driver_releaseClock(void);
-inline __bit i2c1_driver_isBufferFull(void);
-inline __bit i2c1_driver_isStart(void);
-inline __bit i2c1_driver_isStop(void);
-inline __bit i2c1_driver_isAddress(void);
-inline __bit i2c1_driver_isData(void);
-inline __bit i2c1_driver_isRead(void);
-inline __bit i2c1_driver_isWriteCollision(void);
-inline __bit i2c1_driver_isReceiveOverflow(void);
-
-inline void i2c1_driver_setBusCollisionISR(interruptHandler handler);
-inline void i2c1_driver_setI2cISR(interruptHandler handler);
-void (*i2c1_driver_busCollisionISR)(void);
-void (*i2c1_driver_i2cISR)(void);
-
-# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
-typedef unsigned char bool;
-
-# 72 "mcc_generated_files/adcc.h"
-typedef uint16_t adc_result_t;
-
-# 89
-typedef enum
+# 5 "/opt/microchip/xc8/v2.20/pic/sources/c90/pic/__eeprom.c"
+void
+__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
 {
-channel_ANA0 = 0x0,
-channel_VSS = 0x3C,
-channel_Temp = 0x3D,
-channel_DAC1 = 0x3E,
-channel_FVR_buf1 = 0x3F
-} adcc_channel_t;
+volatile unsigned char *cp = to;
 
-# 130
-void ADCC_Initialize(void);
+# 22
+while (NVMCON1bits.WR) {
+continue;
+}
+NVMCON1bits.NVMREGS = 1;
+NVMADRL = (unsigned char) from;
+NVMADRH = 0x70;
+while (size--) {
+NVMCON1bits.RD = 1;
+*cp++ = NVMDATL;
+NVMADRL++;
+}
 
-# 159
-void ADCC_StartConversion(adcc_channel_t channel);
+# 36
+}
 
-# 189
-bool ADCC_IsConversionDone();
-
-# 221
-adc_result_t ADCC_GetConversionResult(void);
-
-# 252
-adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
-
-# 277
-void ADCC_StopConversion(void);
-
-# 304
-void ADCC_SetStopOnInterrupt(void);
-
-# 329
-void ADCC_DischargeSampleCapacitor(void);
-
-# 355
-void ADCC_LoadAcquisitionRegister(uint8_t);
-
-# 381
-void ADCC_SetPrechargeTime(uint8_t);
-
-# 406
-void ADCC_SetRepeatCount(uint8_t);
-
-# 434
-uint8_t ADCC_GetCurrentCountofConversions(void);
-
-# 458
-void ADCC_ClearAccumulator(void);
-
-# 483
-uint16_t ADCC_GetAccumulatorValue(void);
-
-# 511
-bool ADCC_HasAccumulatorOverflowed(void);
-
-# 536
-uint16_t ADCC_GetFilterValue(void);
-
-# 564
-uint16_t ADCC_GetPreviousResult(void);
-
-# 590
-void ADCC_DefineSetPoint(uint16_t);
-
-# 616
-void ADCC_SetUpperThreshold(uint16_t);
-
-# 642
-void ADCC_SetLowerThreshold(uint16_t);
-
-# 669
-uint16_t ADCC_GetErrorCalculation(void);
-
-# 696
-void ADCC_EnableDoubleSampling(void);
-
-# 720
-void ADCC_EnableContinuousConversion(void);
-
-# 744
-void ADCC_DisableContinuousConversion(void);
-
-# 772
-bool ADCC_HasErrorCrossedUpperThreshold(void);
-
-# 800
-bool ADCC_HasErrorCrossedLowerThreshold(void);
-
-# 827
-uint8_t ADCC_GetConversionStageStatus(void);
-
-# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
-typedef unsigned char bool;
-
-# 100 "mcc_generated_files/tmr1.h"
-void TMR1_Initialize(void);
-
-# 129
-void TMR1_StartTimer(void);
-
-# 161
-void TMR1_StopTimer(void);
-
-# 196
-uint16_t TMR1_ReadTimer(void);
-
-# 235
-void TMR1_WriteTimer(uint16_t timerVal);
-
-# 271
-void TMR1_Reload(void);
-
-# 310
-void TMR1_StartSinglePulseAcquisition(void);
-
-# 349
-uint8_t TMR1_CheckGateValueStatus(void);
-
-# 367
-void TMR1_ISR(void);
-
-# 385
-void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
-
-# 403
-extern void (*TMR1_InterruptHandler)(void);
-
-# 421
-void TMR1_DefaultInterruptHandler(void);
-
-# 250 "mcc_generated_files/ext_int.h"
-void EXT_INT_Initialize(void);
-
-# 272
-void INT_ISR(void);
-
-# 296
-void INT_CallBack(void);
-
-# 319
-void INT_SetInterruptHandler(void (* InterruptHandler)(void));
-
-# 343
-extern void (*INT_InterruptHandler)(void);
-
-# 367
-void INT_DefaultInterruptHandler(void);
-
-# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
-typedef unsigned char bool;
-
-# 100 "mcc_generated_files/tmr0.h"
-void TMR0_Initialize(void);
-
-# 129
-void TMR0_StartTimer(void);
-
-# 161
-void TMR0_StopTimer(void);
-
-# 196
-uint8_t TMR0_ReadTimer(void);
-
-# 235
-void TMR0_WriteTimer(uint8_t timerVal);
-
-# 272
-void TMR0_Reload(uint8_t periodVal);
-
-# 291
-void TMR0_ISR(void);
-
-# 310
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
-
-# 328
-extern void (*TMR0_InterruptHandler)(void);
-
-# 346
-void TMR0_DefaultInterruptHandler(void);
-
-# 74 "mcc_generated_files/mcc.h"
-void SYSTEM_Initialize(void);
-
-# 87
-void OSCILLATOR_Initialize(void);
-
-# 100
-void PMD_Initialize(void);
-
-
-# 30 "mcc_generated_files/i2c1_driver.c"
-#pragma warning disable 520
-
-inline void i2c1_driver_close(void)
+void
+__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
 {
-SSP1CON1bits.SSPEN = 0;
+const unsigned char *ptr =from;
+
+# 69
+while (NVMCON1bits.WR) {
+continue;
+}
+NVMCON1bits.NVMREGS = 1;
+NVMADRL = (unsigned char) to - 1U;
+NVMADRH = 0x70;
+NVMDATH = 0;
+while (size--) {
+while (NVMCON1bits.WR) {
+continue;
+}
+NVMDATL = *ptr++;
+NVMADRL++;
+STATUSbits.CARRY = 0;
+if (INTCONbits.GIE) {
+STATUSbits.CARRY = 1;
+}
+NVMCON1bits.WREN = 1;
+NVMCON2 = 0x55;
+NVMCON2 = 0xAA;
+NVMCON1bits.WR = 1;
+while (NVMCON1bits.WR) {
+continue;
+}
+NVMCON1bits.WREN = 0;
+if (STATUSbits.CARRY) {
+INTCONbits.GIE = 1;
+}
 }
 
+# 101
+}
 
-inline void mssp1_enableIRQ(void)
+unsigned char
+__eetoc(__eeprom void *addr)
 {
-PIE3bits.SSP1IE = 1;
+unsigned char data;
+__eecpymem((unsigned char *) &data,addr,1);
+return data;
 }
 
-inline __bit mssp1_IRQisEnabled(void)
+unsigned int
+__eetoi(__eeprom void *addr)
 {
-return PIE3bits.SSP1IE;
+unsigned int data;
+__eecpymem((unsigned char *) &data,addr,2);
+return data;
 }
 
-inline void mssp1_disableIRQ(void)
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__eetom(__eeprom void *addr)
 {
-PIE3bits.SSP1IE = 0;
+__uint24 data;
+__eecpymem((unsigned char *) &data,addr,3);
+return data;
 }
+#pragma warning pop
 
-inline void mssp1_clearIRQ(void)
+unsigned long
+__eetol(__eeprom void *addr)
 {
-PIR3bits.SSP1IF = 0;
+unsigned long data;
+__eecpymem((unsigned char *) &data,addr,4);
+return data;
 }
 
-inline void mssp1_setIRQ(void)
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__eetoo(__eeprom void *addr)
 {
-PIR3bits.SSP1IF = 1;
+unsigned long long data;
+__eecpymem((unsigned char *) &data,addr,8);
+return data;
 }
+#pragma warning pop
 
-inline __bit mssp1_IRQisSet(void)
+unsigned char
+__ctoee(__eeprom void *addr, unsigned char data)
 {
-return PIR3bits.SSP1IF;
+__memcpyee(addr,(unsigned char *) &data,1);
+return data;
 }
 
-inline void mssp1_waitForEvent(uint16_t *timeout)
+unsigned int
+__itoee(__eeprom void *addr, unsigned int data)
 {
+__memcpyee(addr,(unsigned char *) &data,2);
+return data;
+}
 
-
-
-if(PIR3bits.SSP1IF == 0)
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__mtoee(__eeprom void *addr, __uint24 data)
 {
-while(1)
+__memcpyee(addr,(unsigned char *) &data,3);
+return data;
+}
+#pragma warning pop
+
+unsigned long
+__ltoee(__eeprom void *addr, unsigned long data)
 {
-if(PIR3bits.SSP1IF) break;
-_delay((unsigned long)((100)*(7750/4000000.0)));
-}
-}
+__memcpyee(addr,(unsigned char *) &data,4);
+return data;
 }
 
-__bit i2c1_driver_open(void)
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__otoee(__eeprom void *addr, unsigned long long data)
 {
-if(!SSP1CON1bits.SSPEN)
+__memcpyee(addr,(unsigned char *) &data,8);
+return data;
+}
+#pragma warning pop
+
+float
+__eetoft(__eeprom void *addr)
 {
-SSP1STAT = 0x00;
-SSP1CON1 = 0x28;
-SSP1CON2 = 0x00;
-SSP1ADD = 0x3;
-return 1;
-}
-else
-return 0;
+float data;
+__eecpymem((unsigned char *) &data,addr,3);
+return data;
 }
 
-__bit i2c1_driver_initSlaveHardware(void)
+double
+__eetofl(__eeprom void *addr)
 {
-if(!SSP1CON1bits.SSPEN)
+double data;
+__eecpymem((unsigned char *) &data,addr,4);
+return data;
+}
+
+float
+__fttoee(__eeprom void *addr, float data)
 {
-
-# 131
-SSP1CON1 |= 0x06;
-SSP1STAT = 0x00;
-SSP1CON2 = 0x00;
-
-SSP1CON1bits.SSPEN = 1;
-return 1;
-}
-return 0;
+__memcpyee(addr,(unsigned char *) &data,3);
+return data;
 }
 
-inline void i2c1_driver_resetBus(void)
+double
+__fltoee(__eeprom void *addr, double data)
 {
-
+__memcpyee(addr,(unsigned char *) &data,4);
+return data;
 }
 
-inline void i2c1_driver_start(void)
-{
-SSP1CON2bits.SEN = 1;
-}
-
-inline void i2c1_driver_restart(void)
-{
-SSP1CON2bits.RSEN = 1;
-}
-
-inline void i2c1_driver_stop(void)
-{
-SSP1CON2bits.PEN = 1;
-}
-
-inline __bit i2c1_driver_isNACK(void)
-{
-return SSP1CON2bits.ACKSTAT;
-}
-
-inline void i2c1_driver_startRX(void)
-{
-SSP1CON2bits.RCEN = 1;
-}
-
-inline char i2c1_driver_getRXData(void)
-{
-return SSP1BUF;
-}
-
-inline void i2c1_driver_setAddr(char addr)
-{
-SSP1ADD = addr;
-}
-
-inline void i2c1_driver_setMask(char mask)
-{
-SSP1MSK = mask;
-}
-
-inline void i2c1_driver_TXData(char d)
-{
-SSP1BUF = d;
-}
-
-inline char i2c1_driver_getAddr(void)
-{
-return SSP1ADD;
-}
-
-inline void i2c1_driver_sendACK(void)
-{
-SSP1CON2bits.ACKDT = 0;
-SSP1CON2bits.ACKEN = 1;
-}
-
-inline void i2c1_driver_sendNACK(void)
-{
-SSP1CON2bits.ACKDT = 1;
-SSP1CON2bits.ACKEN = 1;
-}
-
-inline void i2c1_driver_releaseClock(void)
-{
-SSP1CON1bits.CKP = 1;
-}
-
-inline __bit i2c1_driver_isBufferFull(void)
-{
-return SSP1STATbits.BF;
-}
-
-inline __bit i2c1_driver_isStart(void)
-{
-return SSP1STATbits.S;
-}
-
-inline __bit i2c1_driver_isAddress(void)
-{
-return !SSP1STATbits.D_nA;
-}
-
-inline __bit i2c1_driver_isStop(void)
-{
-return SSP1STATbits.P;
-}
-
-inline __bit i2c1_driver_isData(void)
-{
-return SSP1STATbits.D_nA;
-}
-
-inline __bit i2c1_driver_isRead(void)
-{
-return SSP1STATbits.R_nW;
-}
-
-inline __bit i2c1_driver_isWriteCollision(void)
-{
-return SSP1CON1bits.WCOL;
-}
-
-inline __bit i2c1_driver_isReceiveOverflow(void)
-{
-return SSP1CON1bits.SSPOV;
-}
-
-inline void i2c1_driver_clearBusCollision(void)
-{
-PIR3bits.BCL1IF = 0;
-}
-
-inline void i2c1_driver_setBusCollisionISR(interruptHandler handler){
-i2c1_driver_busCollisionISR = handler;
-}
-
-inline void i2c1_driver_setI2cISR(interruptHandler handler){
-i2c1_driver_i2cISR = handler;
-}

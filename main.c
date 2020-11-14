@@ -56,8 +56,6 @@
 #define LCD_RW 0x02
 #define LCD_RS 0x01
 
-#define MAX_ADC 1023.00
-
 #define MAGIC_NUMBER 0xF000 // this memory slot will save if we already runned the program ones or not
 #define NREG 0xF001 //number of data registers
 #define PMON 0xF002  //sec monitoring period
@@ -78,7 +76,7 @@
 #define WDT_Enable()        (WDTCON0bits.SWDTEN = 1)
 #define WDT_Disable()       (WDTCON0bits.SWDTEN = 0)
 
-int alarm = 0;
+uint8_t alarm = 0;
 uint8_t hours = 0;
 uint8_t minutes = 0;
 uint8_t seconds = 0;
@@ -213,24 +211,12 @@ void main(void)
     SYSTEM_Initialize();
     read_memory();
     
-    
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
-
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
 
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
-
-    // Disable the Global Interrupts
-    //INTERRUPT_GlobalInterruptDisable();
-
-    // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
-    
    
-    
     i2c1_driver_open();
     I2C_SCL = 1;
     I2C_SDA = 1;
@@ -244,7 +230,6 @@ void main(void)
     PWM6_LoadDutyValue(50);
     
     INTERRUPT_TMR0InterruptEnable();
-    NOP();
     TMR0_SetInterruptHandler(count_time_ISR);
     
     unsigned char buf[17];
@@ -271,6 +256,13 @@ void main(void)
             INTERRUPT_TMR0InterruptEnable();
         }
     }
+
+    // Disable the Global Interrupts
+    INTERRUPT_GlobalInterruptDisable();
+
+    // Disable the Peripheral Interrupts
+    INTERRUPT_PeripheralInterruptDisable();
+    
 }
 
 void read_memory(void)
@@ -452,7 +444,6 @@ void count_time_ISR() {
 
             if(t != old_t || l != old_l){
                 save_sensor(); 
-                check_alarm();
             }
             check_alarm();
         }   
@@ -472,7 +463,7 @@ void sensor()
         t = get_Temprature();
 
         LCDcmd(0xc0);
-        sprintf(buf, "%02d C", t);
+        sprintf(buf, "%02d C ", t);
         LCDstr(buf);
 
         NOP();
@@ -519,19 +510,17 @@ void check_alarm()
         else{
             LED_1_SetLow();
         }
-
-        if(alarm_check == 1){
-
-            alarm_secs = seconds + tala;
-            if (alarm_secs > 60){
-                alarm_secs = alarm_secs-60;
-            }
-            PWM6_LoadDutyValue(500);
-            alarm = 1;
-            LCDcmd(0x8F);
-            sprintf(buf, "A");
-            LCDstr(buf);  
+    }
+    if(alarm_check == 1 || sensor_enable == 0){
+        alarm_secs = seconds + tala;
+        if (alarm_secs > 60){
+            alarm_secs = alarm_secs-60;
         }
+        PWM6_LoadDutyValue(500);
+        alarm = 1;
+        LCDcmd(0x8F);
+        sprintf(buf, "A");
+        LCDstr(buf);  
     }
 
 }

@@ -1,6 +1,6 @@
- build/default/production/mcc_generated_files/interrupt_manager.d  \
- build/default/production/mcc_generated_files/interrupt_manager.p1:  \
- mcc_generated_files/interrupt_manager.c  \
+ build/default/production/mcc_generated_files/adcc.d  \
+ build/default/production/mcc_generated_files/adcc.p1:  \
+ mcc_generated_files/adcc.c  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/language_support.h  \
 mcc_generated_files/mcc.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/xc.h  \

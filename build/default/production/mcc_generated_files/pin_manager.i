@@ -21121,10 +21121,10 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 
-# 112 "mcc_generated_files/pin_manager.h"
+# 156 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
 
-# 124
+# 168
 void PIN_MANAGER_IOC(void);
 
 # 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
@@ -21151,9 +21151,9 @@ TRISD = 0xFF;
 # 80
 ANSELD = 0xFF;
 ANSELC = 0xE7;
-ANSELB = 0xFF;
+ANSELB = 0xFE;
 ANSELE = 0x07;
-ANSELA = 0xFF;
+ANSELA = 0xEF;
 
 # 89
 WPUD = 0x00;
@@ -21177,9 +21177,11 @@ SLRCOND = 0xFF;
 SLRCONE = 0x07;
 
 # 120
+INTPPS = 0x08;
 SSP1CLKPPS = 0x13;
 RC3PPS = 0x14;
 RC4PPS = 0x15;
+T0CKIPPS = 0x04;
 SSP1DATPPS = 0x14;
 }
 

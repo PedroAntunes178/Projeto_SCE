@@ -1,14 +1,20 @@
 Version 3.2 HI-TECH Software Intermediate Code
 [v F12258 `(v ~T0 @X0 0 tf ]
 [v F12261 `(v ~T0 @X0 0 tf ]
-"97 mcc_generated_files/mcc.h
+"100 mcc_generated_files/mcc.h
 [v _PMD_Initialize `(v ~T0 @X0 0 ef ]
-"112 mcc_generated_files/pin_manager.h
+"156 mcc_generated_files/pin_manager.h
 [v _PIN_MANAGER_Initialize `(v ~T0 @X0 0 ef ]
-"84 mcc_generated_files/mcc.h
+"87 mcc_generated_files/mcc.h
 [v _OSCILLATOR_Initialize `(v ~T0 @X0 0 ef ]
+"130 mcc_generated_files/adcc.h
+[v _ADCC_Initialize `(v ~T0 @X0 0 ef ]
 "100 mcc_generated_files/tmr1.h
 [v _TMR1_Initialize `(v ~T0 @X0 0 ef ]
+"250 mcc_generated_files/ext_int.h
+[v _EXT_INT_Initialize `(v ~T0 @X0 0 ef ]
+"100 mcc_generated_files/tmr0.h
+[v _TMR0_Initialize `(v ~T0 @X0 0 ef ]
 "23508 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h
 [v _OSCCON1 `Vuc ~T0 @X0 0 e@2189 ]
 "23648
@@ -13736,8 +13742,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 127: extern __bank0 unsigned char __resetbits;
 [; ;pic.h: 128: extern __bank0 __bit __powerdown;
 [; ;pic.h: 129: extern __bank0 __bit __timeout;
-[; ;pin_manager.h: 112: void PIN_MANAGER_Initialize (void);
-[; ;pin_manager.h: 124: void PIN_MANAGER_IOC(void);
+[; ;pin_manager.h: 156: void PIN_MANAGER_Initialize (void);
+[; ;pin_manager.h: 168: void PIN_MANAGER_IOC(void);
 [; ;stdbool.h: 15: typedef unsigned char bool;
 [; ;__size_t.h: 4: typedef unsigned size_t;
 [; ;stdarg.h: 7: typedef void * va_list[1];
@@ -13813,6 +13819,43 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i2c1_driver_i2cISR `*F12261 ~T0 @X0 1 e ]
 [; ;i2c1_driver.h: 78: void (*i2c1_driver_i2cISR)(void);
 [; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;adcc.h: 72: typedef uint16_t adc_result_t;
+[; ;adcc.h: 89: typedef enum
+[; ;adcc.h: 90: {
+[; ;adcc.h: 91: channel_ANA0 = 0x0,
+[; ;adcc.h: 92: channel_VSS = 0x3C,
+[; ;adcc.h: 93: channel_Temp = 0x3D,
+[; ;adcc.h: 94: channel_DAC1 = 0x3E,
+[; ;adcc.h: 95: channel_FVR_buf1 = 0x3F
+[; ;adcc.h: 96: } adcc_channel_t;
+[; ;adcc.h: 130: void ADCC_Initialize(void);
+[; ;adcc.h: 159: void ADCC_StartConversion(adcc_channel_t channel);
+[; ;adcc.h: 189: bool ADCC_IsConversionDone();
+[; ;adcc.h: 221: adc_result_t ADCC_GetConversionResult(void);
+[; ;adcc.h: 252: adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+[; ;adcc.h: 277: void ADCC_StopConversion(void);
+[; ;adcc.h: 304: void ADCC_SetStopOnInterrupt(void);
+[; ;adcc.h: 329: void ADCC_DischargeSampleCapacitor(void);
+[; ;adcc.h: 355: void ADCC_LoadAcquisitionRegister(uint8_t);
+[; ;adcc.h: 381: void ADCC_SetPrechargeTime(uint8_t);
+[; ;adcc.h: 406: void ADCC_SetRepeatCount(uint8_t);
+[; ;adcc.h: 434: uint8_t ADCC_GetCurrentCountofConversions(void);
+[; ;adcc.h: 458: void ADCC_ClearAccumulator(void);
+[; ;adcc.h: 483: uint16_t ADCC_GetAccumulatorValue(void);
+[; ;adcc.h: 511: bool ADCC_HasAccumulatorOverflowed(void);
+[; ;adcc.h: 536: uint16_t ADCC_GetFilterValue(void);
+[; ;adcc.h: 564: uint16_t ADCC_GetPreviousResult(void);
+[; ;adcc.h: 590: void ADCC_DefineSetPoint(uint16_t);
+[; ;adcc.h: 616: void ADCC_SetUpperThreshold(uint16_t);
+[; ;adcc.h: 642: void ADCC_SetLowerThreshold(uint16_t);
+[; ;adcc.h: 669: uint16_t ADCC_GetErrorCalculation(void);
+[; ;adcc.h: 696: void ADCC_EnableDoubleSampling(void);
+[; ;adcc.h: 720: void ADCC_EnableContinuousConversion(void);
+[; ;adcc.h: 744: void ADCC_DisableContinuousConversion(void);
+[; ;adcc.h: 772: bool ADCC_HasErrorCrossedUpperThreshold(void);
+[; ;adcc.h: 800: bool ADCC_HasErrorCrossedLowerThreshold(void);
+[; ;adcc.h: 827: uint8_t ADCC_GetConversionStageStatus(void);
+[; ;stdbool.h: 15: typedef unsigned char bool;
 [; ;tmr1.h: 100: void TMR1_Initialize(void);
 [; ;tmr1.h: 129: void TMR1_StartTimer(void);
 [; ;tmr1.h: 161: void TMR1_StopTimer(void);
@@ -13821,10 +13864,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;tmr1.h: 271: void TMR1_Reload(void);
 [; ;tmr1.h: 310: void TMR1_StartSinglePulseAcquisition(void);
 [; ;tmr1.h: 349: uint8_t TMR1_CheckGateValueStatus(void);
-[; ;tmr1.h: 387: bool TMR1_HasOverflowOccured(void);
-[; ;mcc.h: 71: void SYSTEM_Initialize(void);
-[; ;mcc.h: 84: void OSCILLATOR_Initialize(void);
-[; ;mcc.h: 97: void PMD_Initialize(void);
+[; ;tmr1.h: 367: void TMR1_ISR(void);
+[; ;tmr1.h: 385: void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;tmr1.h: 403: extern void (*TMR1_InterruptHandler)(void);
+[; ;tmr1.h: 421: void TMR1_DefaultInterruptHandler(void);
+[; ;ext_int.h: 250: void EXT_INT_Initialize(void);
+[; ;ext_int.h: 272: void INT_ISR(void);
+[; ;ext_int.h: 296: void INT_CallBack(void);
+[; ;ext_int.h: 319: void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;ext_int.h: 343: extern void (*INT_InterruptHandler)(void);
+[; ;ext_int.h: 367: void INT_DefaultInterruptHandler(void);
+[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;tmr0.h: 100: void TMR0_Initialize(void);
+[; ;tmr0.h: 129: void TMR0_StartTimer(void);
+[; ;tmr0.h: 161: void TMR0_StopTimer(void);
+[; ;tmr0.h: 196: uint8_t TMR0_ReadTimer(void);
+[; ;tmr0.h: 235: void TMR0_WriteTimer(uint8_t timerVal);
+[; ;tmr0.h: 272: void TMR0_Reload(uint8_t periodVal);
+[; ;tmr0.h: 291: void TMR0_ISR(void);
+[; ;tmr0.h: 310: void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;tmr0.h: 328: extern void (*TMR0_InterruptHandler)(void);
+[; ;tmr0.h: 346: void TMR0_DefaultInterruptHandler(void);
+[; ;mcc.h: 74: void SYSTEM_Initialize(void);
+[; ;mcc.h: 87: void OSCILLATOR_Initialize(void);
+[; ;mcc.h: 100: void PMD_Initialize(void);
 "50 mcc_generated_files/mcc.c
 [v _SYSTEM_Initialize `(v ~T0 @X0 1 ef ]
 "51
@@ -13842,67 +13905,76 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;mcc.c: 54: OSCILLATOR_Initialize();
 "54
 [e ( _OSCILLATOR_Initialize ..  ]
-[; ;mcc.c: 55: TMR1_Initialize();
+[; ;mcc.c: 55: ADCC_Initialize();
 "55
-[e ( _TMR1_Initialize ..  ]
-[; ;mcc.c: 56: }
+[e ( _ADCC_Initialize ..  ]
+[; ;mcc.c: 56: TMR1_Initialize();
 "56
+[e ( _TMR1_Initialize ..  ]
+[; ;mcc.c: 57: EXT_INT_Initialize();
+"57
+[e ( _EXT_INT_Initialize ..  ]
+[; ;mcc.c: 58: TMR0_Initialize();
+"58
+[e ( _TMR0_Initialize ..  ]
+[; ;mcc.c: 59: }
+"59
 [e :UE 1621 ]
 }
-"58
+"61
 [v _OSCILLATOR_Initialize `(v ~T0 @X0 1 ef ]
-"59
+"62
 {
-[; ;mcc.c: 58: void OSCILLATOR_Initialize(void)
-[; ;mcc.c: 59: {
+[; ;mcc.c: 61: void OSCILLATOR_Initialize(void)
+[; ;mcc.c: 62: {
 [e :U _OSCILLATOR_Initialize ]
 [f ]
-[; ;mcc.c: 61: OSCCON1 = 0x52;
-"61
+[; ;mcc.c: 64: OSCCON1 = 0x52;
+"64
 [e = _OSCCON1 -> -> 82 `i `uc ]
-[; ;mcc.c: 63: OSCCON3 = 0x00;
-"63
+[; ;mcc.c: 66: OSCCON3 = 0x00;
+"66
 [e = _OSCCON3 -> -> 0 `i `uc ]
-[; ;mcc.c: 65: OSCEN = 0x00;
-"65
+[; ;mcc.c: 68: OSCEN = 0x00;
+"68
 [e = _OSCEN -> -> 0 `i `uc ]
-[; ;mcc.c: 67: OSCFRQ = 0x02;
-"67
-[e = _OSCFRQ -> -> 2 `i `uc ]
-[; ;mcc.c: 69: OSCTUNE = 0x00;
-"69
-[e = _OSCTUNE -> -> 0 `i `uc ]
-[; ;mcc.c: 70: }
+[; ;mcc.c: 70: OSCFRQ = 0x02;
 "70
+[e = _OSCFRQ -> -> 2 `i `uc ]
+[; ;mcc.c: 72: OSCTUNE = 0x00;
+"72
+[e = _OSCTUNE -> -> 0 `i `uc ]
+[; ;mcc.c: 73: }
+"73
 [e :UE 1622 ]
 }
-"72
+"75
 [v _PMD_Initialize `(v ~T0 @X0 1 ef ]
-"73
+"76
 {
-[; ;mcc.c: 72: void PMD_Initialize(void)
-[; ;mcc.c: 73: {
+[; ;mcc.c: 75: void PMD_Initialize(void)
+[; ;mcc.c: 76: {
 [e :U _PMD_Initialize ]
 [f ]
-[; ;mcc.c: 75: PMD0 = 0x00;
-"75
+[; ;mcc.c: 78: PMD0 = 0x00;
+"78
 [e = _PMD0 -> -> 0 `i `uc ]
-[; ;mcc.c: 77: PMD1 = 0x00;
-"77
+[; ;mcc.c: 80: PMD1 = 0x00;
+"80
 [e = _PMD1 -> -> 0 `i `uc ]
-[; ;mcc.c: 79: PMD2 = 0x00;
-"79
+[; ;mcc.c: 82: PMD2 = 0x00;
+"82
 [e = _PMD2 -> -> 0 `i `uc ]
-[; ;mcc.c: 81: PMD3 = 0x00;
-"81
+[; ;mcc.c: 84: PMD3 = 0x00;
+"84
 [e = _PMD3 -> -> 0 `i `uc ]
-[; ;mcc.c: 83: PMD4 = 0x00;
-"83
-[e = _PMD4 -> -> 0 `i `uc ]
-[; ;mcc.c: 85: PMD5 = 0x00;
-"85
-[e = _PMD5 -> -> 0 `i `uc ]
-[; ;mcc.c: 86: }
+[; ;mcc.c: 86: PMD4 = 0x00;
 "86
+[e = _PMD4 -> -> 0 `i `uc ]
+[; ;mcc.c: 88: PMD5 = 0x00;
+"88
+[e = _PMD5 -> -> 0 `i `uc ]
+[; ;mcc.c: 89: }
+"89
 [e :UE 1623 ]
 }

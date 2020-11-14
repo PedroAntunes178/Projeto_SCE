@@ -3,6 +3,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v F12261 `(v ~T0 @X0 0 tf ]
 [t ~ __interrupt . k ]
 [t T10 __interrupt  ]
+"21741 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h
+[s S985 :1 `uc 1 :3 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S985 . INTE . IOCIE TMR0IE ]
+"21740
+[u S984 `S985 1 ]
+[n S984 . . ]
+"21748
+[v _PIE0bits `VS984 ~T0 @X0 0 e@1814 ]
+"21319
+[s S966 :1 `uc 1 :3 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S966 . INTF . IOCIF TMR0IF ]
+"21318
+[u S965 `S966 1 ]
+[n S965 . . ]
+"21326
+[v _PIR0bits `VS965 ~T0 @X0 0 e@1804 ]
+"291 mcc_generated_files/tmr0.h
+[v _TMR0_ISR `(v ~T0 @X0 0 ef ]
+"272 mcc_generated_files/ext_int.h
+[v _INT_ISR `(v ~T0 @X0 0 ef ]
 "358 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h
 [s S26 :1 `uc 1 :5 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S26 . INTEDG . PEIE GIE ]
@@ -27,6 +47,24 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S971 . . ]
 "21433
 [v _PIR3bits `VS971 ~T0 @X0 0 e@1807 ]
+"21896
+[s S993 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S993 . TMR1IE TMR2IE TMR3IE TMR4IE TMR5IE TMR6IE ]
+"21895
+[u S992 `S993 1 ]
+[n S992 . . ]
+"21905
+[v _PIE4bits `VS992 ~T0 @X0 0 e@1818 ]
+"21474
+[s S974 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S974 . TMR1IF TMR2IF TMR3IF TMR4IF TMR5IF TMR6IF ]
+"21473
+[u S973 `S974 1 ]
+[n S973 . . ]
+"21483
+[v _PIR4bits `VS973 ~T0 @X0 0 e@1808 ]
+"367 mcc_generated_files/tmr1.h
+[v _TMR1_ISR `(v ~T0 @X0 0 ef ]
 [; ;xc.h: 18: extern const char __xc8_OPTIM_SPEED;
 [; ;xc.h: 20: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -13732,8 +13770,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 127: extern __bank0 unsigned char __resetbits;
 [; ;pic.h: 128: extern __bank0 __bit __powerdown;
 [; ;pic.h: 129: extern __bank0 __bit __timeout;
-[; ;pin_manager.h: 112: void PIN_MANAGER_Initialize (void);
-[; ;pin_manager.h: 124: void PIN_MANAGER_IOC(void);
+[; ;pin_manager.h: 156: void PIN_MANAGER_Initialize (void);
+[; ;pin_manager.h: 168: void PIN_MANAGER_IOC(void);
 [; ;stdbool.h: 15: typedef unsigned char bool;
 [; ;__size_t.h: 4: typedef unsigned size_t;
 [; ;stdarg.h: 7: typedef void * va_list[1];
@@ -13809,6 +13847,43 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i2c1_driver_i2cISR `*F12261 ~T0 @X0 1 e ]
 [; ;i2c1_driver.h: 78: void (*i2c1_driver_i2cISR)(void);
 [; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;adcc.h: 72: typedef uint16_t adc_result_t;
+[; ;adcc.h: 89: typedef enum
+[; ;adcc.h: 90: {
+[; ;adcc.h: 91: channel_ANA0 = 0x0,
+[; ;adcc.h: 92: channel_VSS = 0x3C,
+[; ;adcc.h: 93: channel_Temp = 0x3D,
+[; ;adcc.h: 94: channel_DAC1 = 0x3E,
+[; ;adcc.h: 95: channel_FVR_buf1 = 0x3F
+[; ;adcc.h: 96: } adcc_channel_t;
+[; ;adcc.h: 130: void ADCC_Initialize(void);
+[; ;adcc.h: 159: void ADCC_StartConversion(adcc_channel_t channel);
+[; ;adcc.h: 189: bool ADCC_IsConversionDone();
+[; ;adcc.h: 221: adc_result_t ADCC_GetConversionResult(void);
+[; ;adcc.h: 252: adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+[; ;adcc.h: 277: void ADCC_StopConversion(void);
+[; ;adcc.h: 304: void ADCC_SetStopOnInterrupt(void);
+[; ;adcc.h: 329: void ADCC_DischargeSampleCapacitor(void);
+[; ;adcc.h: 355: void ADCC_LoadAcquisitionRegister(uint8_t);
+[; ;adcc.h: 381: void ADCC_SetPrechargeTime(uint8_t);
+[; ;adcc.h: 406: void ADCC_SetRepeatCount(uint8_t);
+[; ;adcc.h: 434: uint8_t ADCC_GetCurrentCountofConversions(void);
+[; ;adcc.h: 458: void ADCC_ClearAccumulator(void);
+[; ;adcc.h: 483: uint16_t ADCC_GetAccumulatorValue(void);
+[; ;adcc.h: 511: bool ADCC_HasAccumulatorOverflowed(void);
+[; ;adcc.h: 536: uint16_t ADCC_GetFilterValue(void);
+[; ;adcc.h: 564: uint16_t ADCC_GetPreviousResult(void);
+[; ;adcc.h: 590: void ADCC_DefineSetPoint(uint16_t);
+[; ;adcc.h: 616: void ADCC_SetUpperThreshold(uint16_t);
+[; ;adcc.h: 642: void ADCC_SetLowerThreshold(uint16_t);
+[; ;adcc.h: 669: uint16_t ADCC_GetErrorCalculation(void);
+[; ;adcc.h: 696: void ADCC_EnableDoubleSampling(void);
+[; ;adcc.h: 720: void ADCC_EnableContinuousConversion(void);
+[; ;adcc.h: 744: void ADCC_DisableContinuousConversion(void);
+[; ;adcc.h: 772: bool ADCC_HasErrorCrossedUpperThreshold(void);
+[; ;adcc.h: 800: bool ADCC_HasErrorCrossedLowerThreshold(void);
+[; ;adcc.h: 827: uint8_t ADCC_GetConversionStageStatus(void);
+[; ;stdbool.h: 15: typedef unsigned char bool;
 [; ;tmr1.h: 100: void TMR1_Initialize(void);
 [; ;tmr1.h: 129: void TMR1_StartTimer(void);
 [; ;tmr1.h: 161: void TMR1_StopTimer(void);
@@ -13817,10 +13892,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;tmr1.h: 271: void TMR1_Reload(void);
 [; ;tmr1.h: 310: void TMR1_StartSinglePulseAcquisition(void);
 [; ;tmr1.h: 349: uint8_t TMR1_CheckGateValueStatus(void);
-[; ;tmr1.h: 387: bool TMR1_HasOverflowOccured(void);
-[; ;mcc.h: 71: void SYSTEM_Initialize(void);
-[; ;mcc.h: 84: void OSCILLATOR_Initialize(void);
-[; ;mcc.h: 97: void PMD_Initialize(void);
+[; ;tmr1.h: 367: void TMR1_ISR(void);
+[; ;tmr1.h: 385: void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;tmr1.h: 403: extern void (*TMR1_InterruptHandler)(void);
+[; ;tmr1.h: 421: void TMR1_DefaultInterruptHandler(void);
+[; ;ext_int.h: 250: void EXT_INT_Initialize(void);
+[; ;ext_int.h: 272: void INT_ISR(void);
+[; ;ext_int.h: 296: void INT_CallBack(void);
+[; ;ext_int.h: 319: void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;ext_int.h: 343: extern void (*INT_InterruptHandler)(void);
+[; ;ext_int.h: 367: void INT_DefaultInterruptHandler(void);
+[; ;stdbool.h: 15: typedef unsigned char bool;
+[; ;tmr0.h: 100: void TMR0_Initialize(void);
+[; ;tmr0.h: 129: void TMR0_StartTimer(void);
+[; ;tmr0.h: 161: void TMR0_StopTimer(void);
+[; ;tmr0.h: 196: uint8_t TMR0_ReadTimer(void);
+[; ;tmr0.h: 235: void TMR0_WriteTimer(uint8_t timerVal);
+[; ;tmr0.h: 272: void TMR0_Reload(uint8_t periodVal);
+[; ;tmr0.h: 291: void TMR0_ISR(void);
+[; ;tmr0.h: 310: void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
+[; ;tmr0.h: 328: extern void (*TMR0_InterruptHandler)(void);
+[; ;tmr0.h: 346: void TMR0_DefaultInterruptHandler(void);
+[; ;mcc.h: 74: void SYSTEM_Initialize(void);
+[; ;mcc.h: 87: void OSCILLATOR_Initialize(void);
+[; ;mcc.h: 100: void PMD_Initialize(void);
 [v $root$_INTERRUPT_InterruptManager `(v ~T0 @X0 0 e ]
 "52 mcc_generated_files/interrupt_manager.c
 [v _INTERRUPT_InterruptManager `(v ~T10 @X0 1 ef ]
@@ -13830,65 +13925,110 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;interrupt_manager.c: 53: {
 [e :U _INTERRUPT_InterruptManager ]
 [f ]
-[; ;interrupt_manager.c: 55: if(INTCONbits.PEIE == 1)
+[; ;interrupt_manager.c: 55: if(PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
 "55
-[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1622  ]
+[e $ ! && == -> . . _PIE0bits 0 3 `i -> 1 `i == -> . . _PIR0bits 0 3 `i -> 1 `i 1622  ]
 [; ;interrupt_manager.c: 56: {
 "56
 {
-[; ;interrupt_manager.c: 57: if(PIE3bits.BCL1IE == 1 && PIR3bits.BCL1IF == 1)
+[; ;interrupt_manager.c: 57: TMR0_ISR();
 "57
-[e $ ! && == -> . . _PIE3bits 0 1 `i -> 1 `i == -> . . _PIR3bits 0 1 `i -> 1 `i 1623  ]
-[; ;interrupt_manager.c: 58: {
+[e ( _TMR0_ISR ..  ]
 "58
-{
-[; ;interrupt_manager.c: 59: i2c1_driver_busCollisionISR();
+}
+[; ;interrupt_manager.c: 58: }
+[e $U 1623  ]
 "59
-[e ( *U _i2c1_driver_busCollisionISR ..  ]
+[e :U 1622 ]
+[; ;interrupt_manager.c: 59: else if(PIE0bits.INTE == 1 && PIR0bits.INTF == 1)
+[e $ ! && == -> . . _PIE0bits 0 0 `i -> 1 `i == -> . . _PIR0bits 0 0 `i -> 1 `i 1624  ]
+[; ;interrupt_manager.c: 60: {
 "60
-}
-[; ;interrupt_manager.c: 60: }
-[e $U 1624  ]
-"61
-[e :U 1623 ]
-[; ;interrupt_manager.c: 61: else if(PIE3bits.SSP1IE == 1 && PIR3bits.SSP1IF == 1)
-[e $ ! && == -> . . _PIE3bits 0 0 `i -> 1 `i == -> . . _PIR3bits 0 0 `i -> 1 `i 1625  ]
-[; ;interrupt_manager.c: 62: {
-"62
 {
-[; ;interrupt_manager.c: 63: i2c1_driver_i2cISR();
-"63
-[e ( *U _i2c1_driver_i2cISR ..  ]
-"64
+[; ;interrupt_manager.c: 61: INT_ISR();
+"61
+[e ( _INT_ISR ..  ]
+"62
 }
-[; ;interrupt_manager.c: 64: }
-[e $U 1626  ]
+[; ;interrupt_manager.c: 62: }
+[e $U 1625  ]
+"63
+[e :U 1624 ]
+[; ;interrupt_manager.c: 63: else if(INTCONbits.PEIE == 1)
+[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1626  ]
+[; ;interrupt_manager.c: 64: {
+"64
+{
+[; ;interrupt_manager.c: 65: if(PIE3bits.BCL1IE == 1 && PIR3bits.BCL1IF == 1)
 "65
-[e :U 1625 ]
-[; ;interrupt_manager.c: 65: else
+[e $ ! && == -> . . _PIE3bits 0 1 `i -> 1 `i == -> . . _PIR3bits 0 1 `i -> 1 `i 1627  ]
 [; ;interrupt_manager.c: 66: {
 "66
 {
+[; ;interrupt_manager.c: 67: i2c1_driver_busCollisionISR();
+"67
+[e ( *U _i2c1_driver_busCollisionISR ..  ]
 "68
 }
-[e :U 1626 ]
-[e :U 1624 ]
-"69
-}
 [; ;interrupt_manager.c: 68: }
-[; ;interrupt_manager.c: 69: }
-[e $U 1627  ]
-"70
-[e :U 1622 ]
-[; ;interrupt_manager.c: 70: else
-[; ;interrupt_manager.c: 71: {
-"71
-{
-"73
-}
+[e $U 1628  ]
+"69
 [e :U 1627 ]
-[; ;interrupt_manager.c: 73: }
-[; ;interrupt_manager.c: 74: }
+[; ;interrupt_manager.c: 69: else if(PIE3bits.SSP1IE == 1 && PIR3bits.SSP1IF == 1)
+[e $ ! && == -> . . _PIE3bits 0 0 `i -> 1 `i == -> . . _PIR3bits 0 0 `i -> 1 `i 1629  ]
+[; ;interrupt_manager.c: 70: {
+"70
+{
+[; ;interrupt_manager.c: 71: i2c1_driver_i2cISR();
+"71
+[e ( *U _i2c1_driver_i2cISR ..  ]
+"72
+}
+[; ;interrupt_manager.c: 72: }
+[e $U 1630  ]
+"73
+[e :U 1629 ]
+[; ;interrupt_manager.c: 73: else if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+[e $ ! && == -> . . _PIE4bits 0 0 `i -> 1 `i == -> . . _PIR4bits 0 0 `i -> 1 `i 1631  ]
+[; ;interrupt_manager.c: 74: {
 "74
+{
+[; ;interrupt_manager.c: 75: TMR1_ISR();
+"75
+[e ( _TMR1_ISR ..  ]
+"76
+}
+[; ;interrupt_manager.c: 76: }
+[e $U 1632  ]
+"77
+[e :U 1631 ]
+[; ;interrupt_manager.c: 77: else
+[; ;interrupt_manager.c: 78: {
+"78
+{
+"80
+}
+[e :U 1632 ]
+[e :U 1630 ]
+[e :U 1628 ]
+"81
+}
+[; ;interrupt_manager.c: 80: }
+[; ;interrupt_manager.c: 81: }
+[e $U 1633  ]
+"82
+[e :U 1626 ]
+[; ;interrupt_manager.c: 82: else
+[; ;interrupt_manager.c: 83: {
+"83
+{
+"85
+}
+[e :U 1633 ]
+[e :U 1625 ]
+[e :U 1623 ]
+[; ;interrupt_manager.c: 85: }
+[; ;interrupt_manager.c: 86: }
+"86
 [e :UE 1621 ]
 }

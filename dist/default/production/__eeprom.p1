@@ -1,76 +1,41 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"1199 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h
-[v _LATE `Vuc ~T0 @X0 0 e@26 ]
-"1137
-[v _LATD `Vuc ~T0 @X0 0 e@25 ]
-"951
-[v _LATA `Vuc ~T0 @X0 0 e@22 ]
-"1013
-[v _LATB `Vuc ~T0 @X0 0 e@23 ]
-"1075
-[v _LATC `Vuc ~T0 @X0 0 e@24 ]
-"919
-[v _TRISE `Vuc ~T0 @X0 0 e@21 ]
-"671
-[v _TRISA `Vuc ~T0 @X0 0 e@17 ]
-"733
-[v _TRISB `Vuc ~T0 @X0 0 e@18 ]
-"795
-[v _TRISC `Vuc ~T0 @X0 0 e@19 ]
-"857
-[v _TRISD `Vuc ~T0 @X0 0 e@20 ]
-"35599
-[v _ANSELD `Vuc ~T0 @X0 0 e@3929 ]
-"34979
-[v _ANSELC `Vuc ~T0 @X0 0 e@3918 ]
-"34359
-[v _ANSELB `Vuc ~T0 @X0 0 e@3907 ]
-"36033
-[v _ANSELE `Vuc ~T0 @X0 0 e@3940 ]
-"33739
-[v _ANSELA `Vuc ~T0 @X0 0 e@3896 ]
-"35661
-[v _WPUD `Vuc ~T0 @X0 0 e@3930 ]
-"36065
-[v _WPUE `Vuc ~T0 @X0 0 e@3941 ]
-"34421
-[v _WPUB `Vuc ~T0 @X0 0 e@3908 ]
-"33801
-[v _WPUA `Vuc ~T0 @X0 0 e@3897 ]
-"35041
-[v _WPUC `Vuc ~T0 @X0 0 e@3919 ]
-"36103
-[v _ODCONE `Vuc ~T0 @X0 0 e@3942 ]
-"33863
-[v _ODCONA `Vuc ~T0 @X0 0 e@3898 ]
-"34483
-[v _ODCONB `Vuc ~T0 @X0 0 e@3909 ]
-"35103
-[v _ODCONC `Vuc ~T0 @X0 0 e@3920 ]
-"35723
-[v _ODCOND `Vuc ~T0 @X0 0 e@3931 ]
-"33925
-[v _SLRCONA `Vuc ~T0 @X0 0 e@3899 ]
-"34545
-[v _SLRCONB `Vuc ~T0 @X0 0 e@3910 ]
-"35165
-[v _SLRCONC `Vuc ~T0 @X0 0 e@3921 ]
-"35785
-[v _SLRCOND `Vuc ~T0 @X0 0 e@3932 ]
-"36135
-[v _SLRCONE `Vuc ~T0 @X0 0 e@3943 ]
-"29967
-[v _INTPPS `Vuc ~T0 @X0 0 e@3728 ]
-"31573
-[v _SSP1CLKPPS `Vuc ~T0 @X0 0 e@3781 ]
-"32939
-[v _RC3PPS `Vuc ~T0 @X0 0 e@3875 ]
-"32989
-[v _RC4PPS `Vuc ~T0 @X0 0 e@3876 ]
-"30013
-[v _T0CKIPPS `Vuc ~T0 @X0 0 e@3729 ]
-"31625
-[v _SSP1DATPPS `Vuc ~T0 @X0 0 e@3782 ]
+"23394 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h
+[s S1057 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1057 . RD WR WREN WRERR FREE LWLO NVMREGS ]
+"23393
+[u S1056 `S1057 1 ]
+[n S1056 . . ]
+"23404
+[v _NVMCON1bits `VS1056 ~T0 @X0 0 e@2078 ]
+"23158
+[v _NVMADRL `Vuc ~T0 @X0 0 e@2074 ]
+"23220
+[v _NVMADRH `Vuc ~T0 @X0 0 e@2075 ]
+"23276
+[v _NVMDATL `Vuc ~T0 @X0 0 e@2076 ]
+"23338
+[v _NVMDATH `Vuc ~T0 @X0 0 e@2077 ]
+"119
+[s S8 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S8 . C DC Z nPD nTO ]
+"126
+[s S9 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S9 . CARRY . ZERO ]
+"118
+[u S7 `S8 1 `S9 1 ]
+[n S7 . . . ]
+"132
+[v _STATUSbits `VS7 ~T0 @X0 0 e@3 ]
+"358
+[s S26 :1 `uc 1 :5 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S26 . INTEDG . PEIE GIE ]
+"357
+[u S25 `S26 1 ]
+[n S25 . . ]
+"365
+[v _INTCONbits `VS25 ~T0 @X0 0 e@11 ]
+"23444
+[v _NVMCON2 `Vuc ~T0 @X0 0 e@2079 ]
 [; ;xc.h: 18: extern const char __xc8_OPTIM_SPEED;
 [; ;xc.h: 20: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -13776,138 +13741,581 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic.h: 127: extern __bank0 unsigned char __resetbits;
 [; ;pic.h: 128: extern __bank0 __bit __powerdown;
 [; ;pic.h: 129: extern __bank0 __bit __timeout;
-[; ;pin_manager.h: 156: void PIN_MANAGER_Initialize (void);
-[; ;pin_manager.h: 168: void PIN_MANAGER_IOC(void);
-[; ;stdbool.h: 15: typedef unsigned char bool;
-"57 mcc_generated_files/pin_manager.c
-[v _PIN_MANAGER_Initialize `(v ~T0 @X0 1 ef ]
-"58
+"6 /opt/microchip/xc8/v2.20/pic/sources/c90/pic/__eeprom.c
+[v ___eecpymem `(v ~T0 @X0 1 ef3`*Vuc`*Euc`uc ]
+"7
 {
-[; ;pin_manager.c: 57: void PIN_MANAGER_Initialize(void)
-[; ;pin_manager.c: 58: {
-[e :U _PIN_MANAGER_Initialize ]
+[; ;__eeprom.c: 5: void
+[; ;__eeprom.c: 6: __eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
+[; ;__eeprom.c: 7: {
+[e :U ___eecpymem ]
+"6
+[v _to `*Vuc ~T0 @X0 1 r1 ]
+[v _from `*Euc ~T0 @X0 1 r2 ]
+[v _size `uc ~T0 @X0 1 r3 ]
+"7
 [f ]
-[; ;pin_manager.c: 62: LATE = 0x00;
-"62
-[e = _LATE -> -> 0 `i `uc ]
-[; ;pin_manager.c: 63: LATD = 0x00;
-"63
-[e = _LATD -> -> 0 `i `uc ]
-[; ;pin_manager.c: 64: LATA = 0x00;
-"64
-[e = _LATA -> -> 0 `i `uc ]
-[; ;pin_manager.c: 65: LATB = 0x00;
-"65
-[e = _LATB -> -> 0 `i `uc ]
-[; ;pin_manager.c: 66: LATC = 0x00;
-"66
-[e = _LATC -> -> 0 `i `uc ]
-[; ;pin_manager.c: 71: TRISE = 0x07;
-"71
-[e = _TRISE -> -> 7 `i `uc ]
-[; ;pin_manager.c: 72: TRISA = 0xFF;
-"72
-[e = _TRISA -> -> 255 `i `uc ]
-[; ;pin_manager.c: 73: TRISB = 0xFF;
-"73
-[e = _TRISB -> -> 255 `i `uc ]
-[; ;pin_manager.c: 74: TRISC = 0xFF;
-"74
-[e = _TRISC -> -> 255 `i `uc ]
-[; ;pin_manager.c: 75: TRISD = 0xFF;
-"75
-[e = _TRISD -> -> 255 `i `uc ]
-[; ;pin_manager.c: 80: ANSELD = 0xFF;
-"80
-[e = _ANSELD -> -> 255 `i `uc ]
-[; ;pin_manager.c: 81: ANSELC = 0xE7;
-"81
-[e = _ANSELC -> -> 231 `i `uc ]
-[; ;pin_manager.c: 82: ANSELB = 0xFE;
-"82
-[e = _ANSELB -> -> 254 `i `uc ]
-[; ;pin_manager.c: 83: ANSELE = 0x07;
-"83
-[e = _ANSELE -> -> 7 `i `uc ]
-[; ;pin_manager.c: 84: ANSELA = 0xEF;
-"84
-[e = _ANSELA -> -> 239 `i `uc ]
-[; ;pin_manager.c: 89: WPUD = 0x00;
-"89
-[e = _WPUD -> -> 0 `i `uc ]
-[; ;pin_manager.c: 90: WPUE = 0x00;
-"90
-[e = _WPUE -> -> 0 `i `uc ]
-[; ;pin_manager.c: 91: WPUB = 0x00;
-"91
-[e = _WPUB -> -> 0 `i `uc ]
-[; ;pin_manager.c: 92: WPUA = 0x00;
-"92
-[e = _WPUA -> -> 0 `i `uc ]
-[; ;pin_manager.c: 93: WPUC = 0x00;
-"93
-[e = _WPUC -> -> 0 `i `uc ]
-[; ;pin_manager.c: 98: ODCONE = 0x00;
-"98
-[e = _ODCONE -> -> 0 `i `uc ]
-[; ;pin_manager.c: 99: ODCONA = 0x00;
-"99
-[e = _ODCONA -> -> 0 `i `uc ]
-[; ;pin_manager.c: 100: ODCONB = 0x00;
-"100
-[e = _ODCONB -> -> 0 `i `uc ]
-[; ;pin_manager.c: 101: ODCONC = 0x00;
-"101
-[e = _ODCONC -> -> 0 `i `uc ]
-[; ;pin_manager.c: 102: ODCOND = 0x00;
-"102
-[e = _ODCOND -> -> 0 `i `uc ]
-[; ;pin_manager.c: 107: SLRCONA = 0xFF;
-"107
-[e = _SLRCONA -> -> 255 `i `uc ]
-[; ;pin_manager.c: 108: SLRCONB = 0xFF;
-"108
-[e = _SLRCONB -> -> 255 `i `uc ]
-[; ;pin_manager.c: 109: SLRCONC = 0xFF;
-"109
-[e = _SLRCONC -> -> 255 `i `uc ]
-[; ;pin_manager.c: 110: SLRCOND = 0xFF;
-"110
-[e = _SLRCOND -> -> 255 `i `uc ]
-[; ;pin_manager.c: 111: SLRCONE = 0x07;
-"111
-[e = _SLRCONE -> -> 7 `i `uc ]
-[; ;pin_manager.c: 120: INTPPS = 0x08;
-"120
-[e = _INTPPS -> -> 8 `i `uc ]
-[; ;pin_manager.c: 121: SSP1CLKPPS = 0x13;
-"121
-[e = _SSP1CLKPPS -> -> 19 `i `uc ]
-[; ;pin_manager.c: 122: RC3PPS = 0x14;
-"122
-[e = _RC3PPS -> -> 20 `i `uc ]
-[; ;pin_manager.c: 123: RC4PPS = 0x15;
-"123
-[e = _RC4PPS -> -> 21 `i `uc ]
-[; ;pin_manager.c: 124: T0CKIPPS = 0x04;
-"124
-[e = _T0CKIPPS -> -> 4 `i `uc ]
-[; ;pin_manager.c: 125: SSP1DATPPS = 0x14;
-"125
-[e = _SSP1DATPPS -> -> 20 `i `uc ]
-[; ;pin_manager.c: 126: }
-"126
+"8
+[v _cp `*Vuc ~T0 @X0 1 a ]
+[; ;__eeprom.c: 8: volatile unsigned char *cp = to;
+[e = _cp _to ]
+[; ;__eeprom.c: 22: while (NVMCON1bits.WR) {
+"22
+[e $U 1621  ]
+[e :U 1622 ]
+{
+[; ;__eeprom.c: 23: continue;
+"23
+[e $U 1621  ]
+"24
+}
+[e :U 1621 ]
+"22
+[e $ != -> . . _NVMCON1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1622  ]
+[e :U 1623 ]
+[; ;__eeprom.c: 24: }
+[; ;__eeprom.c: 25: NVMCON1bits.NVMREGS = 1;
+"25
+[e = . . _NVMCON1bits 0 6 -> -> 1 `i `uc ]
+[; ;__eeprom.c: 26: NVMADRL = (unsigned char) from;
+"26
+[e = _NVMADRL -> _from `uc ]
+[; ;__eeprom.c: 27: NVMADRH = 0x70;
+"27
+[e = _NVMADRH -> -> 112 `i `uc ]
+[; ;__eeprom.c: 28: while (size--) {
+"28
+[e $U 1624  ]
+[e :U 1625 ]
+{
+[; ;__eeprom.c: 29: NVMCON1bits.RD = 1;
+"29
+[e = . . _NVMCON1bits 0 0 -> -> 1 `i `uc ]
+[; ;__eeprom.c: 30: *cp++ = NVMDATL;
+"30
+[e = *U ++ _cp * -> -> 1 `i `x -> -> # *U _cp `i `x _NVMDATL ]
+[; ;__eeprom.c: 31: NVMADRL++;
+"31
+[e ++ _NVMADRL -> -> 1 `i `uc ]
+"32
+}
+[e :U 1624 ]
+"28
+[e $ != -> -- _size -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 1625  ]
+[e :U 1626 ]
+[; ;__eeprom.c: 32: }
+[; ;__eeprom.c: 36: }
+"36
 [e :UE 1620 ]
 }
-"128
-[v _PIN_MANAGER_IOC `(v ~T0 @X0 1 ef ]
-"129
+"39
+[v ___memcpyee `(v ~T0 @X0 1 ef3`*Euc`*Cuc`uc ]
+"40
 {
-[; ;pin_manager.c: 128: void PIN_MANAGER_IOC(void)
-[; ;pin_manager.c: 129: {
-[e :U _PIN_MANAGER_IOC ]
+[; ;__eeprom.c: 38: void
+[; ;__eeprom.c: 39: __memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
+[; ;__eeprom.c: 40: {
+[e :U ___memcpyee ]
+"39
+[v _to `*Euc ~T0 @X0 1 r1 ]
+[v _from `*Cuc ~T0 @X0 1 r2 ]
+[v _size `uc ~T0 @X0 1 r3 ]
+"40
 [f ]
-[; ;pin_manager.c: 130: }
-"130
-[e :UE 1621 ]
+"41
+[v _ptr `*Cuc ~T0 @X0 1 a ]
+[; ;__eeprom.c: 41: const unsigned char *ptr =from;
+[e = _ptr _from ]
+[; ;__eeprom.c: 69: while (NVMCON1bits.WR) {
+"69
+[e $U 1628  ]
+[e :U 1629 ]
+{
+[; ;__eeprom.c: 70: continue;
+"70
+[e $U 1628  ]
+"71
+}
+[e :U 1628 ]
+"69
+[e $ != -> . . _NVMCON1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1629  ]
+[e :U 1630 ]
+[; ;__eeprom.c: 71: }
+[; ;__eeprom.c: 72: NVMCON1bits.NVMREGS = 1;
+"72
+[e = . . _NVMCON1bits 0 6 -> -> 1 `i `uc ]
+[; ;__eeprom.c: 73: NVMADRL = (unsigned char) to - 1U;
+"73
+[e = _NVMADRL -> - -> -> _to `uc `ui -> 1 `ui `uc ]
+[; ;__eeprom.c: 74: NVMADRH = 0x70;
+"74
+[e = _NVMADRH -> -> 112 `i `uc ]
+[; ;__eeprom.c: 75: NVMDATH = 0;
+"75
+[e = _NVMDATH -> -> 0 `i `uc ]
+[; ;__eeprom.c: 76: while (size--) {
+"76
+[e $U 1631  ]
+[e :U 1632 ]
+{
+[; ;__eeprom.c: 77: while (NVMCON1bits.WR) {
+"77
+[e $U 1634  ]
+[e :U 1635 ]
+{
+[; ;__eeprom.c: 78: continue;
+"78
+[e $U 1634  ]
+"79
+}
+[e :U 1634 ]
+"77
+[e $ != -> . . _NVMCON1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1635  ]
+[e :U 1636 ]
+[; ;__eeprom.c: 79: }
+[; ;__eeprom.c: 80: NVMDATL = *ptr++;
+"80
+[e = _NVMDATL *U ++ _ptr * -> -> 1 `i `x -> -> # *U _ptr `i `x ]
+[; ;__eeprom.c: 81: NVMADRL++;
+"81
+[e ++ _NVMADRL -> -> 1 `i `uc ]
+[; ;__eeprom.c: 82: STATUSbits.CARRY = 0;
+"82
+[e = . . _STATUSbits 1 0 -> -> 0 `i `uc ]
+[; ;__eeprom.c: 83: if (INTCONbits.GIE) {
+"83
+[e $ ! != -> . . _INTCONbits 0 3 `i -> -> -> 0 `i `Vuc `i 1637  ]
+{
+[; ;__eeprom.c: 84: STATUSbits.CARRY = 1;
+"84
+[e = . . _STATUSbits 1 0 -> -> 1 `i `uc ]
+"85
+}
+[e :U 1637 ]
+[; ;__eeprom.c: 85: }
+[; ;__eeprom.c: 86: NVMCON1bits.WREN = 1;
+"86
+[e = . . _NVMCON1bits 0 2 -> -> 1 `i `uc ]
+[; ;__eeprom.c: 87: NVMCON2 = 0x55;
+"87
+[e = _NVMCON2 -> -> 85 `i `uc ]
+[; ;__eeprom.c: 88: NVMCON2 = 0xAA;
+"88
+[e = _NVMCON2 -> -> 170 `i `uc ]
+[; ;__eeprom.c: 89: NVMCON1bits.WR = 1;
+"89
+[e = . . _NVMCON1bits 0 1 -> -> 1 `i `uc ]
+[; ;__eeprom.c: 90: while (NVMCON1bits.WR) {
+"90
+[e $U 1638  ]
+[e :U 1639 ]
+{
+[; ;__eeprom.c: 91: continue;
+"91
+[e $U 1638  ]
+"92
+}
+[e :U 1638 ]
+"90
+[e $ != -> . . _NVMCON1bits 0 1 `i -> -> -> 0 `i `Vuc `i 1639  ]
+[e :U 1640 ]
+[; ;__eeprom.c: 92: }
+[; ;__eeprom.c: 93: NVMCON1bits.WREN = 0;
+"93
+[e = . . _NVMCON1bits 0 2 -> -> 0 `i `uc ]
+[; ;__eeprom.c: 94: if (STATUSbits.CARRY) {
+"94
+[e $ ! != -> . . _STATUSbits 1 0 `i -> -> -> 0 `i `Vuc `i 1641  ]
+{
+[; ;__eeprom.c: 95: INTCONbits.GIE = 1;
+"95
+[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
+"96
+}
+[e :U 1641 ]
+"97
+}
+[e :U 1631 ]
+"76
+[e $ != -> -- _size -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 1632  ]
+[e :U 1633 ]
+[; ;__eeprom.c: 96: }
+[; ;__eeprom.c: 97: }
+[; ;__eeprom.c: 101: }
+"101
+[e :UE 1627 ]
+}
+"104
+[v ___eetoc `(uc ~T0 @X0 1 ef1`*Ev ]
+"105
+{
+[; ;__eeprom.c: 103: unsigned char
+[; ;__eeprom.c: 104: __eetoc(__eeprom void *addr)
+[; ;__eeprom.c: 105: {
+[e :U ___eetoc ]
+"104
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"105
+[f ]
+"106
+[v _data `uc ~T0 @X0 1 a ]
+[; ;__eeprom.c: 106: unsigned char data;
+[; ;__eeprom.c: 107: __eecpymem((unsigned char *) &data,addr,1);
+"107
+[e ( ___eecpymem (3 , , -> &U _data `*Vuc -> _addr `*Euc -> -> 1 `i `uc ]
+[; ;__eeprom.c: 108: return data;
+"108
+[e ) _data ]
+[e $UE 1642  ]
+[; ;__eeprom.c: 109: }
+"109
+[e :UE 1642 ]
+}
+"112
+[v ___eetoi `(ui ~T0 @X0 1 ef1`*Ev ]
+"113
+{
+[; ;__eeprom.c: 111: unsigned int
+[; ;__eeprom.c: 112: __eetoi(__eeprom void *addr)
+[; ;__eeprom.c: 113: {
+[e :U ___eetoi ]
+"112
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"113
+[f ]
+"114
+[v _data `ui ~T0 @X0 1 a ]
+[; ;__eeprom.c: 114: unsigned int data;
+[; ;__eeprom.c: 115: __eecpymem((unsigned char *) &data,addr,2);
+"115
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 2 `i `uc ]
+[; ;__eeprom.c: 116: return data;
+"116
+[e ) _data ]
+[e $UE 1643  ]
+[; ;__eeprom.c: 117: }
+"117
+[e :UE 1643 ]
+}
+"119
+[p k ]
+"120
+[p n 2040 ]
+"122
+[v ___eetom `(um ~T0 @X0 1 ef1`*Ev ]
+"123
+{
+[; ;__eeprom.c: 121: __uint24
+[; ;__eeprom.c: 122: __eetom(__eeprom void *addr)
+[; ;__eeprom.c: 123: {
+[e :U ___eetom ]
+"122
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"123
+[f ]
+"124
+[v _data `um ~T0 @X0 1 a ]
+[; ;__eeprom.c: 124: __uint24 data;
+[; ;__eeprom.c: 125: __eecpymem((unsigned char *) &data,addr,3);
+"125
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 3 `i `uc ]
+[; ;__eeprom.c: 126: return data;
+"126
+[e ) _data ]
+[e $UE 1644  ]
+[; ;__eeprom.c: 127: }
+"127
+[e :UE 1644 ]
+}
+"128
+[p o ]
+"131
+[v ___eetol `(ul ~T0 @X0 1 ef1`*Ev ]
+"132
+{
+[; ;__eeprom.c: 130: unsigned long
+[; ;__eeprom.c: 131: __eetol(__eeprom void *addr)
+[; ;__eeprom.c: 132: {
+[e :U ___eetol ]
+"131
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"132
+[f ]
+"133
+[v _data `ul ~T0 @X0 1 a ]
+[; ;__eeprom.c: 133: unsigned long data;
+[; ;__eeprom.c: 134: __eecpymem((unsigned char *) &data,addr,4);
+"134
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 4 `i `uc ]
+[; ;__eeprom.c: 135: return data;
+"135
+[e ) _data ]
+[e $UE 1645  ]
+[; ;__eeprom.c: 136: }
+"136
+[e :UE 1645 ]
+}
+"138
+[p k ]
+"139
+[p n 1516 ]
+"141
+[v ___eetoo `(ul ~T0 @X0 1 ef1`*Ev ]
+"142
+{
+[; ;__eeprom.c: 140: unsigned long long
+[; ;__eeprom.c: 141: __eetoo(__eeprom void *addr)
+[; ;__eeprom.c: 142: {
+[e :U ___eetoo ]
+"141
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"142
+[f ]
+"143
+[v _data `ul ~T0 @X0 1 a ]
+[; ;__eeprom.c: 143: unsigned long long data;
+[; ;__eeprom.c: 144: __eecpymem((unsigned char *) &data,addr,8);
+"144
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 8 `i `uc ]
+[; ;__eeprom.c: 145: return data;
+"145
+[e ) _data ]
+[e $UE 1646  ]
+[; ;__eeprom.c: 146: }
+"146
+[e :UE 1646 ]
+}
+"147
+[p o ]
+"150
+[v ___ctoee `(uc ~T0 @X0 1 ef2`*Ev`uc ]
+"151
+{
+[; ;__eeprom.c: 149: unsigned char
+[; ;__eeprom.c: 150: __ctoee(__eeprom void *addr, unsigned char data)
+[; ;__eeprom.c: 151: {
+[e :U ___ctoee ]
+"150
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `uc ~T0 @X0 1 r2 ]
+"151
+[f ]
+[; ;__eeprom.c: 152: __memcpyee(addr,(unsigned char *) &data,1);
+"152
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> &U _data `*Cuc -> -> 1 `i `uc ]
+[; ;__eeprom.c: 153: return data;
+"153
+[e ) _data ]
+[e $UE 1647  ]
+[; ;__eeprom.c: 154: }
+"154
+[e :UE 1647 ]
+}
+"157
+[v ___itoee `(ui ~T0 @X0 1 ef2`*Ev`ui ]
+"158
+{
+[; ;__eeprom.c: 156: unsigned int
+[; ;__eeprom.c: 157: __itoee(__eeprom void *addr, unsigned int data)
+[; ;__eeprom.c: 158: {
+[e :U ___itoee ]
+"157
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `ui ~T0 @X0 1 r2 ]
+"158
+[f ]
+[; ;__eeprom.c: 159: __memcpyee(addr,(unsigned char *) &data,2);
+"159
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 2 `i `uc ]
+[; ;__eeprom.c: 160: return data;
+"160
+[e ) _data ]
+[e $UE 1648  ]
+[; ;__eeprom.c: 161: }
+"161
+[e :UE 1648 ]
+}
+"163
+[p k ]
+"164
+[p n 2040 ]
+"166
+[v ___mtoee `(um ~T0 @X0 1 ef2`*Ev`um ]
+"167
+{
+[; ;__eeprom.c: 165: __uint24
+[; ;__eeprom.c: 166: __mtoee(__eeprom void *addr, __uint24 data)
+[; ;__eeprom.c: 167: {
+[e :U ___mtoee ]
+"166
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `um ~T0 @X0 1 r2 ]
+"167
+[f ]
+[; ;__eeprom.c: 168: __memcpyee(addr,(unsigned char *) &data,3);
+"168
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 3 `i `uc ]
+[; ;__eeprom.c: 169: return data;
+"169
+[e ) _data ]
+[e $UE 1649  ]
+[; ;__eeprom.c: 170: }
+"170
+[e :UE 1649 ]
+}
+"171
+[p o ]
+"174
+[v ___ltoee `(ul ~T0 @X0 1 ef2`*Ev`ul ]
+"175
+{
+[; ;__eeprom.c: 173: unsigned long
+[; ;__eeprom.c: 174: __ltoee(__eeprom void *addr, unsigned long data)
+[; ;__eeprom.c: 175: {
+[e :U ___ltoee ]
+"174
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `ul ~T0 @X0 1 r2 ]
+"175
+[f ]
+[; ;__eeprom.c: 176: __memcpyee(addr,(unsigned char *) &data,4);
+"176
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 4 `i `uc ]
+[; ;__eeprom.c: 177: return data;
+"177
+[e ) _data ]
+[e $UE 1650  ]
+[; ;__eeprom.c: 178: }
+"178
+[e :UE 1650 ]
+}
+"180
+[p k ]
+"181
+[p n 1516 ]
+"183
+[v ___otoee `(ul ~T0 @X0 1 ef2`*Ev`ul ]
+"184
+{
+[; ;__eeprom.c: 182: unsigned long long
+[; ;__eeprom.c: 183: __otoee(__eeprom void *addr, unsigned long long data)
+[; ;__eeprom.c: 184: {
+[e :U ___otoee ]
+"183
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `ul ~T0 @X0 1 r2 ]
+"184
+[f ]
+[; ;__eeprom.c: 185: __memcpyee(addr,(unsigned char *) &data,8);
+"185
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 8 `i `uc ]
+[; ;__eeprom.c: 186: return data;
+"186
+[e ) _data ]
+[e $UE 1651  ]
+[; ;__eeprom.c: 187: }
+"187
+[e :UE 1651 ]
+}
+"188
+[p o ]
+"191
+[v ___eetoft `(f ~T0 @X0 1 ef1`*Ev ]
+"192
+{
+[; ;__eeprom.c: 190: float
+[; ;__eeprom.c: 191: __eetoft(__eeprom void *addr)
+[; ;__eeprom.c: 192: {
+[e :U ___eetoft ]
+"191
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"192
+[f ]
+"193
+[v _data `f ~T0 @X0 1 a ]
+[; ;__eeprom.c: 193: float data;
+[; ;__eeprom.c: 194: __eecpymem((unsigned char *) &data,addr,3);
+"194
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 3 `i `uc ]
+[; ;__eeprom.c: 195: return data;
+"195
+[e ) _data ]
+[e $UE 1652  ]
+[; ;__eeprom.c: 196: }
+"196
+[e :UE 1652 ]
+}
+"199
+[v ___eetofl `(d ~T0 @X0 1 ef1`*Ev ]
+"200
+{
+[; ;__eeprom.c: 198: double
+[; ;__eeprom.c: 199: __eetofl(__eeprom void *addr)
+[; ;__eeprom.c: 200: {
+[e :U ___eetofl ]
+"199
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+"200
+[f ]
+"201
+[v _data `d ~T0 @X0 1 a ]
+[; ;__eeprom.c: 201: double data;
+[; ;__eeprom.c: 202: __eecpymem((unsigned char *) &data,addr,4);
+"202
+[e ( ___eecpymem (3 , , -> -> &U _data `*uc `*Vuc -> _addr `*Euc -> -> 4 `i `uc ]
+[; ;__eeprom.c: 203: return data;
+"203
+[e ) _data ]
+[e $UE 1653  ]
+[; ;__eeprom.c: 204: }
+"204
+[e :UE 1653 ]
+}
+"207
+[v ___fttoee `(f ~T0 @X0 1 ef2`*Ev`f ]
+"208
+{
+[; ;__eeprom.c: 206: float
+[; ;__eeprom.c: 207: __fttoee(__eeprom void *addr, float data)
+[; ;__eeprom.c: 208: {
+[e :U ___fttoee ]
+"207
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `f ~T0 @X0 1 r2 ]
+"208
+[f ]
+[; ;__eeprom.c: 209: __memcpyee(addr,(unsigned char *) &data,3);
+"209
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 3 `i `uc ]
+[; ;__eeprom.c: 210: return data;
+"210
+[e ) _data ]
+[e $UE 1654  ]
+[; ;__eeprom.c: 211: }
+"211
+[e :UE 1654 ]
+}
+"214
+[v ___fltoee `(d ~T0 @X0 1 ef2`*Ev`d ]
+"215
+{
+[; ;__eeprom.c: 213: double
+[; ;__eeprom.c: 214: __fltoee(__eeprom void *addr, double data)
+[; ;__eeprom.c: 215: {
+[e :U ___fltoee ]
+"214
+[v _addr `*Ev ~T0 @X0 1 r1 ]
+[v _data `d ~T0 @X0 1 r2 ]
+"215
+[f ]
+[; ;__eeprom.c: 216: __memcpyee(addr,(unsigned char *) &data,4);
+"216
+[e ( ___memcpyee (3 , , -> _addr `*Euc -> -> &U _data `*uc `*Cuc -> -> 4 `i `uc ]
+[; ;__eeprom.c: 217: return data;
+"217
+[e ) _data ]
+[e $UE 1655  ]
+[; ;__eeprom.c: 218: }
+"218
+[e :UE 1655 ]
 }

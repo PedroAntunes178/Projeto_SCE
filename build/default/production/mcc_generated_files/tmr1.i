@@ -21148,13 +21148,23 @@ void TMR1_StartSinglePulseAcquisition(void);
 # 349
 uint8_t TMR1_CheckGateValueStatus(void);
 
-# 387
-bool TMR1_HasOverflowOccured(void);
+# 367
+void TMR1_ISR(void);
+
+# 385
+void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 403
+extern void (*TMR1_InterruptHandler)(void);
+
+# 421
+void TMR1_DefaultInterruptHandler(void);
 
 # 57 "mcc_generated_files/tmr1.c"
 volatile uint16_t timer1ReloadVal;
+void (*TMR1_InterruptHandler)(void);
 
-# 63
+# 64
 void TMR1_Initialize(void)
 {
 
@@ -21166,13 +21176,13 @@ T1GCON = 0x00;
 T1GATE = 0x00;
 
 
-T1CLK = 0x01;
+T1CLK = 0x04;
 
 
-TMR1H = 0xF8;
+TMR1H = 0x86;
 
 
-TMR1L = 0x6E;
+TMR1L = 0xE8;
 
 
 timer1ReloadVal=(uint16_t)((TMR1H << 8) | TMR1L);
@@ -21181,7 +21191,13 @@ timer1ReloadVal=(uint16_t)((TMR1H << 8) | TMR1L);
 PIR4bits.TMR1IF = 0;
 
 
-T1CON = 0x01;
+PIE4bits.TMR1IE = 1;
+
+
+TMR1_SetInterruptHandler(TMR1_DefaultInterruptHandler);
+
+
+T1CON = 0x05;
 }
 
 void TMR1_StartTimer(void)
@@ -21249,9 +21265,26 @@ uint8_t TMR1_CheckGateValueStatus(void)
 return (T1GCONbits.T1GVAL);
 }
 
-bool TMR1_HasOverflowOccured(void)
+void TMR1_ISR(void)
 {
 
-return(PIR4bits.TMR1IF);
+
+PIR4bits.TMR1IF = 0;
+TMR1_WriteTimer(timer1ReloadVal);
+
+if(TMR1_InterruptHandler)
+{
+TMR1_InterruptHandler();
+}
+}
+
+
+void TMR1_SetInterruptHandler(void (* InterruptHandler)(void)){
+TMR1_InterruptHandler = InterruptHandler;
+}
+
+void TMR1_DefaultInterruptHandler(void){
+
+
 }
 

@@ -8,13 +8,16 @@ mcc_generated_files/mcc.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/pic_chip_select.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/__null.h  \
 mcc_generated_files/device_config.h  \
+mcc_generated_files/ext_int.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/builtins.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/htc.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/proc/pic16f18875.h  \
 mcc_generated_files/interrupt_manager.h  \
+mcc_generated_files/tmr0.h  \
 mcc_generated_files/tmr1.h  \
 mcc_generated_files/pin_manager.h  \
 mcc_generated_files/i2c1_driver.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/pic.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/__size_t.h  \
+mcc_generated_files/adcc.h  \
 /home/pedro-linux/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.5.133/xc8/pic/include/__at.h 

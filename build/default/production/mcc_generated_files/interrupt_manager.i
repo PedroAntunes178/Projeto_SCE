@@ -21121,10 +21121,10 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 
-# 112 "mcc_generated_files/pin_manager.h"
+# 156 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
 
-# 124
+# 168
 void PIN_MANAGER_IOC(void);
 
 # 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
@@ -21247,6 +21247,103 @@ void (*i2c1_driver_i2cISR)(void);
 # 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
 typedef unsigned char bool;
 
+# 72 "mcc_generated_files/adcc.h"
+typedef uint16_t adc_result_t;
+
+# 89
+typedef enum
+{
+channel_ANA0 = 0x0,
+channel_VSS = 0x3C,
+channel_Temp = 0x3D,
+channel_DAC1 = 0x3E,
+channel_FVR_buf1 = 0x3F
+} adcc_channel_t;
+
+# 130
+void ADCC_Initialize(void);
+
+# 159
+void ADCC_StartConversion(adcc_channel_t channel);
+
+# 189
+bool ADCC_IsConversionDone();
+
+# 221
+adc_result_t ADCC_GetConversionResult(void);
+
+# 252
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+
+# 277
+void ADCC_StopConversion(void);
+
+# 304
+void ADCC_SetStopOnInterrupt(void);
+
+# 329
+void ADCC_DischargeSampleCapacitor(void);
+
+# 355
+void ADCC_LoadAcquisitionRegister(uint8_t);
+
+# 381
+void ADCC_SetPrechargeTime(uint8_t);
+
+# 406
+void ADCC_SetRepeatCount(uint8_t);
+
+# 434
+uint8_t ADCC_GetCurrentCountofConversions(void);
+
+# 458
+void ADCC_ClearAccumulator(void);
+
+# 483
+uint16_t ADCC_GetAccumulatorValue(void);
+
+# 511
+bool ADCC_HasAccumulatorOverflowed(void);
+
+# 536
+uint16_t ADCC_GetFilterValue(void);
+
+# 564
+uint16_t ADCC_GetPreviousResult(void);
+
+# 590
+void ADCC_DefineSetPoint(uint16_t);
+
+# 616
+void ADCC_SetUpperThreshold(uint16_t);
+
+# 642
+void ADCC_SetLowerThreshold(uint16_t);
+
+# 669
+uint16_t ADCC_GetErrorCalculation(void);
+
+# 696
+void ADCC_EnableDoubleSampling(void);
+
+# 720
+void ADCC_EnableContinuousConversion(void);
+
+# 744
+void ADCC_DisableContinuousConversion(void);
+
+# 772
+bool ADCC_HasErrorCrossedUpperThreshold(void);
+
+# 800
+bool ADCC_HasErrorCrossedLowerThreshold(void);
+
+# 827
+uint8_t ADCC_GetConversionStageStatus(void);
+
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
 # 100 "mcc_generated_files/tmr1.h"
 void TMR1_Initialize(void);
 
@@ -21271,23 +21368,91 @@ void TMR1_StartSinglePulseAcquisition(void);
 # 349
 uint8_t TMR1_CheckGateValueStatus(void);
 
-# 387
-bool TMR1_HasOverflowOccured(void);
+# 367
+void TMR1_ISR(void);
 
-# 71 "mcc_generated_files/mcc.h"
+# 385
+void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 403
+extern void (*TMR1_InterruptHandler)(void);
+
+# 421
+void TMR1_DefaultInterruptHandler(void);
+
+# 250 "mcc_generated_files/ext_int.h"
+void EXT_INT_Initialize(void);
+
+# 272
+void INT_ISR(void);
+
+# 296
+void INT_CallBack(void);
+
+# 319
+void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 343
+extern void (*INT_InterruptHandler)(void);
+
+# 367
+void INT_DefaultInterruptHandler(void);
+
+# 15 "/opt/microchip/xc8/v2.20/pic/include/c90/stdbool.h"
+typedef unsigned char bool;
+
+# 100 "mcc_generated_files/tmr0.h"
+void TMR0_Initialize(void);
+
+# 129
+void TMR0_StartTimer(void);
+
+# 161
+void TMR0_StopTimer(void);
+
+# 196
+uint8_t TMR0_ReadTimer(void);
+
+# 235
+void TMR0_WriteTimer(uint8_t timerVal);
+
+# 272
+void TMR0_Reload(uint8_t periodVal);
+
+# 291
+void TMR0_ISR(void);
+
+# 310
+void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
+
+# 328
+extern void (*TMR0_InterruptHandler)(void);
+
+# 346
+void TMR0_DefaultInterruptHandler(void);
+
+# 74 "mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
 
-# 84
+# 87
 void OSCILLATOR_Initialize(void);
 
-# 97
+# 100
 void PMD_Initialize(void);
 
 # 52 "mcc_generated_files/interrupt_manager.c"
 void __interrupt() INTERRUPT_InterruptManager (void)
 {
 
-if(INTCONbits.PEIE == 1)
+if(PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+{
+TMR0_ISR();
+}
+else if(PIE0bits.INTE == 1 && PIR0bits.INTF == 1)
+{
+INT_ISR();
+}
+else if(INTCONbits.PEIE == 1)
 {
 if(PIE3bits.BCL1IE == 1 && PIR3bits.BCL1IF == 1)
 {
@@ -21296,6 +21461,10 @@ i2c1_driver_busCollisionISR();
 else if(PIE3bits.SSP1IE == 1 && PIR3bits.SSP1IF == 1)
 {
 i2c1_driver_i2cISR();
+}
+else if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+{
+TMR1_ISR();
 }
 else
 {
