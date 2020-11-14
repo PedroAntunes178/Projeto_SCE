@@ -56,8 +56,6 @@
 #define LCD_RW 0x02
 #define LCD_RS 0x01
 
-#define MAX_ADC 1023.00
-
 #define MAGIC_NUMBER 0xF000 // this memory slot will save if we already runned the program ones or not
 #define NREG 0xF001 //number of data registers
 #define PMON 0xF002  //sec monitoring period
@@ -75,7 +73,7 @@
 
 #define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
         
-int alarm = 0;
+uint8_t alarm = 0;
 uint8_t hours = 0;
 uint8_t minutes = 0;
 uint8_t seconds = 0;
@@ -209,24 +207,12 @@ void main(void)
     // initialize the device
     SYSTEM_Initialize();
     read_memory();
-    
-    
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
 
     // Enable the Global Interrupts
     INTERRUPT_GlobalInterruptEnable();
 
     // Enable the Peripheral Interrupts
     INTERRUPT_PeripheralInterruptEnable();
-
-    // Disable the Global Interrupts
-    //INTERRUPT_GlobalInterruptDisable();
-
-    // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
-    
-   
     
     i2c1_driver_open();
     I2C_SCL = 1;
@@ -268,13 +254,20 @@ void main(void)
             INTERRUPT_TMR0InterruptEnable();
         }
     }
+    
+
+    // Disable the Global Interrupts
+    INTERRUPT_GlobalInterruptDisable();
+
+    // Disable the Peripheral Interrupts
+    INTERRUPT_PeripheralInterruptDisable();
 }
 
 void read_memory(void)
 {
     uint8_t magic_nr = 55;
     uint16_t mem;
-    uint16_t count;
+    uint8_t count;
     if (DATAEE_ReadByte(MAGIC_NUMBER)==magic_nr){
         mem = START_REG + 5*DATAEE_ReadByte(LAST_REG);
         mem = mem + 3;
@@ -333,7 +326,7 @@ void read_memory(void)
 
 void write_checksum()
 {
-    uint16_t count;
+    uint8_t count;
     
     count = alah + alam + alas + alat + alal + nreg + pmon + tala;
     
