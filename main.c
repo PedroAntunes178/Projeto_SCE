@@ -1,15 +1,11 @@
 /**
   Generated Main Source File
-
   Company:
     Microchip Technology Inc.
-
   File Name:
     main.c
-
   Summary:
     This is the main file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
-
   Description:
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
@@ -237,8 +233,12 @@ void main(void)
     while (1) {    
         
         checkButtonS1();
+        
             
         if( button_1==1 && alarm == 1){
+            WDT_Enable();
+            SLEEP();
+            WDT_Disable();
             button_1=0;
             alarm = 0;
             sensor_enable = 1;
@@ -250,10 +250,17 @@ void main(void)
             LCDstr(buf);
         }
         else if( button_1==1 && alarm == 0){
+            WDT_Enable();
+            SLEEP();
+            WDT_Disable();
             button_1=0;
             INTERRUPT_TMR0InterruptDisable();
             modify();
             INTERRUPT_TMR0InterruptEnable();
+            
+            WDT_Enable();
+            SLEEP();
+            WDT_Disable();
         }
     }
 
@@ -394,6 +401,7 @@ void count_time_ISR() {
     uint16_t mem;
     uint8_t last_reg;
     
+    
     seconds = seconds + 1;
     
     if( alarm_secs == seconds){
@@ -449,9 +457,7 @@ void count_time_ISR() {
         }   
     }
     
-    WDT_Enable();
-    SLEEP();
-    WDT_Disable();
+   
 }
 
 void sensor()
@@ -552,7 +558,7 @@ void checkButtonS1(void) {
     
     if (btn1State == NOT_PRESSED) {
         if (SWITCH_S1_PORT == LOW) {
-            __delay_ms(100);
+            __delay_ms(100); 
             btn1State = PRESSED;
         }
     } else if (SWITCH_S1_PORT == HIGH) {
@@ -863,23 +869,23 @@ void change_alarm(void)
 }
 
 void PWM_Output_D4_Enable (void){
-PPSLOCK = 0x55;
-PPSLOCK = 0xAA;
-PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
-// Set D4 as the output of PWM6
-RA6PPS = 0x0E;
-PPSLOCK = 0x55;
-PPSLOCK = 0xAA;
-PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
+    PPSLOCK = 0x55;
+    PPSLOCK = 0xAA;
+    PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
+    // Set D4 as the output of PWM6
+    RA6PPS = 0x0E;
+    PPSLOCK = 0x55;
+    PPSLOCK = 0xAA;
+    PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
 }
 
 void PWM_Output_D4_Disable (void){
-PPSLOCK = 0x55;
-PPSLOCK = 0xAA;
-PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
-// Set D4 as GPIO pin
-RA6PPS = 0x00;
-PPSLOCK = 0x55;
-PPSLOCK = 0xAA;
-PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
+    PPSLOCK = 0x55;
+    PPSLOCK = 0xAA;
+    PPSLOCKbits.PPSLOCKED = 0x00; // unlock PPS
+    // Set D4 as GPIO pin
+    RA6PPS = 0x00;
+    PPSLOCK = 0x55;
+    PPSLOCK = 0xAA;
+    PPSLOCKbits.PPSLOCKED = 0x01; // lock PPS
 }
