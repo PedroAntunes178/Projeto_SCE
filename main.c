@@ -75,6 +75,9 @@
 
 #define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
         
+#define WDT_Enable()        (WDTCON0bits.SWDTEN = 1)
+#define WDT_Disable()       (WDTCON0bits.SWDTEN = 0)
+
 int alarm = 0;
 uint8_t hours = 0;
 uint8_t minutes = 0;
@@ -454,6 +457,10 @@ void count_time_ISR() {
             check_alarm();
         }   
     }
+    
+    WDT_Enable();
+    SLEEP();
+    WDT_Disable();
 }
 
 void sensor()
