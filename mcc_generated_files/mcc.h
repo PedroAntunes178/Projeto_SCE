@@ -60,9 +60,10 @@
 #include "adcc.h"
 #include "memory.h"
 #include "ext_int.h"
+#include "eusart.h"
 
 #define WDTCWS  7
-#define WDTCPS  24
+#define WDTCPS  14
 #define WDTCCS  32
 
 

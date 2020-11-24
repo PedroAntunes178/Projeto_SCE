@@ -70,6 +70,14 @@ void __interrupt() INTERRUPT_InterruptManager (void)
         {
             i2c1_driver_i2cISR();
         } 
+        else if(PIE3bits.TXIE == 1 && PIR3bits.TXIF == 1)
+        {
+            EUSART_TxDefaultInterruptHandler();
+        } 
+        else if(PIE3bits.RCIE == 1 && PIR3bits.RCIF == 1)
+        {
+            EUSART_RxDefaultInterruptHandler();
+        } 
         else if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
         {
             TMR1_ISR();

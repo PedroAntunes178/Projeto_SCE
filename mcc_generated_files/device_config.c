@@ -69,7 +69,7 @@
 #pragma config DEBUG = OFF    // Background Debugger->Background Debugger disabled
 
 // CONFIG3
-#pragma config WDTCPS = WDTCPS_12    // WDT Period Select bits->Divider ratio 1:131072
+#pragma config WDTCPS = WDTCPS_7    // WDT Period Select bits->Divider ratio 1:4096
 #pragma config WDTE = SWDTEN    // WDT operating mode->WDT enabled/disabled by SWDTEN bit in WDTCON0
 #pragma config WDTCWS = WDTCWS_7    // WDT Window Select bits->window always open (100%); software control; keyed access not required
 #pragma config WDTCCS = SC    // WDT input clock selector->Software Control
