@@ -110,6 +110,16 @@ void get_Luminosity(char *);
   @Param
     none
 */
+
+void LCDsend(unsigned char);
+unsigned char LCDrecv(unsigned char);
+void LCDsend2x4(unsigned char, unsigned char);
+void LCDinit(void);
+void LCDcmd(unsigned char);
+void LCDchar(unsigned char);
+void LCDstr(unsigned char *);
+int LCDbusy(void);
+
 void LCD_write(void);
 void count_time_ISR(void);
 void sensor(void);
