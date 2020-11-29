@@ -21,6 +21,23 @@ void cmd_sair (int argc, char **argv)
 }
 
 /*-------------------------------------------------------------------------+
+| Function: cmd_test - apenas como exemplo
++--------------------------------------------------------------------------*/
+void cmd_test (int argc, char** argv)
+{
+  int i;
+  unsigned int n = 10;
+  char bufr[50];
+
+  /* exemplo -- escreve argumentos */
+  n = strlen(argv[1]) + 1;
+  printf ("\nio_write err=%x, n=%d, %s", err, n, argv[i]);
+  err = cyg_io_write(serH, argv[1], &n);
+  err = cyg_io_read(serH, bufr, &n);
+  printf("\nio_read err=%x, n=%d buf=%s", err, n, bufr);
+}
+
+/*-------------------------------------------------------------------------+
 | Function: cmd_ems - enviar mensagem (string)
 +--------------------------------------------------------------------------*/
 void cmd_ems (int argc, char **argv)

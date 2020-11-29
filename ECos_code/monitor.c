@@ -1,7 +1,7 @@
 /***************************************************************************
 | File: monitor.c
 |
-| Autor: Carlos Almeida (IST), from work by Jose Rufino (IST/INESC), 
+| Autor: Carlos Almeida (IST), from work by Jose Rufino (IST/INESC),
 |        from an original by Leendert Van Doorn
 | Data:  Nov 2002
 ***************************************************************************/
@@ -12,7 +12,7 @@
 
 /*-------------------------------------------------------------------------+
 | Headers of command functions
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 extern void cmd_sair (int, char** );
 extern void cmd_ini (int, char** );
 extern void cmd_ems (int, char** );
@@ -24,7 +24,7 @@ extern void cmd_test (int, char** );
 
 /*-------------------------------------------------------------------------+
 | Variable and constants definition
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 const char TitleMsg[] = "\n Application Control Monitor\n";
 const char InvalMsg[] = "\nInvalid command!";
 
@@ -49,7 +49,7 @@ struct 	command_d {
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_sos - provides a rudimentary help
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_sos (int argc, char **argv)
 {
   int i;
@@ -60,8 +60,8 @@ void cmd_sos (int argc, char **argv)
 }
 
 /*-------------------------------------------------------------------------+
-| Function: getline        (called from monitor) 
-+--------------------------------------------------------------------------*/ 
+| Function: getline        (called from monitor)
++--------------------------------------------------------------------------*/
 int my_getline (char** argv, int argvsize)
 {
   static char line[MAX_LINE];
@@ -83,8 +83,8 @@ int my_getline (char** argv, int argvsize)
 }
 
 /*-------------------------------------------------------------------------+
-| Function: monitor        (called from main) 
-+--------------------------------------------------------------------------*/ 
+| Function: monitor        (called from main)
++--------------------------------------------------------------------------*/
 void monitor (void)
 {
   static char *argv[ARGVECSIZE+1], *p;
@@ -92,17 +92,17 @@ void monitor (void)
 
   printf("%s Type sos for help\n", TitleMsg);
   for (;;) {
-    printf("\nCmd> ");
+    printf("\nMyCmd> ");
     /* Reading and parsing command line  ----------------------------------*/
     if ((argc = my_getline(argv, ARGVECSIZE)) > 0) {
       for (p=argv[0]; *p != '\0'; *p=tolower(*p), p++);
-      for (i = 0; i < NCOMMANDS; i++) 
-	if (strcmp(argv[0], commands[i].cmd_name) == 0) 
+      for (i = 0; i < NCOMMANDS; i++)
+	if (strcmp(argv[0], commands[i].cmd_name) == 0)
 	  break;
       /* Executing commands -----------------------------------------------*/
       if (i < NCOMMANDS)
 	commands[i].cmd_fnct (argc, argv);
-      else  
+      else
 	printf("%s", InvalMsg);
     } /* if my_getline */
   } /* forever */
