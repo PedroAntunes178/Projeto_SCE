@@ -14,7 +14,7 @@ cyg_io_handle_t serH;
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_sair - termina a aplicacao
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_sair (int argc, char **argv)
 {
   exit(0);
@@ -22,19 +22,27 @@ void cmd_sair (int argc, char **argv)
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_test - apenas como exemplo
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_test (int argc, char** argv)
 {
   int i;
+  unsigned int n = 10;
+  char bufr[50];
 
   /* exemplo -- escreve argumentos */
-  for (i=0; i<argc; i++)
-    printf ("\nargv[%d] = %s", i, argv[i]);
+  for (i=0; i<argc; i++){
+    n = strlen(argv[i]) + 1;
+    printf ("\nio_write err=%x, n=%d argv[%d] = %s", err, n, i, argv[i]);
+    err = cyg_io_write(serH, argv[i], &n);
+  }
+  n = 50;
+  err = cyg_io_read(serH, bufr, &n);
+  printf("io_read err=%x, n=%d buf=%s\n", err, n, bufr);
 }
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_ems - enviar mensagem (string)
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_ems (int argc, char **argv)
 {
   unsigned int n;
@@ -53,7 +61,7 @@ void cmd_ems (int argc, char **argv)
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_emh - enviar mensagem (hexadecimal)
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_emh (int argc, char **argv)
 {
   unsigned int n, i;
@@ -77,7 +85,7 @@ void cmd_emh (int argc, char **argv)
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_rms - receber mensagem (string)
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_rms (int argc, char **argv)
 {
   unsigned int n;
@@ -91,7 +99,7 @@ void cmd_rms (int argc, char **argv)
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_rmh - receber mensagem (hexadecimal)
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_rmh (int argc, char **argv)
 {
   unsigned int n, i;
@@ -108,7 +116,7 @@ void cmd_rmh (int argc, char **argv)
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_ini - inicializar dispositivo
-+--------------------------------------------------------------------------*/ 
++--------------------------------------------------------------------------*/
 void cmd_ini(int argc, char **argv)
 {
   printf("io_lookup\n");
@@ -117,4 +125,3 @@ void cmd_ini(int argc, char **argv)
   else err = cyg_io_lookup("/dev/ser0", &serH);
   printf("lookup err=%x\n", err);
 }
-
