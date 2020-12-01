@@ -141,6 +141,24 @@ void read_memory(void);
 void write_checksum(void);
 
 
+
+void init_communication(void);
+void process_cmd(uint8_t *buff);
+void r_clock();
+void s_clock(uint8_t buff[8]);
+void r_tl();
+void r_par();
+void mmp(uint8_t buff[8]);
+void mta(uint8_t buff[8]);
+void r_ala();
+void dac();
+void datl();
+void aala();
+void ireg();
+void trgc(uint8_t buff[8]);
+void trgi(uint8_t buff[8]);
+void nmfl();
+
 #endif	/* PROJECT_H */
 /**
  End of File
