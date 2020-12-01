@@ -68,7 +68,7 @@ void cmd_rc(int argc, char** argv){
   for(i=0; i< (unsigned char)sizeof(x); i++){
     bufw[i]=(unsigned char)x[i];
     err = cyg_io_write(serH, bufw[i], &n);
-    printf("Sting sent %s\n", bufw[i]);
+    printf("Sting sent %x\n", bufw[i]);
     printf("io_write err=%x, n=%d\n", err, n);
   }
 }
