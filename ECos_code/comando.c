@@ -1,12 +1,36 @@
 /***************************************************************************
-| File: comando.c  -  Concretizacao de comandos (exemplo)
+| File: comando.c  -  Concretizacao de comandos (projecto SCE)
 |
-| Autor: Carlos Almeida (IST)
-| Data:  Maio 2008
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
+| Data:  Dezembro 2020
 ***************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <cyg/io/io.h>
+
+/* It is assumed that SOM and EOM values do not occur in the message */
+#define SOM 0xFD /* start of message */
+#define EOM 0xFE /* end of message */
+
+#define RCLK 0xC0 /* read clock */
+#define SCLK 0XC1 /* set clock */
+#define RTL 0XC2 /* read temperature and luminosity */
+#define RPAR 0XC3 /* read parameters */
+#define MMP 0XC4 /* modify monitoring period */
+#define MTA 0XC5 /* modify time alarm */
+#define RALA 0XC6 /* read alarms (clock, temperature, luminosity, active/inactive) */
+#define DAC 0XC7 /* define alarm clock */
+#define DATL 0XC8 /* define alarm temperature and luminosity */
+#define AALA 0XC9 /* activate/deactivate alarms */
+#define IREG 0XCA /* information about registers (NREG, nr, iread, iwrite)*/
+#define TRGC 0XCB /* transfer registers (curr. position)*/
+#define TRGI 0XCC /* transfer registers (index) */
+#define NMFL 0XCD /* notification memory (half) full */
+
+#define CMD_OK 0 /* command successful */
+#define CMD_ERROR 0xFF /* error in command */
+
 
 Cyg_ErrNo err;
 cyg_io_handle_t serH;
@@ -20,96 +44,6 @@ void cmd_sair (int argc, char **argv)
   exit(0);
 }
 
-/*-------------------------------------------------------------------------+
-| Function: cmd_test - apenas como exemplo
-+--------------------------------------------------------------------------*/
-void cmd_test (int argc, char** argv)
-{
-  int i;
-  unsigned int n = 10;
-  char bufr[50];
-
-  /* exemplo -- escreve argumentos */
-  n = strlen(argv[1]) + 1;
-  printf ("\nio_write err=%x, n=%d, %s", err, n, argv[i]);
-  err = cyg_io_write(serH, argv[1], &n);
-  err = cyg_io_read(serH, bufr, &n);
-  printf("\nio_read err=%x, n=%d buf=%s", err, n, bufr);
-}
-
-/*-------------------------------------------------------------------------+
-| Function: cmd_ems - enviar mensagem (string)
-+--------------------------------------------------------------------------*/
-void cmd_ems (int argc, char **argv)
-{
-  unsigned int n;
-
-  if (argc > 1) {
-    n = strlen(argv[1]) + 1;
-    err = cyg_io_write(serH, argv[1], &n);
-    printf("io_write err=%x, n=%d str=%s\n", err, n, argv[1]);
-  }
-  else {
-    n = 10;
-    err = cyg_io_write(serH, "123456789", &n);
-    printf("io_write err=%x, n=%d str=%s\n", err, n, "123456789");
-  }
-}
-
-/*-------------------------------------------------------------------------+
-| Function: cmd_emh - enviar mensagem (hexadecimal)
-+--------------------------------------------------------------------------*/
-void cmd_emh (int argc, char **argv)
-{
-  unsigned int n, i;
-  unsigned char bufw[50];
-
-  if ((n=argc) > 1) {
-    n--;
-    if (n > 50) n = 50;
-    for (i=0; i<n; i++)
-      //      sscanf(argv[i+1], "%hhx", &bufw[i]);
-      {unsigned int x; sscanf(argv[i+1], "%x", &x); bufw[i]=(unsigned char)x;}
-    err = cyg_io_write(serH, bufw, &n);
-    printf("io_write err=%x, n=%d\n", err, n);
-    for (i=0; i<n; i++)
-      printf("buf[%d]=%x\n", i, bufw[i]);
-  }
-  else {
-    printf("nenhuma mensagem!!!\n");
-  }
-}
-
-/*-------------------------------------------------------------------------+
-| Function: cmd_rms - receber mensagem (string)
-+--------------------------------------------------------------------------*/
-void cmd_rms (int argc, char **argv)
-{
-  unsigned int n;
-  char bufr[50];
-
-  if (argc > 1) n = atoi(argv[1]);
-  if (n > 50) n = 50;
-  err = cyg_io_read(serH, bufr, &n);
-  printf("io_read err=%x, n=%d buf=%s\n", err, n, bufr);
-}
-
-/*-------------------------------------------------------------------------+
-| Function: cmd_rmh - receber mensagem (hexadecimal)
-+--------------------------------------------------------------------------*/
-void cmd_rmh (int argc, char **argv)
-{
-  unsigned int n, i;
-  unsigned char bufr[50];
-
-  if (argc > 1) n = atoi(argv[1]);
-  if (n > 50) n = 50;
-  err = cyg_io_read(serH, bufr, &n);
-  printf("io_read err=%x, n=%d\n", err, n);
-  for (i=0; i<n; i++)
-    printf("buf[%d]=%x\n", i, bufr[i]);
-}
-
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_ini - inicializar dispositivo
@@ -121,4 +55,158 @@ void cmd_ini(int argc, char **argv)
     err = cyg_io_lookup("/dev/ser1", &serH);
   else err = cyg_io_lookup("/dev/ser0", &serH);
   printf("lookup err=%x\n", err);
+}
+
+/*-------------------------------------------------------------------------+
+| Function: cmd_rc  - read clock
++--------------------------------------------------------------------------*/
+void cmd_rc(int argc, char** argv){
+  uint8_t bufw[8];
+  uint8_t x[] = {SOM, RCLK, EOM};
+  for(i=0; i< (uint8_t)sizeof(x); i++){
+    bufw[i]=(uint8_t)x[i];
+    err = cyg_io_write(serH, bufw, &n);
+    printf("Sting sent %s\n", bufw[i]);
+    printf("io_write err=%x, n=%d\n", err, n);
+  }
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_sc  - set clock
++-----------------------------------------------------------------------------------------------------*/
+void cmd_sc(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_rtl  - read temperature and luminosity
++-----------------------------------------------------------------------------------------------------*/
+void cmd_rtl(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_rp  - read parameters (PMON, TALA)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_rp(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_mmp  - modify monitoring period (seconds - 0 deactivate)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_mmp(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_mta  - modify time alarm (seconds)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_mta(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_ra  - read alarms (clock, temperature, luminosity, active/inactive-1/0)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_ra(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_dac  - define alarm clock
++-----------------------------------------------------------------------------------------------------*/
+void cmd_dac(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_dtl  - define alarm temperature and luminosity
++-----------------------------------------------------------------------------------------------------*/
+void cmd_dtl(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_aa  - activate/deactivate alarms (1/0)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_aa(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_ir  - information about registers (NREG, nr, iread, iwrite)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_ir(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_trc  - transfer n registers from current iread position
++-----------------------------------------------------------------------------------------------------*/
+void cmd_trc(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_tri  - transfer n registers from index i (0 - oldest)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_tri(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_irl  - information about local registers (NRBUF, nr, iread, iwrite)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_irl(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_lr  - list n registers (local memory) from index i (0 - oldest)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_lr(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_dr  - delete registers (local memory)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_dr(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_cpt  - check period of transference
++-----------------------------------------------------------------------------------------------------*/
+void cmd_cpt(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_mpt  - modify period of transference (minutes - 0 deactivate)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_mpt(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_cttl  - check threshold temperature and luminosity for processing
++-----------------------------------------------------------------------------------------------------*/
+void cmd_cttl(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_dttl  - define threshold temperature and luminosity for processing
++-----------------------------------------------------------------------------------------------------*/
+void cmd_dttl(int argc, char** argv){
+
+}
+
+/*----------------------------------------------------------------------------------------------------+
+| Function: cmd_pr  - process registers (max, min, mean) between instants t1 and t2 (h,m,s)
++-----------------------------------------------------------------------------------------------------*/
+void cmd_pr(int argc, char** argv){
+
 }

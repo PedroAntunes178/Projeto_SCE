@@ -1,9 +1,8 @@
 /***************************************************************************
 | File: monitor.c
 |
-| Autor: Carlos Almeida (IST), from work by Jose Rufino (IST/INESC),
-|        from an original by Leendert Van Doorn
-| Data:  Nov 2002
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
+| Data:  Dezembro 2020
 ***************************************************************************/
 #include <stdio.h>
 #include <string.h>
@@ -13,14 +12,32 @@
 /*-------------------------------------------------------------------------+
 | Headers of command functions
 +--------------------------------------------------------------------------*/
-extern void cmd_sair (int, char** );
-extern void cmd_ini (int, char** );
-extern void cmd_ems (int, char** );
-extern void cmd_emh (int, char** );
-extern void cmd_rms (int, char** );
-extern void cmd_rmh (int, char** );
-extern void cmd_test (int, char** );
-       void cmd_sos  (int, char** );
+extern void cmd_sair(int, char**);
+extern void cmd_ini(int, char**);
+
+extern void cmd_rc(int, char**);
+extern void cmd_sc(int, char**);
+extern void cmd_rtl(int, char**);
+extern void cmd_rp(int, char**);
+extern void cmd_mmp(int, char**);
+extern void cmd_mta(int, char**);
+extern void cmd_ra(int, char**);
+extern void cmd_dac(int, char**);
+extern void cmd_dtl(int, char**);
+extern void cmd_aa(int, char**);
+extern void cmd_ir(int, char**);
+extern void cmd_trc(int, char**);
+extern void cmd_tri(int, char**);
+extern void cmd_irl(int, char**);
+extern void cmd_lr(int, char**);
+extern void cmd_dr(int, char**);
+extern void cmd_cpt(int, char**);
+extern void cmd_mpt(int, char**);
+extern void cmd_cttl(int, char**);
+extern void cmd_dttl(int, char**);
+extern void cmd_pr(int, char**);
+
+       void cmd_sos(int, char**);
 
 /*-------------------------------------------------------------------------+
 | Variable and constants definition
@@ -33,14 +50,12 @@ struct 	command_d {
   char*	cmd_name;
   char*	cmd_help;
 } const commands[] = {
-  {cmd_sos,  "sos","                 help"},
-  {cmd_sair, "sair","                sair"},
-  {cmd_ini,  "ini","<d>              inicializar dispositivo (0/1) ser0/ser1"},
-  {cmd_ems,  "ems","<str>            enviar mensagem (string)"},
-  {cmd_emh,  "emh","<h1> <h2> <...>  enviar mensagem (hexadecimal)"},
-  {cmd_rms,  "rms","<n>              receber mensagem (string)"},
-  {cmd_rmh,  "rmh","<n>              receber mensagem (hexadecimal)"},
-  {cmd_test, "teste","<arg1> <arg2>  comando de teste"}
+  {cmd_sos,  "sos","                             help"},
+  {cmd_sair, "sair","                            sair"},
+  {cmd_ini,  "ini","<d>                          inicializar dispositivo (0/1) ser0/ser1"},
+  {cmd_rc,   "rc","                              read clock"},
+  //...
+  {cmd_pr,   "pr","<[h1 m1 s1]> <[h2 m2 s2]>     process registers (max, min, mean) between instants t1 and t2 (h,m,s)"}
 };
 
 #define NCOMMANDS  (sizeof(commands)/sizeof(struct command_d))
