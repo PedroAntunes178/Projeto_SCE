@@ -6,7 +6,6 @@
 ***************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <cyg/io/io.h>
 
 /* It is assumed that SOM and EOM values do not occur in the message */
