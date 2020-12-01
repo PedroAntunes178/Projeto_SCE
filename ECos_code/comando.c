@@ -63,9 +63,11 @@ void cmd_ini(int argc, char **argv)
 void cmd_rc(int argc, char** argv){
   unsigned char bufw[8];
   unsigned char x[] = {SOM, RCLK, EOM};
+  unsigned int i = 0;
+  unsigned int n = 1;
   for(i=0; i< (unsigned char)sizeof(x); i++){
     bufw[i]=(unsigned char)x[i];
-    err = cyg_io_write(serH, bufw, &n);
+    err = cyg_io_write(serH, bufw[i], &n);
     printf("Sting sent %s\n", bufw[i]);
     printf("io_write err=%x, n=%d\n", err, n);
   }
