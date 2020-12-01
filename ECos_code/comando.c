@@ -61,10 +61,10 @@ void cmd_ini(int argc, char **argv)
 | Function: cmd_rc  - read clock
 +--------------------------------------------------------------------------*/
 void cmd_rc(int argc, char** argv){
-  uint8_t bufw[8];
-  uint8_t x[] = {SOM, RCLK, EOM};
-  for(i=0; i< (uint8_t)sizeof(x); i++){
-    bufw[i]=(uint8_t)x[i];
+  unsigned char bufw[8];
+  unsigned char x[] = {SOM, RCLK, EOM};
+  for(i=0; i< (unsigned char)sizeof(x); i++){
+    bufw[i]=(unsigned char)x[i];
     err = cyg_io_write(serH, bufw, &n);
     printf("Sting sent %s\n", bufw[i]);
     printf("io_write err=%x, n=%d\n", err, n);
