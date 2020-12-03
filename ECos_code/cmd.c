@@ -7,97 +7,77 @@
 #include <cyg/hal/hal_arch.h>
 #include <cyg/kernel/kapi.h>
 #include <stdio.h>
-
-#include <cyg/kernel/kapi.h>
-
-// These numbers depend entirely on our application
-#define MAX 50
-#define NT 2
-#define READ_PRI 9
-#define CMD_PRI 10
-#define READ_STKSIZE CYGNUM_HAL_STACK_SIZE_TYPICAL
-#define CMD_STACKSIZE    (CYGNUM_HAL_STACK_SIZE_MINIMUM + 1024)
+#include <math.h>
+#include <stdlib.h>
 
 extern void cmd_ini (int, char** );
 extern void monitor(void);
 
+#define THREAD_READ_PRI 9
+#define THREAD_CMD_PRI 10
+#define NUMBER_OF_THREADS 2 //two thread objects
+#define STACKSIZE 4096 //4K stacks
 
-static unsigned char read_stack[READ_STKSIZE];
-static unsigned char cmd_stacks[NT][CMD_STACKSIZE];
-static cyg_handle_t read_handle, cmd_handles[NT];
-static cyg_thread_t read_thread, cmd_threads[NT];
+/* now declare (and allocate space for) some kernel objects,
+  like the two threads we will use */
+cyg_thread thread_s[NUMBER_OF_THREADS];	/* space for thread objects */
 
-cyg_mutex_t  cliblock;
+char stack[NUMBER_OF_THREADS][STACKSIZE];	/* space for two stacks */
 
-static unsigned char msg[MAX];
+/* now the handles for the threads */
+cyg_handle_t cmd_thread, read_thread;
 
-void read_func(cyg_addrword_t);
-void cmd_func(cyg_addrword_t);
+/* and now variables for the procedure which is the thread */
+cyg_thread_entry_t cmd_program, read_program;
 
-int main(void)
+/* and now a mutex to protect calls to the C library */
+cyg_mutex_t cliblock;
+
+/* we install our own startup routine which sets up threads */
+void cyg_user_start(void)
 {
-  cmd_ini(0, NULL);
-  monitor();
+  printf("Entering twothreads' cyg_user_start() function\n");
 
-  /*
-  int i;
-  cyg_flag_value_t efv;
-
-  cyg_flag_init(&ef);
   cyg_mutex_init(&cliblock);
+  cmd_ini(0, NULL);
 
-  for(i=0; i<NT; i++) {
-    cyg_thread_create(PRI+i, thread_func, (cyg_addrword_t) i,
-          "Thread", (void *) stack[i], STKSIZE,
-          &threadsH[i], &threads[i]);
-    cyg_thread_resume(threadsH[i]);
-  }
+  cyg_thread_create(THREAD_CMD_PRI, cmd_program, (cyg_addrword_t) 0,
+  "Thread CMD", (void *) stack[0], STACKSIZE,
+  &cmd_thread, &thread_s[0]);
+  cyg_thread_create(THREAD_READ_PRI, read_program, (cyg_addrword_t) 1,
+  "Thread READ", (void *) stack[1], STACKSIZE,
+  &read_thread, &thread_s[1]);
 
-  while (1) {
-    cyg_mutex_lock(&cliblock);
-    printf("Main: evflag wait\n");
-    cyg_mutex_unlock(&cliblock);
+  cyg_thread_resume(cmd_thread);
+  cyg_thread_resume(read_thread);
+  while(1){
 
-    // efv = cyg_flag_wait(&ef, 0x03, CYG_FLAG_WAITMODE_AND);
-    efv = cyg_flag_wait(&ef, 0x03, CYG_FLAG_WAITMODE_AND | CYG_FLAG_WAITMODE_CLR);
-    // efv = cyg_flag_wait(&ef, 0x03, CYG_FLAG_WAITMODE_OR | CYG_FLAG_WAITMODE_CLR);
-
-    cyg_mutex_lock(&cliblock);
-    printf("Main: evflag=%x\n", efv);
-    cyg_mutex_unlock(&cliblock);
-
-    //  cyg_thread_delay(100);
-  }*/
-
-  return 0;
-}
-
-
-/* thread code */
-void read_func(cyg_addrword_t data)
-{
-  int i = (int)data;
-  cyg_flag_value_t efv=0x01;
-
-  while (1) {
-    cyg_mutex_lock(&cliblock);
-    printf("Thread: %d\n", i);
-    cyg_mutex_unlock(&cliblock);
-    cyg_flag_setbits(&ef, (efv << i));
-    cyg_thread_delay(100 - (50*i));
   }
 }
 
-void cmd_func(cyg_addrword_t data)
+/* this is a simple program which runs in a thread */
+void cmd_program(cyg_addrword_t data){
+  cyg_mutex_lock(&cliblock);
+  monitor();
+  cyg_mutex_unlock(&cliblock);
+}
+/* this is a simple program which runs in a thread */
+void read_program(cyg_addrword_t data)
 {
-  int i = (int)data;
-  cyg_flag_value_t efv=0x01;
+  int message = (int) data;
+  int delay;
 
-  while (1) {
+  printf("Beginning execution; thread data is %d\n", message);
+
+  cyg_thread_delay(200);
+
+  for (;;) {
+    delay = 200 + (rand() % 50);
+
+    /* note: printf() must be protected by a call to cyg_mutex_lock() */
     cyg_mutex_lock(&cliblock);
-    printf("Thread: %d\n", i);
+    printf("Thread %d: and now a delay of %d clock ticks\n", message, delay);
     cyg_mutex_unlock(&cliblock);
-    cyg_flag_setbits(&ef, (efv << i));
-    cyg_thread_delay(100 - (50*i));
+    cyg_thread_delay(delay);
   }
 }
