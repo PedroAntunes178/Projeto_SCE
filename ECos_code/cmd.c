@@ -18,6 +18,7 @@
 extern void cmd_ini (int, char** );
 extern void monitor(void);
 
+const char TitleMsg[] = "\n Application Control Monitor\n";
 /* now declare (and allocate space for) some kernel objects,
   like the two threads we will use */
 cyg_thread thread_s[NUMBER_OF_THREADS];	/* space for thread objects */
@@ -56,7 +57,7 @@ void cyg_user_start(void){
 void cmd_program(cyg_addrword_t data){
   int delay=10;
 
-  cyg_mutex_lock(&cliblock)
+  cyg_mutex_lock(&cliblock);
   printf("%s Type sos for help\n", TitleMsg);
   cyg_mutex_unlock(&cliblock);
   while(1){
