@@ -10,13 +10,13 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern void cmd_ini (int, char** );
-extern void monitor(void);
-
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
 #define NUMBER_OF_THREADS 2 //two thread objects
 #define STACKSIZE 4096 //4K stacks
+
+extern void cmd_ini (int, char** );
+extern void monitor(void);
 
 /* now declare (and allocate space for) some kernel objects,
   like the two threads we will use */
@@ -34,8 +34,7 @@ cyg_thread_entry_t cmd_program, read_program;
 cyg_mutex_t cliblock;
 
 /* we install our own startup routine which sets up threads */
-void cyg_user_start(void)
-{
+void cyg_user_start(void){
   printf("Entering twothreads' cyg_user_start() function\n");
 
   cyg_mutex_init(&cliblock);
@@ -65,8 +64,7 @@ void cmd_program(cyg_addrword_t data){
   }
 }
 /* this is a simple program which runs in a thread */
-void read_program(cyg_addrword_t data)
-{
+void read_program(cyg_addrword_t data){
   int message = (int) data;
   int delay;
 
