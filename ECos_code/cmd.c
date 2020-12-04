@@ -50,16 +50,19 @@ void cyg_user_start(void)
 
   cyg_thread_resume(cmd_thread);
   cyg_thread_resume(read_thread);
-  while(1){
 
-  }
 }
 
 /* this is a simple program which runs in a thread */
 void cmd_program(cyg_addrword_t data){
-  cyg_mutex_lock(&cliblock);
-  monitor();
-  cyg_mutex_unlock(&cliblock);
+  int delay=10;
+
+  while(1){
+    cyg_mutex_lock(&cliblock);
+    monitor();
+    cyg_mutex_unlock(&cliblock);
+    cyg_thread_delay(delay);
+  }
 }
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data)
