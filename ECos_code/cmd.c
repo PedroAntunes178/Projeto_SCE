@@ -18,7 +18,6 @@
 extern void cmd_ini (int, char** );
 extern void monitor(void);
 
-const char TitleMsg2[] = "\n Application Control Monitor\n";
 /* now declare (and allocate space for) some kernel objects,
   like the two threads we will use */
 cyg_thread thread_s[NUMBER_OF_THREADS];	/* space for thread objects */
