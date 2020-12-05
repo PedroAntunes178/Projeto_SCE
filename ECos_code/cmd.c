@@ -65,6 +65,19 @@ void read_program(cyg_addrword_t data){
   int message = (int) data;
   int delay;
 
+/*
+  while(1){
+    unsigned char bufr[50];
+    read_until(bufr);
+    if (bufr[1] == (unsigned char)NMFL ){
+      cyg_mutex_lock(&cliblock);
+      printf("Memory half full!\n");
+      cyg_mutex_unlock(&cliblock);
+      continue;
+    }
+    cyg_mbox_put( mbx_serial_userH, bufr );
+  }
+  */
   printf("Beginning execution; thread data is %d\n", message);
 
   cyg_thread_delay(200);
