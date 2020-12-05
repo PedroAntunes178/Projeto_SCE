@@ -52,18 +52,40 @@ void cmd_program(cyg_addrword_t data){
 }
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data){
-  int message = (int) data;
-  /*
+  //int message = (int) data;
+  unsigned char buff[8];
+  unsigned char c;
+  int flag = 0;
+  int buff_index = 0;
+  int n = 1;
+
   while(1){
-    unsigned char bufr[50];
-    read_until(bufr);
-    if (bufr[1] == (unsigned char)NMFL ){
-      cyg_mutex_lock(&cliblock);
-      printf("Memory half full!\n");
-      cyg_mutex_unlock(&cliblock);
-      continue;
+    err = cyg_io_read(serH, c, &n);
+    cyg_mutex_lock(&cliblock);
+    printf("io_read err=%x, n=%d\n", err, n);
+    cyg_mutex_unlock(&cliblock);
+    if (c == SOM ){
+      flag = 1;
+      buff_index = 0;
     }
-    cyg_mbox_put( mbx_serial_userH, bufr );
+    else if (flag = 1 && c = EOM){
+      flag = 1;
+      process_read(buff);
+    }
+    else if (flag = 1){
+      buff[buff_index]=c;
+      buff_index++;
+    }
+    cyg_thread_delay(10);
+    //cyg_mbox_put( mbx_serial_userH, bufr );
   }
-    */
+}
+
+void process_read(unsigned char *){
+  if (buff[1] == NMFL ){
+    cyg_mutex_lock(&cliblock);
+    printf("Memory half full!\n");
+    cyg_mutex_unlock(&cliblock);
+    continue;
+  }
 }
