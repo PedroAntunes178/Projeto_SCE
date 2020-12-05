@@ -15,15 +15,15 @@ XLD           = $(XCC)
 CFLAGS        = -I$(INSTALL_DIR)/include
 CXXFLAGS      = $(CFLAGS)
 LDFLAGS       = -nostartfiles -L$(INSTALL_DIR)/lib -Ttarget.ld
-
 #####
-OBJS= cmd.o comando.o monitor.o
+DEPS = project.h
 
+OBJS= cmd.o comando.o monitor.o
 # RULES
 
 .PHONY: all clean
 
-all: cmd
+all: cmd $(DEPS)
 
 clean:
 	-rm -f cmd $(OBJS)

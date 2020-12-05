@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "project.h"
 
 /*-------------------------------------------------------------------------+
 | Headers of command functions

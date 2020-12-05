@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cyg/io/io.h>
+#include "project.h"
 
 /* It is assumed that SOM and EOM values do not occur in the message */
 #define SOM 0xFD /* start of message */

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "project.h"
 
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
