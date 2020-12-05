@@ -16,8 +16,6 @@
 #define NUMBER_OF_THREADS 2 //two thread objects
 #define STACKSIZE 4096 //4K stacks
 
-extern void cmd_ini (int, char** );
-extern void monitor(cyg_mutex_t *);
 
 /* now declare (and allocate space for) some kernel objects,
   like the two threads we will use */

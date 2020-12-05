@@ -28,3 +28,33 @@
 
 #define CMD_OK 0 /* command successful */
 #define CMD_ERROR 0xFF /* error in command */
+
+void cmd_sos(int, char**);
+void monitor(cyg_mutex_t *);
+
+/*-------------------------------------------------------------------------+
+| Headers of command functions
++--------------------------------------------------------------------------*/
+void cmd_sair(int, char**);
+void cmd_ini(int, char**);
+void cmd_rc(int, char**);
+void cmd_sc(int, char**);
+void cmd_rtl(int, char**);
+void cmd_rp(int, char**);
+void cmd_mmp(int, char**);
+void cmd_mta(int, char**);
+void cmd_ra(int, char**);
+void cmd_dac(int, char**);
+void cmd_dtl(int, char**);
+void cmd_aa(int, char**);
+void cmd_ir(int, char**);
+void cmd_trc(int, char**);
+void cmd_tri(int, char**);
+void cmd_irl(int, char**);
+void cmd_lr(int, char**);
+void cmd_dr(int, char**);
+void cmd_cpt(int, char**);
+void cmd_mpt(int, char**);
+void cmd_cttl(int, char**);
+void cmd_dttl(int, char**);
+void cmd_pr(int, char**);

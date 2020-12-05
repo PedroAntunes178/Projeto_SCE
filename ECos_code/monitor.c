@@ -10,35 +10,6 @@
 #include <ctype.h>
 #include "project.h"
 
-/*-------------------------------------------------------------------------+
-| Headers of command functions
-+--------------------------------------------------------------------------*/
-extern void cmd_sair(int, char**);
-extern void cmd_ini(int, char**);
-
-extern void cmd_rc(int, char**);
-extern void cmd_sc(int, char**);
-extern void cmd_rtl(int, char**);
-extern void cmd_rp(int, char**);
-extern void cmd_mmp(int, char**);
-extern void cmd_mta(int, char**);
-extern void cmd_ra(int, char**);
-extern void cmd_dac(int, char**);
-extern void cmd_dtl(int, char**);
-extern void cmd_aa(int, char**);
-extern void cmd_ir(int, char**);
-extern void cmd_trc(int, char**);
-extern void cmd_tri(int, char**);
-extern void cmd_irl(int, char**);
-extern void cmd_lr(int, char**);
-extern void cmd_dr(int, char**);
-extern void cmd_cpt(int, char**);
-extern void cmd_mpt(int, char**);
-extern void cmd_cttl(int, char**);
-extern void cmd_dttl(int, char**);
-extern void cmd_pr(int, char**);
-
-       void cmd_sos(int, char**);
 
 /*-------------------------------------------------------------------------+
 | Variable and constants definition
