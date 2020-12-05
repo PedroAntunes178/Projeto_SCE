@@ -55,8 +55,6 @@ void cyg_user_start(void){
 
 /* this is a simple program which runs in a thread */
 void cmd_program(cyg_addrword_t data){
-  int delay=10;
-
   while(1){
     monitor(&cliblock);
   }
@@ -64,9 +62,7 @@ void cmd_program(cyg_addrword_t data){
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data){
   int message = (int) data;
-  int delay;
-
-/*
+  /*
   while(1){
     unsigned char bufr[50];
     read_until(bufr);
@@ -78,18 +74,5 @@ void read_program(cyg_addrword_t data){
     }
     cyg_mbox_put( mbx_serial_userH, bufr );
   }
-  */
-  printf("Beginning execution; thread data is %d\n", message);
-
-  cyg_thread_delay(200);
-
-  for (;;) {
-    delay = 200 + (rand() % 50);
-
-    /* note: printf() must be protected by a call to cyg_mutex_lock() */
-    cyg_mutex_lock(&cliblock);
-    printf("Thread %d: and now a delay of %d clock ticks\n", message, delay);
-    cyg_mutex_unlock(&cliblock);
-    cyg_thread_delay(delay);
-  }
+    */
 }
