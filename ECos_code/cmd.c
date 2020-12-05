@@ -16,7 +16,7 @@
 #define STACKSIZE 4096 //4K stacks
 
 extern void cmd_ini (int, char** );
-extern void monitor(void);
+extern void monitor(cyg_mutex_t *);
 
 /* now declare (and allocate space for) some kernel objects,
   like the two threads we will use */
@@ -56,14 +56,8 @@ void cyg_user_start(void){
 void cmd_program(cyg_addrword_t data){
   int delay=10;
 
-  cyg_mutex_lock(&cliblock);
-  printf("Type sos for help\n");
-  cyg_mutex_unlock(&cliblock);
   while(1){
-    cyg_mutex_lock(&cliblock);
-    monitor();
-    cyg_mutex_unlock(&cliblock);
-    cyg_thread_delay(delay);
+    monitor(&cliblock);
   }
 }
 /* this is a simple program which runs in a thread */

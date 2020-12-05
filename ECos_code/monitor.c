@@ -100,22 +100,31 @@ int my_getline (char** argv, int argvsize)
 /*-------------------------------------------------------------------------+
 | Function: monitor        (called from main)
 +--------------------------------------------------------------------------*/
-void monitor (void)
+void monitor (cyg_mutex_t *cliblock)
 {
   static char *argv[ARGVECSIZE+1], *p;
   int argc, i;
 
-  printf("\nMyCmd> ");
-  /* Reading and parsing command line  ----------------------------------*/
-  if ((argc = my_getline(argv, ARGVECSIZE)) > 0) {
-    for (p=argv[0]; *p != '\0'; *p=tolower(*p), p++);
-    for (i = 0; i < NCOMMANDS; i++)
-      if (strcmp(argv[0], commands[i].cmd_name) == 0)
-        break;
-    /* Executing commands -----------------------------------------------*/
-    if (i < NCOMMANDS)
-      commands[i].cmd_fnct (argc, argv);
-    else
-      printf("%s", InvalMsg);
-  } /* if my_getline */
+  cyg_mutex_lock(cliblock);
+  printf("%s Type sos for help\n", TitleMsg);
+  cyg_mutex_unlock(cliblock);
+  for (;;) {
+    cyg_mutex_lock(cliblock);
+    printf("\nMyCmd> ");
+    cyg_mutex_unlock(cliblock);
+    /* Reading and parsing command line  ----------------------------------*/
+    if ((argc = my_getline(argv, ARGVECSIZE)) > 0) {
+      for (p=argv[0]; *p != '\0'; *p=tolower(*p), p++);
+      for (i = 0; i < NCOMMANDS; i++)
+        if (strcmp(argv[0], commands[i].cmd_name) == 0)
+          break;
+      /* Executing commands -----------------------------------------------*/
+      if (i < NCOMMANDS)
+        commands[i].cmd_fnct (argc, argv);
+      else
+        cyg_mutex_lock(cliblock);
+        printf("%s", InvalMsg);
+        cyg_mutex_unlock(cliblock);
+    } /* if my_getline */
+  } /* forever */
 }
