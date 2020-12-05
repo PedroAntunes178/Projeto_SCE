@@ -57,7 +57,7 @@ void cmd_program(cyg_addrword_t data){
   int delay=10;
 
   cyg_mutex_lock(&cliblock);
-  printf("%s Type sos for help\n");
+  printf("Type sos for help\n");
   cyg_mutex_unlock(&cliblock);
   while(1){
     cyg_mutex_lock(&cliblock);
