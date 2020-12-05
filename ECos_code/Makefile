@@ -23,21 +23,21 @@ OBJS= cmd.o comando.o monitor.o
 
 .PHONY: all clean
 
-all: cmd $(DEPS)
+all: cmd
 
 clean:
 	-rm -f cmd $(OBJS)
 
-%.o: %.c
+%.o: %.c $(DEPS)
 	$(XCC) -c -o $*.o $(CFLAGS) $(ECOS_GLOBAL_CFLAGS) $<
 
-%.o: %.cxx
+%.o: %.cxx $(DEPS)
 	$(XCXX) -c -o $*.o $(CXXFLAGS) $(ECOS_GLOBAL_CFLAGS) $<
 
-%.o: %.C
+%.o: %.C $(DEPS)
 	$(XCXX) -c -o $*.o $(CXXFLAGS) $(ECOS_GLOBAL_CFLAGS) $<
 
-%.o: %.cc
+%.o: %.cc $(DEPS)
 	$(XCXX) -c -o $*.o $(CXXFLAGS) $(ECOS_GLOBAL_CFLAGS) $<
 
 cmd: $(OBJS)
