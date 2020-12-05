@@ -4,11 +4,6 @@
 | Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
 | Data:  Dezembro 2020
 ***************************************************************************/
-#include <cyg/hal/hal_arch.h>
-#include <cyg/kernel/kapi.h>
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
 #include "project.h"
 
 #define THREAD_READ_PRI 9
@@ -29,8 +24,6 @@ cyg_handle_t cmd_thread, read_thread;
 /* and now variables for the procedure which is the thread */
 cyg_thread_entry_t cmd_program, read_program;
 
-/* and now a mutex to protect calls to the C library */
-cyg_mutex_t cliblock;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
@@ -54,7 +47,7 @@ void cyg_user_start(void){
 /* this is a simple program which runs in a thread */
 void cmd_program(cyg_addrword_t data){
   while(1){
-    monitor(&cliblock);
+    monitor();
   }
 }
 /* this is a simple program which runs in a thread */

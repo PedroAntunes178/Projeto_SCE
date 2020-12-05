@@ -4,9 +4,6 @@
 | Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
 | Data:  Dezembro 2020
 ***************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <cyg/io/io.h>
 #include "project.h"
 
 

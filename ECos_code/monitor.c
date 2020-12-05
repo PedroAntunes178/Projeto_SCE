@@ -4,10 +4,6 @@
 | Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
 | Data:  Dezembro 2020
 ***************************************************************************/
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include "project.h"
 
 
@@ -72,18 +68,18 @@ int my_getline (char** argv, int argvsize)
 /*-------------------------------------------------------------------------+
 | Function: monitor        (called from main)
 +--------------------------------------------------------------------------*/
-void monitor (cyg_mutex_t *cliblock)
+void monitor (void)
 {
   static char *argv[ARGVECSIZE+1], *p;
   int argc, i;
 
-  cyg_mutex_lock(cliblock);
+  cyg_mutex_lock(&cliblock);
   printf("%s Type sos for help\n", TitleMsg);
-  cyg_mutex_unlock(cliblock);
+  cyg_mutex_unlock(&cliblock);
   for (;;) {
-    cyg_mutex_lock(cliblock);
+    cyg_mutex_lock(&cliblock);
     printf("\nMyCmd> ");
-    cyg_mutex_unlock(cliblock);
+    cyg_mutex_unlock(&cliblock);
     /* Reading and parsing command line  ----------------------------------*/
     if ((argc = my_getline(argv, ARGVECSIZE)) > 0) {
       for (p=argv[0]; *p != '\0'; *p=tolower(*p), p++);
@@ -94,9 +90,9 @@ void monitor (cyg_mutex_t *cliblock)
       if (i < NCOMMANDS)
         commands[i].cmd_fnct (argc, argv);
       else
-        cyg_mutex_lock(cliblock);
+        cyg_mutex_lock(&cliblock);
         printf("%s", InvalMsg);
-        cyg_mutex_unlock(cliblock);
+        cyg_mutex_unlock(&cliblock);
     } /* if my_getline */
   } /* forever */
 }

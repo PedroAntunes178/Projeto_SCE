@@ -30,7 +30,7 @@
 #define CMD_ERROR 0xFF /* error in command */
 
 void cmd_sos(int, char**);
-void monitor(cyg_mutex_t *);
+void monitor(void);
 
 /*-------------------------------------------------------------------------+
 | Headers of command functions
@@ -58,3 +58,6 @@ void cmd_mpt(int, char**);
 void cmd_cttl(int, char**);
 void cmd_dttl(int, char**);
 void cmd_pr(int, char**);
+
+/* and now a mutex to protect calls to the C library */
+cyg_mutex_t cliblock;
