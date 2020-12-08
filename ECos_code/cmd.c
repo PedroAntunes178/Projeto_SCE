@@ -139,8 +139,8 @@ void process_program(cyg_addrword_t data){
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
     n = (unsigned char)sizeof(buffer_process);
-    int i=0;
     /*
+    int i=0;
     cyg_mutex_lock(&cliblock);
     printf("debug, %d!\n", n);
     cyg_mutex_unlock(&cliblock);
@@ -151,7 +151,8 @@ void process_program(cyg_addrword_t data){
     }*/
     if (buffer_process[0] == RCLK ){
       cyg_mutex_lock(&cliblock);
-      printf("Time: %d:%d:%d\n", buffer_process[1], buffer_process[2], buffer_process[3]);
+      printf("\nTime: %d:%d:%d\n", buffer_process[1], buffer_process[2], buffer_process[3]);
+      printf("\nMyCmd>\n");
       cyg_mutex_unlock(&cliblock);
     }
     else if (buffer_process[0] == NMFL ){
