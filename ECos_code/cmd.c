@@ -103,9 +103,6 @@ void read_program(cyg_addrword_t data){
       cyg_mutex_lock(&cliblock);
       printf("Received not a valid char.\n");
       cyg_mutex_unlock(&cliblock);
-      cyg_mutex_lock(&cliblock);
-      printf("%x\n", &c);
-      cyg_mutex_unlock(&cliblock);
     }
   }
 }
