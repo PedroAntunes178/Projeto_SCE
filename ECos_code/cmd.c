@@ -83,7 +83,7 @@ void read_program(cyg_addrword_t data){
       cyg_mutex_unlock(&cliblock);
     }
     else if (c == EOM){
-      flag = 0;
+      receiving_buffer = 0;
       cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
       cyg_mutex_unlock(&cliblock);
