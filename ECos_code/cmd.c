@@ -64,7 +64,7 @@ void cmd_program(cyg_addrword_t data){
 
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data){
-  unsigned char buff[8];
+  unsigned char buff[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   unsigned char c;
   unsigned int flag = 0;
   int buff_index = 0;
@@ -73,7 +73,7 @@ void read_program(cyg_addrword_t data){
   while(1){
     err = cyg_io_read(serH, &c, &n);
     cyg_mutex_lock(&cliblock);
-    printf("io_read err=%x, n=%d\n", err, n);
+    printf("\nio_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
     if (c == SOM ){
       flag = 1;
@@ -84,20 +84,21 @@ void read_program(cyg_addrword_t data){
     }
     else if (c == EOM){
       flag = 0;
+      cyg_mbox_put( mbx2H, buff );
       cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
+      printf("\nMyCmd\n");
       cyg_mutex_unlock(&cliblock);
-      cyg_mbox_put( mbx2H, buff );
     }
     else if (flag == 1){
       cyg_mutex_lock(&cliblock);
       printf("debug buff\n");
       cyg_mutex_unlock(&cliblock);
       buff[buff_index]=c;
-      buff_index++;
       cyg_mutex_lock(&cliblock);
       printf("buf[%d]=%x\n", buff_index, buff[buff_index]);
       cyg_mutex_unlock(&cliblock);
+      buff_index++;
     }
     else{
       cyg_mutex_lock(&cliblock);
