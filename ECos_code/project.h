@@ -61,3 +61,6 @@ void cmd_pr(int, char**);
 
 /* and now a mutex to protect calls to the C library */
 cyg_mutex_t cliblock;
+
+Cyg_ErrNo err;
+cyg_io_handle_t serH;
