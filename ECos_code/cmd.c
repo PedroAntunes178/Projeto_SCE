@@ -97,6 +97,7 @@ void read_program(cyg_addrword_t data){
       printf("debug buff\n");
       printf("buf[%d]=%x\n", i, bufr[i]);
       cyg_mutex_unlock(&cliblock);
+      
     }
   }
 }
