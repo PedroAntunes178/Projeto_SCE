@@ -89,10 +89,11 @@ void monitor (void)
       /* Executing commands -----------------------------------------------*/
       if (i < NCOMMANDS)
         commands[i].cmd_fnct (argc, argv);
-      else
+      else{
         cyg_mutex_lock(&cliblock);
         printf("%s", InvalMsg);
         cyg_mutex_unlock(&cliblock);
+      }
     } /* if my_getline */
   } /* forever */
 }
