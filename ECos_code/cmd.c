@@ -66,7 +66,7 @@ void cmd_program(cyg_addrword_t data){
 void read_program(cyg_addrword_t data){
   unsigned char buff[8];
   unsigned char c;
-  cyg_uint8_t receiving_buffer = 0;
+  unsigned int flag = 0;
   int buff_index = 0;
   unsigned int n = 1;
 
@@ -76,24 +76,24 @@ void read_program(cyg_addrword_t data){
     printf("io_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
     if (c == SOM ){
-      receiving_buffer = 1;
+      flag = 1;
       buff_index = 0;
       cyg_mutex_lock(&cliblock);
       printf("debug som\n");
       cyg_mutex_unlock(&cliblock);
     }
     else if (c == EOM){
-      receiving_buffer = 0;
+      flag = 0;
       cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
       cyg_mutex_unlock(&cliblock);
       cyg_mbox_put( mbx2H, buff );
     }
-    else if (receiving_buffer == 1){
+    else if (flag == 1){
       cyg_mutex_lock(&cliblock);
       printf("debug buff\n");
       cyg_mutex_unlock(&cliblock);
-      buff[buff_index]=*c;
+      buff[buff_index]=c;
       buff_index++;
       cyg_mutex_lock(&cliblock);
       printf("buf[%d]=%x\n", buff_index, buff[buff_index]);
@@ -101,7 +101,7 @@ void read_program(cyg_addrword_t data){
     }
     else{
       cyg_mutex_lock(&cliblock);
-      printf("fu**ed up\n");
+      printf("Received not a valid char.\n");
       cyg_mutex_unlock(&cliblock);
     }
   }
