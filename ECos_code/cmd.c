@@ -91,13 +91,19 @@ void read_program(cyg_addrword_t data){
       cyg_mbox_put( mbx2H, buff );
     }
     else if (flag == 1){
+      cyg_mutex_lock(&cliblock);
+      printf("debug buff\n");
+      cyg_mutex_unlock(&cliblock);
       buff[buff_index]=*c;
       buff_index++;
       cyg_mutex_lock(&cliblock);
-      printf("debug buff\n");
       printf("buf[%d]=%x\n", buff_index, buff[buff_index]);
       cyg_mutex_unlock(&cliblock);
-
+    }
+    else{
+      cyg_mutex_lock(&cliblock);
+      printf("fu**ed up\n");
+      cyg_mutex_unlock(&cliblock);
     }
   }
 }
