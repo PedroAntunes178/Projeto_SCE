@@ -66,13 +66,13 @@ void cmd_program(cyg_addrword_t data){
 void read_program(cyg_addrword_t data){
   //int message = (int) data;
   unsigned char buff[8];
-  unsigned char c;
+  char *c;
   int flag = 0;
   int buff_index = 0;
   unsigned int n = 1;
 
   while(1){
-    err = cyg_io_read(serH, &c, &n);
+    err = cyg_io_read(serH, c, &n);
     cyg_mutex_lock(&cliblock);
     printf("io_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
@@ -91,7 +91,10 @@ void read_program(cyg_addrword_t data){
       cyg_mbox_put( mbx2H, buff );
     }
     else if (flag == 1){
-      buff[buff_index]=c;
+      cyg_mutex_lock(&cliblock);
+      printf("debug buff\n");
+      cyg_mutex_unlock(&cliblock);
+      buff[buff_index]=*c;
       buff_index++;
     }
   }
