@@ -76,7 +76,7 @@ void read_program(cyg_addrword_t data){
     cyg_mutex_lock(&cliblock);
     printf("io_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
-    if (c == SOM ){
+    if (*c == SOM ){
       flag = 1;
       buff_index = 0;
       cyg_mutex_lock(&cliblock);
@@ -95,9 +95,9 @@ void read_program(cyg_addrword_t data){
       buff_index++;
       cyg_mutex_lock(&cliblock);
       printf("debug buff\n");
-      printf("buf[%d]=%x\n", i, bufr[i]);
+      printf("buf[%d]=%x\n", buff_index, buff[i]);
       cyg_mutex_unlock(&cliblock);
-      
+
     }
   }
 }
