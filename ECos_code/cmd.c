@@ -60,7 +60,7 @@ void read_program(cyg_addrword_t data){
   int n = 1;
 
   while(1){
-    err = cyg_io_read(serH, c, &n);
+    err = cyg_io_read(serH, &c, &n);
     cyg_mutex_lock(&cliblock);
     printf("io_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
@@ -68,11 +68,11 @@ void read_program(cyg_addrword_t data){
       flag = 1;
       buff_index = 0;
     }
-    else if (flag = 1 && c = EOM){
+    else if (flag == 1 && c == EOM){
       flag = 1;
       process_read(buff);
     }
-    else if (flag = 1){
+    else if (flag == 1){
       buff[buff_index]=c;
       buff_index++;
     }
@@ -86,6 +86,5 @@ void process_read(unsigned char * buff){
     cyg_mutex_lock(&cliblock);
     printf("Memory half full!\n");
     cyg_mutex_unlock(&cliblock);
-    continue;
   }
 }
