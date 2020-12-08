@@ -33,7 +33,7 @@ void cmd_ini(int argc, char **argv)
 +--------------------------------------------------------------------------*/
 void cmd_rc(int argc, char** argv){
   unsigned char bufw[8];
-  unsigned char x[] = {SOM, RCLK, CMD OK, EOM};
+  unsigned char x[] = {SOM, RCLK, CMD_OK, EOM};
   unsigned int i = 0;
   unsigned int n = (unsigned char)sizeof(x);
   for(i=0; i< n; i++){
