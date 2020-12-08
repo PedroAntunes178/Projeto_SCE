@@ -31,6 +31,9 @@ void cyg_user_start(void){
   cyg_mutex_init(&cliblock);
   cmd_ini(0, NULL);
 
+  cyg_mbox_create( &mbx1H, &mbx1);
+  cyg_mbox_create( &mbx2H, &mbx2);
+
   cyg_thread_create(THREAD_CMD_PRI, cmd_program, (cyg_addrword_t) 0,
   "Thread CMD", (void *) stack[0], STACKSIZE,
   &cmd_thread, &thread_s[0]);
