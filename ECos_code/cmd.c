@@ -123,7 +123,7 @@ void write_program(cyg_addrword_t data){
 }
 
 void process_program(cyg_addrword_t data){
-  char *buffer_process;
+  unsigned char *buffer_process;
   unsigned int n;
 
   while (1) {
@@ -135,15 +135,15 @@ void process_program(cyg_addrword_t data){
     cyg_mutex_unlock(&cliblock);
     for(i=0;i<n;i++){
       cyg_mutex_lock(&cliblock);
-      printf("debug, %x!\n", (unsigned char)buffer_process[i]);
+      printf("debug, %x!\n", buffer_process[i]);
       cyg_mutex_unlock(&cliblock);
     }
-    if ((unsigned char)buffer_process[0] == RCLK ){
+    if (buffer_process[0] == RCLK ){
       cyg_mutex_lock(&cliblock);
       printf("Received RC!\n");
       cyg_mutex_unlock(&cliblock);
     }
-    else if (buffer_process[0] == NMFL ){
+    else if ((unsigned char)buffer_process[0] == NMFL ){
       cyg_mutex_lock(&cliblock);
       printf("Memory half full!\n");
       cyg_mutex_unlock(&cliblock);
