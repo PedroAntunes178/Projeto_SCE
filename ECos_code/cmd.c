@@ -8,13 +8,12 @@
 
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
-#define THREAD_WRITE_PRI 11
+#define THREAD_WRITE_PRI 1
 #define NUMBER_OF_THREADS 3 //two thread objects
 #define STACKSIZE 4096 //4K stacks
 
 
-/* now declare (and allocate space for) some kernel objects,
-  like the two threads we will use */
+/* now declare (and allocate space for) some kernel objects, like the two threads we will use */
 cyg_thread thread_s[NUMBER_OF_THREADS];	/* space for thread objects */
 
 char stack[NUMBER_OF_THREADS][STACKSIZE];	/* space for two stacks */
@@ -25,6 +24,9 @@ cyg_handle_t cmd_thread, read_thread, write_thread;
 /* and now variables for the procedure which is the thread */
 cyg_thread_entry_t cmd_program, read_program, write_program;
 
+/*Variaveis globais para escrever e ler do PIC16*/
+Cyg_ErrNo err;
+cyg_io_handle_t serH;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){

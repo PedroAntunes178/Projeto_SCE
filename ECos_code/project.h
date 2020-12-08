@@ -73,8 +73,6 @@ void cmd_pr(int, char**);
 /* and now a mutex to protect calls to the C library */
 cyg_mutex_t cliblock;
 
-Cyg_ErrNo err;
-cyg_io_handle_t serH;
-
+/*Variaveis globais correspondentes a mail box. mbx1 é a mail box  */
 cyg_handle_t mbx1H, mbx2H;
 cyg_mbox mbx1, mbx2;
