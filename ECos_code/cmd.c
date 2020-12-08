@@ -9,6 +9,7 @@
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
 #define THREAD_WRITE_PRI 8
+#define THREAD_PROCESS_PRI 7
 #define NUMBER_OF_THREADS 4 //two thread objects
 #define STACKSIZE 4096 //4K stacks
 
