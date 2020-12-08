@@ -64,33 +64,32 @@ void cmd_program(cyg_addrword_t data){
 
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data){
-  //int message = (int) data;
   unsigned char buff[8];
-  char *c;
-  int flag = 0;
+  unsigned char c;
+  cyg_uint8_t receiving_buffer = 0;
   int buff_index = 0;
   unsigned int n = 1;
 
   while(1){
-    err = cyg_io_read(serH, c, &n);
+    err = cyg_io_read(serH, &c, &n);
     cyg_mutex_lock(&cliblock);
     printf("io_read err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
-    if (*c == SOM ){
-      flag = 1;
+    if (c == SOM ){
+      receiving_buffer = 1;
       buff_index = 0;
       cyg_mutex_lock(&cliblock);
       printf("debug som\n");
       cyg_mutex_unlock(&cliblock);
     }
-    else if (flag == 1 && *c == EOM){
+    else if (c == EOM){
       flag = 0;
       cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
       cyg_mutex_unlock(&cliblock);
       cyg_mbox_put( mbx2H, buff );
     }
-    else if (flag == 1){
+    else if (receiving_buffer == 1){
       cyg_mutex_lock(&cliblock);
       printf("debug buff\n");
       cyg_mutex_unlock(&cliblock);
