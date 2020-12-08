@@ -24,10 +24,6 @@ cyg_handle_t cmd_thread, read_thread, write_thread;
 /* and now variables for the procedure which is the thread */
 cyg_thread_entry_t cmd_program, read_program, write_program;
 
-/*Variaveis globais para escrever e ler do PIC16*/
-Cyg_ErrNo err;
-cyg_io_handle_t serH;
-
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
   printf("Entrou no programa do ECos ->\n");
