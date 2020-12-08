@@ -57,7 +57,7 @@ void read_program(cyg_addrword_t data){
   unsigned char c;
   int flag = 0;
   int buff_index = 0;
-  int n = 1;
+  unsigned int n = 1;
 
   while(1){
     err = cyg_io_read(serH, &c, &n);
