@@ -79,12 +79,16 @@ void read_program(cyg_addrword_t data){
     if (c == SOM ){
       flag = 1;
       buff_index = 0;
-        printf("debug som\n");
+      cyg_mutex_lock(&cliblock);
+      printf("debug som\n");
+      cyg_mutex_unlock(&cliblock);
     }
     else if (flag == 1 && c == EOM){
-      flag = 1;
-      cyg_mbox_put( mbx2H, buff );
+      flag = 0;
+      cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
+      cyg_mutex_unlock(&cliblock);
+      cyg_mbox_put( mbx2H, buff );
     }
     else if (flag == 1){
       buff[buff_index]=c;
@@ -97,9 +101,7 @@ void read_program(cyg_addrword_t data){
 void write_program(cyg_addrword_t data){
   char *bufw;
   unsigned int n;
-  printf("debug\n");
   while (1) {
-    printf("debug\n");
     bufw = cyg_mbox_get( mbx1H );    // wait for message
     n = (unsigned char)sizeof(bufw);
     err = cyg_io_write(serH, bufw, &n);
@@ -114,7 +116,6 @@ void process_program(cyg_addrword_t data){
   unsigned int n;
 
   while (1) {
-    printf("debug process\n");
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
     n = (unsigned char)sizeof(buffer_process);
     if (buffer_process[0] == RCLK ){
