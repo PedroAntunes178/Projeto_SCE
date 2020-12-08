@@ -28,12 +28,19 @@
 
 #define CMD_OK 0 /* command successful */
 #define CMD_ERROR 0xFF /* error in command */
+/*-------------------------------------------------------------------------+
+| Headers of command functions in cmd.c
++--------------------------------------------------------------------------*/
+void process_read(unsigned char *);
 
+/*-------------------------------------------------------------------------+
+| Headers of command functions in monitor.c
++--------------------------------------------------------------------------*/
 void cmd_sos(int, char**);
 void monitor(void);
 
 /*-------------------------------------------------------------------------+
-| Headers of command functions
+| Headers of command functions in comands.c
 +--------------------------------------------------------------------------*/
 void cmd_sair(int, char**);
 void cmd_ini(int, char**);
@@ -58,6 +65,10 @@ void cmd_mpt(int, char**);
 void cmd_cttl(int, char**);
 void cmd_dttl(int, char**);
 void cmd_pr(int, char**);
+
+/*-------------------------------------------------------------------------+
+| Global variables
++--------------------------------------------------------------------------*/
 
 /* and now a mutex to protect calls to the C library */
 cyg_mutex_t cliblock;

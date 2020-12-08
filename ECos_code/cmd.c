@@ -81,7 +81,7 @@ void read_program(cyg_addrword_t data){
   }
 }
 
-void process_read(unsigned char *){
+void process_read(unsigned char * buff){
   if (buff[1] == NMFL ){
     cyg_mutex_lock(&cliblock);
     printf("Memory half full!\n");
