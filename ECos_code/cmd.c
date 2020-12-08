@@ -95,7 +95,7 @@ void read_program(cyg_addrword_t data){
       buff_index++;
       cyg_mutex_lock(&cliblock);
       printf("debug buff\n");
-      printf("buf[%d]=%x\n", buff_index, buff[i]);
+      printf("buf[%d]=%x\n", buff_index, buff[buff_index]);
       cyg_mutex_unlock(&cliblock);
 
     }
