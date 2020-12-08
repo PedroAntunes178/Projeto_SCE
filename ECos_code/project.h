@@ -75,3 +75,6 @@ cyg_mutex_t cliblock;
 
 Cyg_ErrNo err;
 cyg_io_handle_t serH;
+
+cyg_handle_t mbx1H, mbx2H;
+cyg_mbox mbx1, mbx2;

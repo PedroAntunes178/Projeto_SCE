@@ -8,7 +8,7 @@
 
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
-#define NUMBER_OF_THREADS 2 //two thread objects
+#define NUMBER_OF_THREADS 3 //two thread objects
 #define STACKSIZE 4096 //4K stacks
 
 
@@ -19,10 +19,10 @@ cyg_thread thread_s[NUMBER_OF_THREADS];	/* space for thread objects */
 char stack[NUMBER_OF_THREADS][STACKSIZE];	/* space for two stacks */
 
 /* now the handles for the threads */
-cyg_handle_t cmd_thread, read_thread;
+cyg_handle_t cmd_thread, read_thread, write_thread;
 
 /* and now variables for the procedure which is the thread */
-cyg_thread_entry_t cmd_program, read_program;
+cyg_thread_entry_t cmd_program, read_program, write_program;
 
 
 /* we install our own startup routine which sets up threads */
@@ -38,9 +38,13 @@ void cyg_user_start(void){
   cyg_thread_create(THREAD_READ_PRI, read_program, (cyg_addrword_t) 1,
   "Thread READ", (void *) stack[1], STACKSIZE,
   &read_thread, &thread_s[1]);
+  cyg_thread_create(THREAD_WRITE_PRI, write_program, (cyg_addrword_t) 2,
+  "Thread READ", (void *) stack[2], STACKSIZE,
+  &write_thread, &thread_s[2]);
 
   cyg_thread_resume(cmd_thread);
   cyg_thread_resume(read_thread);
+  cyg_thread_resume(write_thread);
 
 }
 
@@ -50,6 +54,7 @@ void cmd_program(cyg_addrword_t data){
     monitor();
   }
 }
+
 /* this is a simple program which runs in a thread */
 void read_program(cyg_addrword_t data){
   //int message = (int) data;
@@ -78,6 +83,20 @@ void read_program(cyg_addrword_t data){
     }
     cyg_thread_delay(10);
     //cyg_mbox_put( mbx_serial_userH, bufr );
+  }
+}
+
+
+void write_program(cyg_addrword_t data){
+  char *bufw;
+  unsigned int = n;
+  while (1) {
+    bufw = cyg_mbox_get( mbx1H );    // wait for message
+    n = (unsigned char)sizeof(bufw);
+    err = cyg_io_write(serH, bufw, &n);
+    cyg_mutex_lock(&cliblock);
+    printf("io_write err=%x, n=%d\n", err, n);
+    cyg_mutex_unlock(&cliblock);
   }
 }
 
