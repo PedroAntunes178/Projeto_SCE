@@ -27,7 +27,7 @@ cyg_thread_entry_t cmd_program, read_program;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
-  printf("Entering twothreads' cyg_user_start() function\n");
+  printf("Entrou no programa do ECos ->\n");
 
   cyg_mutex_init(&cliblock);
   cmd_ini(0, NULL);

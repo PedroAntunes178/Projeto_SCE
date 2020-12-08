@@ -21,6 +21,7 @@ void cmd_sair (int argc, char **argv)
 +--------------------------------------------------------------------------*/
 void cmd_ini(int argc, char **argv)
 {
+  printf("Initialising communication\n");
   printf("io_lookup\n");
   if ((argc > 1) && (argv[1][0] = '1'))
     err = cyg_io_lookup("/dev/ser1", &serH);
@@ -41,9 +42,13 @@ void cmd_rc(int argc, char** argv){
   }
   err = cyg_io_write(serH, bufw, &n);
   for(i=0; i< (unsigned char)sizeof(x); i++){
+    cyg_mutex_lock(&cliblock);
     printf("Sting sent %x\n", bufw[i]);
+    cyg_mutex_unlock(&cliblock);
   }
+  cyg_mutex_lock(&cliblock);
   printf("io_write err=%x, n=%d\n", err, n);
+  cyg_mutex_unlock(&cliblock);
 }
 
 /*----------------------------------------------------------------------------------------------------+

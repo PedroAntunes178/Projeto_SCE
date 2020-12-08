@@ -10,7 +10,7 @@
 /*-------------------------------------------------------------------------+
 | Variable and constants definition
 +--------------------------------------------------------------------------*/
-const char TitleMsg[] = "\n Application Control Monitor\n";
+const char TitleMsg[] = "\nApplication Control Monitor\n";
 const char InvalMsg[] = "\nInvalid command!";
 
 struct 	command_d {
@@ -74,7 +74,7 @@ void monitor (void)
   int argc, i;
 
   cyg_mutex_lock(&cliblock);
-  printf("%s Type sos for help\n", TitleMsg);
+  printf("%sType sos for help\n", TitleMsg);
   cyg_mutex_unlock(&cliblock);
   for (;;) {
     cyg_mutex_lock(&cliblock);
