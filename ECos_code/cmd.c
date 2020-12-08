@@ -87,7 +87,7 @@ void read_program(cyg_addrword_t data){
       cyg_mbox_put( mbx2H, buff );
       cyg_mutex_lock(&cliblock);
       printf("debug fini\n");
-      printf("\nMyCmd\n");
+      printf("\nMyCmd>\n");
       cyg_mutex_unlock(&cliblock);
     }
     else if (flag == 1){
@@ -129,6 +129,9 @@ void process_program(cyg_addrword_t data){
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
     n = (unsigned char)sizeof(buffer_process);
+      cyg_mutex_lock(&cliblock);
+      printf("debug!\n");
+      cyg_mutex_unlock(&cliblock);
     if (buffer_process[0] == RCLK ){
       cyg_mutex_lock(&cliblock);
       printf("Received RC!\n");
