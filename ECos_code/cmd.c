@@ -8,7 +8,7 @@
 
 #define THREAD_READ_PRI 9
 #define THREAD_CMD_PRI 10
-#define THREAD_WRITE_PRI 1
+#define THREAD_WRITE_PRI 8
 #define NUMBER_OF_THREADS 3 //two thread objects
 #define STACKSIZE 4096 //4K stacks
 
@@ -38,7 +38,7 @@ void cyg_user_start(void){
   "Thread READ", (void *) stack[1], STACKSIZE,
   &read_thread, &thread_s[1]);
   cyg_thread_create(THREAD_WRITE_PRI, write_program, (cyg_addrword_t) 2,
-  "Thread READ", (void *) stack[2], STACKSIZE,
+  "Thread WRITE", (void *) stack[2], STACKSIZE,
   &write_thread, &thread_s[2]);
 
   cyg_thread_resume(cmd_thread);
@@ -89,7 +89,9 @@ void read_program(cyg_addrword_t data){
 void write_program(cyg_addrword_t data){
   char *bufw;
   unsigned int n;
+  printf("debug\n");
   while (1) {
+    printf("debug\n");
     bufw = cyg_mbox_get( mbx1H );    // wait for message
     n = (unsigned char)sizeof(bufw);
     err = cyg_io_write(serH, bufw, &n);
