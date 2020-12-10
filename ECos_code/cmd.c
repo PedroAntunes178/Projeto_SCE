@@ -79,10 +79,10 @@ void read_program(cyg_addrword_t data){
   unsigned char c;
   unsigned int flag = 0;
   int buff_index = 0;
-  unsigned int n = 1;
+  unsigned int buf_size = 1;
 
   while(1){
-    err = cyg_io_read(serH, &c, &n);
+    err = cyg_io_read(serH, &c, &buf_size);
     /*
     cyg_mutex_lock(&cliblock);
     printf("\nio_read err=%x, n=%d\n", err, n);
@@ -132,24 +132,26 @@ void read_program(cyg_addrword_t data){
 
 void write_program(cyg_addrword_t data){
   char *bufw;
-  unsigned int n;
+  unsigned int buf_size;
+
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
-    n = (unsigned char)sizeof(bufw);
-    err = cyg_io_write(serH, bufw, &n);
+    buf_size = (unsigned char)sizeof(bufw);
+    err = cyg_io_write(serH, bufw, &buf_size);
     cyg_mutex_lock(&cliblock);
-    printf("io_write err=%x, n=%d\n", err, n);
+    printf("io_write err=%x, n=%d\n", err, buf_size);
     cyg_mutex_unlock(&cliblock);
   }
 }
 
 void process_program(cyg_addrword_t data){
   unsigned char *buffer_process;
-  unsigned int n;
+  unsigned int buf_size;
+  int i = 0;
 
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned char)sizeof(buffer_process);
+    buf_size = (unsigned char)sizeof(buffer_process);
     /*
     int i=0;
     cyg_mutex_lock(&cliblock);
