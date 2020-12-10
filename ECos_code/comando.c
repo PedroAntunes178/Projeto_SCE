@@ -140,6 +140,10 @@ void cmd_ir(int argc, char** argv){
 void cmd_trc(int argc, char** argv){
   unsigned char x[] = {SOM, TRGC, 0, EOM};
   x[2] = *argv[1];
+  n_reg = (int)x[2];
+  cyg_mutex_lock(&cliblock);
+  printf("Debug %d.\n", n_reg);
+  cyg_mutex_unlock(&cliblock);
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -150,6 +154,10 @@ void cmd_trc(int argc, char** argv){
 void cmd_tri(int argc, char** argv){
   unsigned char x[] = {SOM, TRGI, 0, 0, EOM};
   x[2] = *argv[1];
+  n_reg = (int)x[2];
+  cyg_mutex_lock(&cliblock);
+  printf("Debug %d.\n", n_reg);
+  cyg_mutex_unlock(&cliblock);
   x[3] = *argv[2];
   cyg_mbox_put( mbx1H, x );
 

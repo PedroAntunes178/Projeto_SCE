@@ -36,6 +36,8 @@ cyg_io_handle_t serH;
 cyg_handle_t mbx1H, mbx2H;
 cyg_mbox mbx1, mbx2;
 
+int n_reg = 0;
+
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
   printf("Entrou no programa do ECos ->\n");
@@ -79,10 +81,10 @@ void read_program(cyg_addrword_t data){
   unsigned char c;
   unsigned int flag = 0;
   int buff_index = 0;
-  unsigned int buf_size = 1;
+  unsigned int n = 1;
 
   while(1){
-    err = cyg_io_read(serH, &c, &buf_size);
+    err = cyg_io_read(serH, &c, &n);
     /*
     cyg_mutex_lock(&cliblock);
     printf("\nio_read err=%x, n=%d\n", err, n);
@@ -132,26 +134,25 @@ void read_program(cyg_addrword_t data){
 
 void write_program(cyg_addrword_t data){
   char *bufw;
-  unsigned int buf_size;
-
+  unsigned int n;
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
-    buf_size = (unsigned char)sizeof(bufw);
-    err = cyg_io_write(serH, bufw, &buf_size);
+    n = (unsigned char)sizeof(bufw);
+    err = cyg_io_write(serH, bufw, &n);
     cyg_mutex_lock(&cliblock);
-    printf("io_write err=%x, n=%d\n", err, buf_size);
+    printf("io_write err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
   }
 }
 
 void process_program(cyg_addrword_t data){
   unsigned char *buffer_process;
-  unsigned int buf_size;
-  int i = 0;
+  unsigned int n;
+  int i =0;
 
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    buf_size = (unsigned char)sizeof(buffer_process);
+    n = (unsigned char)sizeof(buffer_process);
     /*
     int i=0;
     cyg_mutex_lock(&cliblock);
@@ -340,7 +341,7 @@ void process_program(cyg_addrword_t data){
 
       }
       else{
-        for(i=0;i<n;i++){
+        for(i=0;i<n_reg;i++){
           cyg_mutex_lock(&cliblock);
           printf("\n%dº registo obtido\n", i+1);
           printf("Time: %d:%d:%d\n", buffer_process[i*5+1], buffer_process[i*5+2], buffer_process[i*5+3]);
@@ -358,7 +359,7 @@ void process_program(cyg_addrword_t data){
         cyg_mutex_unlock(&cliblock);
       }
       else{
-        for(i=0;i<n;i++){
+        for(i=0;i<n_reg;i++){
           cyg_mutex_lock(&cliblock);
           printf("\n%dº registo obtido\n", i+1);
           printf("Time: %d:%d:%d\n", buffer_process[i*5+1], buffer_process[i*5+2], buffer_process[i*5+3]);
