@@ -50,7 +50,7 @@ void cmd_sc(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 }
@@ -82,7 +82,7 @@ void cmd_mmp(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 }
@@ -98,7 +98,7 @@ void cmd_mta(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 }
@@ -124,7 +124,7 @@ void cmd_dac(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 }
@@ -141,7 +141,7 @@ void cmd_dtl(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 
@@ -158,7 +158,7 @@ void cmd_aa(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
 
@@ -185,7 +185,7 @@ void cmd_trc(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
   cyg_mutex_lock(&cliblock);
@@ -207,7 +207,7 @@ void cmd_tri(int argc, char** argv){
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("Not enough parameters were given.\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
   cyg_mutex_lock(&cliblock);
