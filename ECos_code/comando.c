@@ -42,10 +42,17 @@ void cmd_rc(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_sc(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, 0, 0, EOM};
-  x[2] = *argv[1];
-  x[3] = *argv[2];
-  x[4] = *argv[3];
-  cyg_mbox_put( mbx1H, x );
+  if(argc == 4){
+    x[2] = *argv[1];
+    x[3] = *argv[2];
+    x[4] = *argv[3];
+    cyg_mbox_put( mbx1H, x );
+  }
+  else{
+    cyg_mutex_lock(&cliblock);
+    printf("Not enough parameters were given.\n", n_reg);
+    cyg_mutex_unlock(&cliblock);
+  }
 }
 
 /*----------------------------------------------------------------------------------------------------+
