@@ -80,4 +80,4 @@ extern cyg_handle_t mbx1H, mbx2H;
 extern cyg_mbox mbx1, mbx2;
 
 //size of registers list, comando.c
-extern int n = 0;
+int n = 0;

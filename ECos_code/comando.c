@@ -6,7 +6,6 @@
 ***************************************************************************/
 #include "project.h"
 
-int n = 0; //size of registers list
 
 /*-------------------------------------------------------------------------+
 | Function: cmd_sair - termina a aplicacao
@@ -43,9 +42,9 @@ void cmd_rc(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_sc(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, 0, 0, EOM};
-  x[2] = argv[1];
-  x[3] = argv[2];
-  x[4] = argv[3];
+  x[2] = *argv[1];
+  x[3] = *argv[2];
+  x[4] = *argv[3];
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -70,7 +69,7 @@ void cmd_rp(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mmp(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, EOM};
-  x[2] = argv[1];
+  x[2] = *argv[1];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -80,7 +79,7 @@ void cmd_mmp(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mta(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, EOM};
-  x[2] = argv[1];
+  x[2] = *argv[1];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -98,9 +97,9 @@ void cmd_ra(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dac(int argc, char** argv){
   unsigned char x[] = {SOM, DAC, 0, 0, 0, EOM};
-  x[2] = argv[1];
-  x[3] = argv[2];
-  x[4] = argv[3];
+  x[2] = *argv[1];
+  x[3] = *argv[2];
+  x[4] = *argv[3];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -110,8 +109,8 @@ void cmd_dac(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dtl(int argc, char** argv){
   unsigned char x[] = {SOM, DATL, 0, 0, EOM};
-  x[2] = argv[1];
-  x[3] = argv[2];
+  x[2] = *argv[1];
+  x[3] = *argv[2];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -121,7 +120,7 @@ void cmd_dtl(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_aa(int argc, char** argv){
   unsigned char x[] = {SOM, AALA, 0, EOM};
-  x[2] = argv[1];
+  x[2] = *argv[1];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -140,7 +139,7 @@ void cmd_ir(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_trc(int argc, char** argv){
   unsigned char x[] = {SOM, TRGC, 0, EOM};
-  x[2] = argv[1];
+  x[2] = *argv[1];
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -150,8 +149,8 @@ void cmd_trc(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_tri(int argc, char** argv){
   unsigned char x[] = {SOM, TRGI, 0, 0, EOM};
-  x[2] = argv[1];
-  x[3] = argv[2];
+  x[2] = *argv[1];
+  x[3] = *argv[2];
   cyg_mbox_put( mbx1H, x );
 
 }
