@@ -36,7 +36,9 @@ cyg_io_handle_t serH;
 cyg_handle_t mbx1H, mbx2H;
 cyg_mbox mbx1, mbx2;
 
+/*Register related variables*/
 int n_reg = 0;
+unsigned char registers[NRBUF][5];
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){

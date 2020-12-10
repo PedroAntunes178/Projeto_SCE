@@ -28,6 +28,9 @@
 
 #define CMD_OK 0 /* command successful */
 #define CMD_ERROR 0xFF /* error in command */
+
+#define NRBUF 100 /*ring-buffer, registers capacity*/
+
 /*-------------------------------------------------------------------------+
 | Headers of command functions in cmd.c
 +--------------------------------------------------------------------------*/
@@ -81,3 +84,4 @@ extern cyg_mbox mbx1, mbx2;
 
 //size of registers list, comando.c
 extern int n_reg;
+extern unsigned char registers;
