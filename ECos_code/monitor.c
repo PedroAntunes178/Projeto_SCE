@@ -22,6 +22,18 @@ struct 	command_d {
   {cmd_sair, "sair","                            sair"},
   {cmd_ini,  "ini","<d>                          inicializar dispositivo (0/1) ser0/ser1"},
   {cmd_rc,   "rc","                              read clock"},
+  {cmd_sc,   "sc","<h> <m> <s>                   set clock"},
+  {cmd_rtl,  "rtl","                             read temperature and luminosity"},
+  {cmd_rp,   "rp","                              read parameters"},
+  {cmd_mmp,  "mmp","<p>                          modify monitoring period"},
+  {cmd_mta,  "mta","<t>                          modify time alarm"},
+  {cmd_ra,   "ra","                              read alarms (clock, temp., luminosity, active/inactive)"},
+  {cmd_dac,  "dac","<h> <m> <s>                  define alarm clock"},
+  {cmd_dtl,  "dtl","<T> <L>                      define alarm temperature and luminosity"},
+  {cmd_aa,   "aa","<a>                           activate/deactivate alarms (1/0)"},
+  {cmd_ir,   "ir","                              information about registers (NREG, nr, iread, iwrite)"},
+  {cmd_trc,  "trc","<n>                          transfer n registers from current iread position"},
+  {cmd_tri,  "tri","<n> <i>                      transfer n registers from index i (0 - oldest)"},
   //...
   {cmd_pr,   "pr","<[h1 m1 s1]> <[h2 m2 s2]>     process registers (max, min, mean) between instants t1 and t2 (h,m,s)"}
 };
