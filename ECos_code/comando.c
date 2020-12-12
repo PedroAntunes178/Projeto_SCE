@@ -43,9 +43,9 @@ void cmd_rc(int argc, char** argv){
 void cmd_sc(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, 0, 0, EOM};
   if(argc == 4){
-    x[2] = (unsigned char)atoi(argv[1]);
-    x[3] = (unsigned char)atoi(argv[2]);
-    x[4] = (unsigned char)atoi(argv[3]);
+    x[2] = *argv[1];
+    x[3] = *argv[2];
+    x[4] = *argv[3];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -77,7 +77,7 @@ void cmd_rp(int argc, char** argv){
 void cmd_mmp(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, EOM};
   if(argc == 2){
-    x[2] = (unsigned char)atoi(argv[1]);
+    x[2] = *argv[1];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -93,7 +93,7 @@ void cmd_mmp(int argc, char** argv){
 void cmd_mta(int argc, char** argv){
   unsigned char x[] = {SOM, SCLK, 0, EOM};
   if(argc == 2){
-    x[2] = (unsigned char)atoi(argv[1]);
+    x[2] = *argv[1];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -117,9 +117,9 @@ void cmd_ra(int argc, char** argv){
 void cmd_dac(int argc, char** argv){
   unsigned char x[] = {SOM, DAC, 0, 0, 0, EOM};
   if(argc == 4){
-    x[2] = (unsigned char)atoi(argv[1]);
-    x[3] = (unsigned char)atoi(argv[2]);
-    x[4] = (unsigned char)atoi(argv[3]);
+    x[2] = *argv[1];
+    x[3] = *argv[2];
+    x[4] = *argv[3];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -135,8 +135,8 @@ void cmd_dac(int argc, char** argv){
 void cmd_dtl(int argc, char** argv){
   unsigned char x[] = {SOM, DATL, 0, 0, EOM};
   if(argc == 3){
-    x[2] = (unsigned char)atoi(argv[1]);
-    x[3] = (unsigned char)atoi(argv[2]);
+    x[2] = *argv[1];
+    x[3] = *argv[2];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -153,7 +153,7 @@ void cmd_dtl(int argc, char** argv){
 void cmd_aa(int argc, char** argv){
   unsigned char x[] = {SOM, AALA, 0, EOM};
   if(argc == 2){
-    x[2] = (unsigned char)atoi(argv[1]);
+    x[2] = *argv[1];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -179,7 +179,7 @@ void cmd_ir(int argc, char** argv){
 void cmd_trc(int argc, char** argv){
   unsigned char x[] = {SOM, TRGC, 0, EOM};
   if(argc == 2){
-    x[2] = (unsigned char)atoi(argv[1]);
+    x[2] = *argv[1];
     n_reg = x[2];
     cyg_mbox_put( mbx1H, x );
   }
@@ -200,9 +200,9 @@ void cmd_trc(int argc, char** argv){
 void cmd_tri(int argc, char** argv){
   unsigned char x[] = {SOM, TRGI, 0, 0, EOM};
   if(argc == 3){
-    x[2] = (unsigned char)atoi(argv[1]);
+    x[2] = *argv[1];
     n_reg = (int)x[2];
-    x[3] = (unsigned char)atoi(argv[2]);
+    x[3] = *argv[2];
     cyg_mbox_put( mbx1H, x );
   }
   else{
