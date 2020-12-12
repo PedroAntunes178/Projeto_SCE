@@ -221,7 +221,6 @@ void cmd_tri(int argc, char** argv){
   cyg_mutex_lock(&cliblock);
   printf("Debug %d.\n", n_reg);
   cyg_mutex_unlock(&cliblock);
-
 }
 
 /*----------------------------------------------------------------------------------------------------+
