@@ -84,4 +84,4 @@ extern cyg_mbox mbx1, mbx2;
 
 //size of registers list, comando.c
 extern int n_reg;
-extern unsigned char registers[][];
+extern unsigned char registers[NRBUF][5];
