@@ -135,7 +135,7 @@ void read_program(cyg_addrword_t data){
 
 
 void write_program(cyg_addrword_t data){
-  char *bufw;
+  unsigned char *bufw;
   unsigned int n;
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
