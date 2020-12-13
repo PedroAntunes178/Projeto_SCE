@@ -257,8 +257,7 @@ void cmd_lr(int argc, char** argv){
   if(argc == 3){
     int n = atoi(argv[1]);
     int i = atoi(argv[2]);
-    printf("\nPrints registers\n");
-    for(k=i; k>iread || k>i+n; k++){
+    for(k=i; k<iread && k<i+n; k++){
       if (k>NRBUF){
         k_true = k;
         while(k_true>NRBUF){
