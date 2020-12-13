@@ -320,7 +320,7 @@ void read_buffer(unsigned char *buffer) {
       printf("Last register index still not transfered (iwrite):%d\n", buffer[4]);
       printf("\nMyCmd>\n");
       cyg_mutex_unlock(&cliblock);
-      iwrite = (int)(buffer[4])-buffer[3]));
+      iwrite = (int)(buffer[4]-buffer[3]);
       if (iwrite<0) iwrite = iwrite + (int)(buffer[1]);
     }
   }
