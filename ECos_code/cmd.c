@@ -140,14 +140,14 @@ void write_program(cyg_addrword_t data){
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
     n = (unsigned char)sizeof(bufw);
-    
+
     int i=0;
     cyg_mutex_lock(&cliblock);
     printf("debug, %d!\n", n);
     cyg_mutex_unlock(&cliblock);
     for(i=0;i<n;i++){
       cyg_mutex_lock(&cliblock);
-      printf("debug, %x!\n", buffer_process[i]);
+      printf("debug, %x!\n", bufw[i]);
       cyg_mutex_unlock(&cliblock);
 
     err = cyg_io_write(serH, bufw, &n);
