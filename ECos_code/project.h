@@ -34,7 +34,7 @@
 /*-------------------------------------------------------------------------+
 | Headers of command functions in cmd.c
 +--------------------------------------------------------------------------*/
-void process_read(unsigned char *);
+void read_buffer(unsigned char *buffer);
 
 /*-------------------------------------------------------------------------+
 | Headers of command functions in monitor.c
@@ -83,5 +83,7 @@ extern cyg_handle_t mbx1H, mbx2H;
 extern cyg_mbox mbx1, mbx2;
 
 //size of registers list, comando.c
-extern int n_reg;
+extern unsigned int n_reg;
 extern unsigned char registers[NRBUF][5];
+extern int iread;
+extern int iwrite;

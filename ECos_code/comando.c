@@ -234,6 +234,17 @@ void cmd_tri(int argc, char** argv){
 | Function: cmd_irl  - information about local registers (NRBUF, nr, iread, iwrite)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_irl(int argc, char** argv){
+  unsigned int ng = 0;
+
+  if(iread>NRBUF) ng = NRBUF;
+  else ng = iread;
+  cyg_mutex_lock(&cliblock);
+  printf("NRBUF = %d\n", NRBUF);
+  printf("Number of valid registers in PC = %d\n", ng);
+  printf("Number of registers wrote/read = %d\n", iread);
+  printf("Numver of registers to write/read = %d\n", iwrite);
+  printf("\nMyCmd>\n");
+  cyg_mutex_unlock(&cliblock);
 
 }
 
@@ -241,6 +252,22 @@ void cmd_irl(int argc, char** argv){
 | Function: cmd_lr  - list n registers (local memory) from index i (0 - oldest)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_lr(int argc, char** argv){
+  int k = 0;
+  int n = atoi(argv[1]);
+  int i = atoi(argv[2]);
+  for(k=i; k>iread || k>i+n; k++){
+    if (k>NRBUF){
+      k_true = k;
+      while(k_true>NRBUF){
+        k_true = k_true - NRBUF;
+      }
+    }
+    else k_true = k;
+    cyg_mutex_lock(&cliblock);
+    printf("Register index: %d\nTime: %d:%d:%d, Luminosity: %d, Temperature: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
+    printf("\nMyCmd>\n");
+    cyg_mutex_unlock(&cliblock);
+  }
 
 }
 
@@ -248,7 +275,7 @@ void cmd_lr(int argc, char** argv){
 | Function: cmd_dr  - delete registers (local memory)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dr(int argc, char** argv){
-
+  iread = 0;
 }
 
 /*----------------------------------------------------------------------------------------------------+
