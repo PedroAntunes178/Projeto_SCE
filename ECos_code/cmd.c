@@ -147,6 +147,8 @@ void process_program(cyg_addrword_t data){
 }
 
 void read_buffer(unsigned char *buffer) {
+  int i =0;
+
   if (buffer[0] == RCLK ){
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
@@ -318,8 +320,8 @@ void read_buffer(unsigned char *buffer) {
       printf("Last register index still not transfered (iwrite):%d\n", buffer[4]);
       printf("\nMyCmd>\n");
       cyg_mutex_unlock(&cliblock);
-      iwrite = (int)(atoi(buffer[4])-atoi(buffer[3]));
-      if (iwrite<0) iwrite = iwrite + (int)atoi(buffer[1]);
+      iwrite = (int)(buffer[4])-buffer[3]));
+      if (iwrite<0) iwrite = iwrite + (int)(buffer[1]);
     }
   }
   else if (buffer[0] == TRGC){
