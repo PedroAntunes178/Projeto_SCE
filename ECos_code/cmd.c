@@ -41,6 +41,7 @@ unsigned int n_reg = 0;
 unsigned char registers[NRBUF][5];
 int iread = 0;
 int iwrite = 0;
+int transfer_period = 0;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
@@ -153,14 +154,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nTime: %d:%d:%d\n", buffer[1], buffer[2], buffer[3]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -168,14 +169,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_OK){
       cyg_mutex_lock(&cliblock);
       printf("\nTime setup completo.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -183,14 +184,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nTemprature: %d\nLuminosity:%d\n", buffer[1], buffer[2]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -198,14 +199,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nPMON: %d\nTALA:%d\n", buffer[1], buffer[2]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -213,13 +214,13 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nMonitoring period modification complete.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -228,13 +229,13 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nTime alarm modification complete.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -243,7 +244,7 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else{
@@ -253,7 +254,7 @@ void read_buffer(unsigned char *buffer) {
       printf("Alarm luminosity: %d\n", buffer[5]);
       if(buffer[6]==1) printf("Alarms are active\n");
       else printf("Alarms are deactivated\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -262,14 +263,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nAlarm clock defined.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -278,14 +279,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nTemprature and luminosity alarm defined.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -293,14 +294,14 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
     else{
       cyg_mutex_lock(&cliblock);
       printf("\nActivated alarm.\n");
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -308,7 +309,7 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -318,7 +319,7 @@ void read_buffer(unsigned char *buffer) {
       printf("Number of valid registers on PIC (nr):%d\n", buffer[2]);
       printf("Last register index read (iread):%d\n", buffer[3]);
       printf("Last register index still not transfered (iwrite):%d\n", buffer[4]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
       iwrite = (int)(buffer[4]-buffer[3]);
       if (iwrite<0) iwrite = iwrite + (int)(buffer[1]);
@@ -328,7 +329,7 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
 
     }
@@ -338,7 +339,7 @@ void read_buffer(unsigned char *buffer) {
         if(iread+i>NRBUF) iread = iread - NRBUF;
 
         cyg_mutex_lock(&cliblock);
-        printf("\n%dº registo escrito\n", iread+i);
+        printf("\nIndex %d register:\n", iread+i);
         printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
         printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+1+4], buffer[i*5+1+5]);
         printf("MyCmd>\n");
@@ -354,19 +355,21 @@ void read_buffer(unsigned char *buffer) {
     if (buffer[1] == CMD_ERROR){
       cyg_mutex_lock(&cliblock);
       printf("\nError from PIC side in command %x\n", buffer[0]);
-      printf("\nMyCmd>\n");
+      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else{
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
+        if(iread+i>NRBUF) iread = iread - NRBUF;
+
         cyg_mutex_lock(&cliblock);
-        printf("\n%dº registo obtido\n", i+1);
-        printf("Time: %d:%d:%d\n", buffer[i*5+1], buffer[i*5+2], buffer[i*5+3]);
-        printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+4], buffer[i*5+5]);
+        printf("\nIndex %d register:\n", iread+i);
+        printf("Time: %d:%d:%d\n", buffer[i*5+2+1], buffer[i*5+2+2], buffer[i*5+2+3]);
+        printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+2+4], buffer[i*5+2+5]);
         printf("MyCmd>\n");
         cyg_mutex_unlock(&cliblock);
-      }
+
     }
   }
   else if (buffer[0] == NMFL ){

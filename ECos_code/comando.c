@@ -242,8 +242,7 @@ void cmd_irl(int argc, char** argv){
   printf("NRBUF = %d\n", NRBUF);
   printf("Number of valid registers in PC = %d\n", ng);
   printf("Number of registers wrote/read = %d\n", iread);
-  printf("Numver of registers to write/read = %d\n", iwrite);
-  printf("\nMyCmd>\n");
+  printf("Number of registers to write/read = %d\n", iwrite);
   cyg_mutex_unlock(&cliblock);
 
 }
@@ -254,22 +253,29 @@ void cmd_irl(int argc, char** argv){
 void cmd_lr(int argc, char** argv){
   int k = 0;
   int k_true = 0;
-  int n = atoi(argv[1]);
-  int i = atoi(argv[2]);
-  for(k=i; k>iread || k>i+n; k++){
-    if (k>NRBUF){
-      k_true = k;
-      while(k_true>NRBUF){
-        k_true = k_true - NRBUF;
+
+  if(argc == 3){
+    int n = atoi(argv[1]);
+    int i = atoi(argv[2]);
+    printf("\nPrints registers\n");
+    for(k=i; k>iread || k>i+n; k++){
+      if (k>NRBUF){
+        k_true = k;
+        while(k_true>NRBUF){
+          k_true = k_true - NRBUF;
+        }
       }
+      else k_true = k;
+      cyg_mutex_lock(&cliblock);
+      printf("Register index: %d\nTime: %d:%d:%d, Luminosity: %d, Temperature: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
+      cyg_mutex_unlock(&cliblock);
     }
-    else k_true = k;
+  }
+  else{
     cyg_mutex_lock(&cliblock);
-    printf("Register index: %d\nTime: %d:%d:%d, Luminosity: %d, Temperature: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
-    printf("\nMyCmd>\n");
+    printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
-
 }
 
 /*----------------------------------------------------------------------------------------------------+
@@ -277,6 +283,9 @@ void cmd_lr(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dr(int argc, char** argv){
   iread = 0;
+  cyg_mutex_lock(&cliblock);
+  printf("Deleted Registers.\n");
+  cyg_mutex_unlock(&cliblock);
 }
 
 /*----------------------------------------------------------------------------------------------------+
