@@ -41,7 +41,6 @@ unsigned int n_reg = 0;
 unsigned char registers[NRBUF][5];
 int iread = 0;
 int iwrite = 0;
-int transfer_period = 100;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
@@ -75,9 +74,7 @@ void cyg_user_start(void){
 
 /* this is a simple program which runs in a thread */
 void cmd_program(cyg_addrword_t data){
-  while(1){
-    monitor();
-  }
+  monitor();
 }
 
 /* this is a simple program which runs in a thread */
@@ -104,7 +101,7 @@ void read_program(cyg_addrword_t data){
     }
     else{
       cyg_mutex_lock(&cliblock);
-      printf("Received not a valid char.\n");
+      printf("Received not a valid char. Ignored.\n");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -131,25 +128,98 @@ void process_program(cyg_addrword_t data){
   cyg_alarm alarm;
   unsigned char variable = 0;
   unsigned char *bufw;
+  int transfer_period = 100;
+  int threshold_temperature = 0;
+  int threshold_luminosity = 0;
+  int max = 0;
+  int min = 0;
 
   system_clockH = cyg_real_time_clock();
-  cyg_clock_to_counter(system_clockH, &test_counterH);
-  cyg_alarm_create(counterH, periodic_get_registers, (cyg_addrword_t) &variable, &alarmH, &alarm);
-  cyg_alarm_initialize(test_alarmH, cyg_current_time()+transfer_period, transfer_period);
+  cyg_clock_to_counter(system_clockH, &counterH);
+  cyg_alarm_create(counterH, alarm_func, (cyg_addrword_t) &variable, &alarmH, &alarm);
+  cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
 
   for (;;) {
     bufw = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned int)bufw[0];
 
+    if(bufw[0] == '1'){
+      cyg_mutex_lock(&cliblock);
+      printf("\nPeriod of transference: %d\n", transfer_period);
+      printf("\nMyCmd>");
+      cyg_mutex_unlock(&cliblock);
+    }
+    else if (bufw[0] == '2'){
+      bufw = cyg_mbox_get( mbx2H );
+      if(transfer_period==0){
+        transfer_period = atoi(bufw);
+        if (transfer_period !=0) cyg_alarm_enable(alarmH);
+      }
+      else{
+        transfer_period = atoi(bufw);
+        if (transfer_period ==0) cyg_alarm_disable(alarmH);
+      }
+      cyg_mutex_lock(&cliblock);
+      printf("\nModified period of transference: %d\n", transfer_period);
+      printf("\nMyCmd>");
+      cyg_mutex_unlock(&cliblock);
+    }
+    else if (bufw[0] == '3'){
+      cyg_mutex_lock(&cliblock);
+      printf("\nThreshold temperature: %d\n", threshold_temperature);
+      printf("Threshold luminosity: %d\n", threshold_luminosity);
+      printf("\nMyCmd>");
+      cyg_mutex_unlock(&cliblock);
+    }
+    else if (bufw[0] == '4'){
+      bufw = cyg_mbox_get( mbx2H );
+      threshold_temperature = atoi(bufw);
+      bufw = cyg_mbox_get( mbx2H );
+      threshold_luminosity = atoi(bufw);
+    }
+    else if (bufw[0] == '5'){
+      bufw = cyg_mbox_get( mbx2H );
+      min = atoi(bufw);
+      bufw = cyg_mbox_get( mbx2H );
+      max = atoi(bufw);
+      process_registers(max, min);
+    }
   }
 }
 /* test_alarm_func() is invoked as an alarm handler, so
    it should be quick and simple. in this case it increments
    the data that is passed to it. */
-void periodic_get_registers(cyg_handle_t alarmH, cyg_addrword_t data){
+void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
   ++*((unsigned *) data);
+  cyg_mutex_lock(&cliblock);
+  printf("\nAsked for Registers\n");
+  printf("\nMyCmd>");
+  cyg_mutex_unlock(&cliblock);
   unsigned char x[] = {0, SOM, TRGC, 25, EOM};
   cyg_mbox_put( mbx1H, x );
+}
+
+void process_registers(int max, int min) {
+  int i=0, k=0;
+  int time_s = 0;
+  int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
+
+  for(i=0; i<iread && i<NRBUF;i++){
+    time_s = registers[0][0]*60*60+registers[0][1]*60+registers[0][2];
+    if((time_s>min) && (time_s<max) && (time_s!=0)){
+      k++;
+      som_t = som_t + registers[i][3];
+      som_l = som_l + registers[i][4];
+      if(max_t<registers[i][3]) max_t=registers[i][3];
+      if(max_l<registers[i][4]) max_l=registers[i][4];
+      if(min_t>registers[i][3]) min_t=registers[i][3];
+      if(min_l>registers[i][4]) min_l>registers[i][4];
+    }
+  }
+  cyg_mutex_lock(&cliblock);
+  printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
+  printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
+  printf("\nMyCmd>");
+  cyg_mutex_unlock(&cliblock);
 }
 
 void read_buffer(unsigned char *buffer) {
@@ -388,8 +458,18 @@ void read_buffer(unsigned char *buffer) {
     }
   }
   else if (buffer[0] == NMFL ){
-    cyg_mutex_lock(&cliblock);
-    printf("Memory half full!\n");
-    cyg_mutex_unlock(&cliblock);
+    if (buffer[1] == CMD_ERROR){
+      cyg_mutex_lock(&cliblock);
+      printf("\nError from PIC side in command %x\n", buffer[0]);
+      printf("\nMyCmd>");
+      cyg_mutex_unlock(&cliblock);
+    }
+    else{
+      cyg_mutex_lock(&cliblock);
+      printf("Memory half full!\n");
+      cyg_mutex_unlock(&cliblock);
+      unsigned char x[] = {0, SOM, TRGC, 25, EOM};
+      cyg_mbox_put( mbx1H, x );
+    }
   }
 }
