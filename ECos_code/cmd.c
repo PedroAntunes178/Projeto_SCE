@@ -41,7 +41,7 @@ unsigned int n_reg = 0;
 unsigned char registers[NRBUF][5];
 int iread = 0;
 int iwrite = 0;
-int transfer_period = 0;
+int transfer_period = 100;
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
@@ -126,25 +126,30 @@ void write_program(cyg_addrword_t data){
 }
 
 void process_program(cyg_addrword_t data){
-  unsigned char *buffer_process;
-  unsigned int n;
-  int i =0;
+  cyg_handle_t counterH, system_clockH, alarmH;
+  cyg_tick_count_t ticks;
+  cyg_alarm alarm;
+  unsigned char variable = 0;
+  unsigned char *bufw;
 
-  while (1) {
-    buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned int)sizeof(buffer_process);
-    /*
-    int i=0;
-    cyg_mutex_lock(&cliblock);
-    printf("debug, %d!\n", n);
-    cyg_mutex_unlock(&cliblock);
-    for(i=0;i<n;i++){
-      cyg_mutex_lock(&cliblock);
-      printf("debug, %x!\n", buffer_process[i]);
-      cyg_mutex_unlock(&cliblock);
-    }*/
+  system_clockH = cyg_real_time_clock();
+  cyg_clock_to_counter(system_clockH, &test_counterH);
+  cyg_alarm_create(counterH, periodic_get_registers, (cyg_addrword_t) &variable, &alarmH, &alarm);
+  cyg_alarm_initialize(test_alarmH, cyg_current_time()+transfer_period, transfer_period);
+
+  for (;;) {
+    bufw = cyg_mbox_get( mbx2H );    // wait for message
+    n = (unsigned int)bufw[0];
 
   }
+}
+/* test_alarm_func() is invoked as an alarm handler, so
+   it should be quick and simple. in this case it increments
+   the data that is passed to it. */
+void periodic_get_registers(cyg_handle_t alarmH, cyg_addrword_t data){
+  ++*((unsigned *) data);
+  unsigned char x[] = {0, SOM, TRGC, 25, EOM};
+  cyg_mbox_put( mbx1H, x );
 }
 
 void read_buffer(unsigned char *buffer) {
