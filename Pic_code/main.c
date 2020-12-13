@@ -72,11 +72,13 @@ uint8_t nreg = 25;
 uint8_t pmon = 3;
 uint8_t tala = 5;
 
-uint8_t old_register_counter = 0;
 uint8_t register_counter = 0;
 
 unsigned char t, old_t;
 unsigned char  l, old_l;
+
+extern uint8_t register_not_transfered;
+uint8_t iread = 0;
 
 void main(void)
 {
@@ -415,16 +417,20 @@ void aala(){
 
 }
 void ireg(){
-    uint8_t nmfl_msg[]={SOM, IREG, 0, 0, 0, 0, EOM};
-    nmfl_msg[2]= NREG;
-    nmfl_msg[3]= nreg;
-    nmfl_msg[4]= register_counter;
-    nmfl_msg[5]= old_register_counter;
+    uint8_t read_register;
+    uint8_t ireg_msg[]={SOM, IREG, 0, 0, 0, 0, EOM};
+    ireg_msg[2]= nreg;
+    ireg_msg[3]= register_not_transfered;
+    ireg_msg[4]= iread;
+    ireg_msg[5]= register_counter;
 
-    send_msg(nmfl_msg, 7);
+    send_msg(ireg_msg, 7);
 }
+
 void trgc(uint8_t buff[8]){
     int i;
+    uint8_t buf[17];
+    uint8_t n;
     uint8_t reg_aux;
     uint16_t mem;
     uint8_t last_reg;
@@ -434,70 +440,164 @@ void trgc(uint8_t buff[8]){
         uint8_t e[]={SOM, TRGC, CMD_ERROR, EOM};
         send_msg(e, 4);
     }
-    uint8_t send_som[]={SOM, TRGC};
-    send_msg(send_som, 2);
-    reg_aux = register_counter;
+    else {
+        if(buff[2] > register_not_transfered)
+            n = register_not_transfered;
+        else 
+            n = buff[2];
 
-    for(i=0; i< buff[2]; i++){
-        mem = START_REG + reg_aux*5;
-        send_trgc[0]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[1]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[2]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[3]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[4]= (uint8_t)DATAEE_ReadByte(mem);
+        uint8_t send_som[]={SOM, TRGC, 0};
+        send_som[2] = n;
+        send_msg(send_som, 3);
+        reg_aux = iread;
 
-        reg_aux++;
-        if (reg_aux == nreg)
-            reg_aux = 0;
+        for(i=0; i< n; i++){
+            // In case there are no more registers to send
+            if (iread == register_counter){
+                LCDcmd(0x89);
+                sprintf(buf, "TR");
+                LCDstr(buf);
+                break;
+            }
+            mem = START_REG + reg_aux*5;
+            send_trgc[0]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgc[1]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgc[2]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgc[3]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgc[4]= (uint8_t)DATAEE_ReadByte(mem);
 
-        send_msg(send_trgc, 5);
+            reg_aux++;
+            if (reg_aux == nreg)
+                reg_aux = 0;
+
+            send_msg(send_trgc, 5);
+            register_not_transfered--;
+            iread ++;
+        }
+        uint8_t send_eom[]={EOM};
+        send_msg(send_eom, 1);
     }
-    uint8_t send_eom[]={EOM};
-    send_msg(send_eom, 1);
 }
+
 void trgi(uint8_t buff[8]){
-    int i;
+    int a;
+    uint8_t n;
+    uint8_t i;
+    uint8_t buf[17];
     uint8_t reg_aux;
     uint16_t mem;
     uint8_t last_reg;
-    uint8_t send_trgc[]={0, 0, 0, 0, 0};
+    uint8_t send_trgi[]={0, 0, 0, 0, 0};
 
     if(buff[2]<0 || buff[2]>nreg || buff[3]<0 || buff[3]>=nreg){
         uint8_t e[]={SOM, TRGI, CMD_ERROR, EOM};
         send_msg(e, 4);
+        LCDcmd(0xc6);
+        sprintf(buf, "E");
+        LCDstr(buf);    
     }
-    uint8_t send_som[]={SOM, TRGI};
-    send_msg(send_som, 2);
-    reg_aux = i;
+    else {
+        LCDcmd(0xc6);
+        sprintf(buf, "T");
+        LCDstr(buf);
+        
+        n = buff[2];
+        i = buff[3];
+        if(register_counter > iread){
+            LCDcmd(0xc7);
+            sprintf(buf, "0");
+            LCDstr(buf);
+            if(i<iread || i>register_counter){
+                LCDcmd(0xc7);
+                sprintf(buf, "1");
+                LCDstr(buf);
+                i = iread;
+            }
+            else {
+                LCDcmd(0xc7);
+                sprintf(buf, "2");
+                LCDstr(buf);
+                register_not_transfered = register_not_transfered - (i-iread);
+            }
+            
+        }
+        else if(register_counter < iread){
+            LCDcmd(0xc7);
+                sprintf(buf, "4");
+                LCDstr(buf);
+            if(i<iread && i>register_counter){
+                LCDcmd(0xc7);
+                sprintf(buf, "5");
+                LCDstr(buf);
+                i = iread;  
+            }
+            else if (i< register_counter){
+                LCDcmd(0xc7);
+                sprintf(buf, "6");
+                LCDstr(buf);
+                register_not_transfered = register_not_transfered - (nreg-iread);
+            }
+            else if (i > iread){
+                LCDcmd(0xc7);
+                sprintf(buf, "7");
+                LCDstr(buf);
+                register_not_transfered = register_not_transfered - (i-iread);
+            }   
+        }
+        if(n > register_not_transfered)
+                    n = register_not_transfered;               
+        
+        uint8_t send_som[]={SOM, TRGI, 0, 0};
+        send_som[2]= n;
+        send_som[3]= i;
+        send_msg(send_som, 2);
+        reg_aux = i;
 
-    for(i=0; i< buff[1]; i++){
-        mem = START_REG + reg_aux*5;
-        send_trgc[0]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[1]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[2]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[3]= (uint8_t)DATAEE_ReadByte(mem);
-        mem++;
-        send_trgc[4]= (uint8_t)DATAEE_ReadByte(mem);
+        for(a=0; a<n; a++){
+            if (iread == register_counter){
+                LCDcmd(0x89);
+                sprintf(buf, "TR");
+                LCDstr(buf);
+                break;
+            }
+            
+            mem = START_REG + reg_aux*5;
+            send_trgi[0]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgi[1]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgi[2]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgi[3]= (uint8_t)DATAEE_ReadByte(mem);
+            mem++;
+            send_trgi[4]= (uint8_t)DATAEE_ReadByte(mem);
 
-        reg_aux++;
-        if (reg_aux == nreg)
-            reg_aux = 0;
+            reg_aux++;
+            if (reg_aux == nreg)
+                reg_aux = 0;
 
-        send_msg(send_trgc, 5);
+            send_msg(send_trgi, 5);
+            LCDcmd(0xc8);
+            sprintf(buf, "S");
+            LCDstr(buf);
+            register_not_transfered--;
+            iread ++;
+        }
+        uint8_t send_eom[]={EOM};
+        send_msg(send_eom, 1); 
+        LCDcmd(0xc8);
+        sprintf(buf, "O");
+        LCDstr(buf);
     }
-    uint8_t send_eom[]={EOM};
-    send_msg(send_eom, 1);
 }
 
 void send_msg(uint8_t *buffer, uint8_t length){
     volatile uint8_t rxData;
+    uint8_t buf[17];
 
     for(int i=0; i<length; i++){
         if(EUSART_is_tx_ready()){
