@@ -337,7 +337,11 @@ void read_buffer(unsigned char *buffer) {
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
         if(iread+i>NRBUF) iread = iread - NRBUF;
-
+        registers[iread+i][0]=buffer[i*5+1+1];
+        registers[iread+i][1]=buffer[i*5+1+2];
+        registers[iread+i][2]=buffer[i*5+1+3];
+        registers[iread+i][3]=buffer[i*5+1+4];
+        registers[iread+i][4]=buffer[i*5+1+5];
         cyg_mutex_lock(&cliblock);
         printf("\nIndex %d register:\n", iread+i);
         printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
@@ -362,6 +366,11 @@ void read_buffer(unsigned char *buffer) {
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
         if(iread+i>NRBUF) iread = iread - NRBUF;
+        registers[iread+i][0]=buffer[i*5+2+1];
+        registers[iread+i][1]=buffer[i*5+2+2];
+        registers[iread+i][2]=buffer[i*5+2+3];
+        registers[iread+i][3]=buffer[i*5+2+4];
+        registers[iread+i][4]=buffer[i*5+2+5];
 
         cyg_mutex_lock(&cliblock);
         printf("\nIndex %d register:\n", iread+i);
