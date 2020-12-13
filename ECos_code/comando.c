@@ -33,7 +33,7 @@ void cmd_ini(int argc, char **argv)
 | Function: cmd_rc  - read clock
 +--------------------------------------------------------------------------*/
 void cmd_rc(int argc, char** argv){
-  unsigned char x[] = {SOM, RCLK, CMD_OK, EOM};
+  unsigned char x[] = {SOM, RCLK, CMD_OK, EOM, '\0'};
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -43,7 +43,7 @@ void cmd_rc(int argc, char** argv){
 void cmd_sc(int argc, char** argv){
 
   if(argc == 4){
-    unsigned char x[] = {SOM, SCLK, 0, 0, 0, EOM};
+    unsigned char x[] = {SOM, SCLK, 0, 0, 0, EOM, '\0'};
 
     x[2] = (unsigned char)atoi(argv[1]);
     x[3] = (unsigned char)atoi(argv[2]);
@@ -61,7 +61,7 @@ void cmd_sc(int argc, char** argv){
 | Function: cmd_rtl  - read temperature and luminosity
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_rtl(int argc, char** argv){
-  unsigned char x[] = {SOM, RTL, CMD_OK, EOM};
+  unsigned char x[] = {SOM, RTL, CMD_OK, EOM, '\0'};
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -69,7 +69,7 @@ void cmd_rtl(int argc, char** argv){
 | Function: cmd_rp  - read parameters (PMON, TALA)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_rp(int argc, char** argv){
-  unsigned char x[] = {SOM, RPAR, CMD_OK, EOM};
+  unsigned char x[] = {SOM, RPAR, CMD_OK, EOM, '\0'};
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -77,7 +77,7 @@ void cmd_rp(int argc, char** argv){
 | Function: cmd_mmp  - modify monitoring period (seconds - 0 deactivate)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mmp(int argc, char** argv){
-  unsigned char x[] = {SOM, MMP, 0, EOM};
+  unsigned char x[] = {SOM, MMP, 0, EOM, '\0'};
   if(argc == 2){
     x[2] = (unsigned char)atoi(argv[1]);
     cyg_mbox_put( mbx1H, x );
@@ -93,7 +93,7 @@ void cmd_mmp(int argc, char** argv){
 | Function: cmd_mta  - modify time alarm (seconds)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mta(int argc, char** argv){
-  unsigned char x[] = {SOM, MTA, 0, EOM};
+  unsigned char x[] = {SOM, MTA, 0, EOM, '\0'};
   if(argc == 2){
     x[2] = (unsigned char)atoi(argv[1]);
     cyg_mbox_put( mbx1H, x );
@@ -109,7 +109,7 @@ void cmd_mta(int argc, char** argv){
 | Function: cmd_ra  - read alarms (clock, temperature, luminosity, active/inactive-1/0)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_ra(int argc, char** argv){
-  unsigned char x[] = {SOM, RALA, CMD_OK, EOM};
+  unsigned char x[] = {SOM, RALA, CMD_OK, EOM, '\0'};
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -118,7 +118,7 @@ void cmd_ra(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dac(int argc, char** argv){
   if(argc == 4){
-    unsigned char x[] = {SOM, DAC, 0, 0, 0, EOM};
+    unsigned char x[] = {SOM, DAC, 0, 0, 0, EOM, '\0'};
 
     x[2] = (unsigned char)atoi(argv[1]);
     x[3] = (unsigned char)atoi(argv[2]);
@@ -136,7 +136,7 @@ void cmd_dac(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dtl(int argc, char** argv){
   if(argc == 3){
-    unsigned char x[] = {SOM, DATL, 0, 0, EOM};
+    unsigned char x[] = {SOM, DATL, 0, 0, EOM, '\0'};
     x[2] = (unsigned char)atoi(argv[1]);
     x[3] = (unsigned char)atoi(argv[2]);
     cyg_mbox_put( mbx1H, x);
@@ -153,7 +153,7 @@ void cmd_dtl(int argc, char** argv){
 | Function: cmd_aa  - activate/deactivate alarms (1/0)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_aa(int argc, char** argv){
-  unsigned char x[] = {SOM, AALA, 0, EOM};
+  unsigned char x[] = {SOM, AALA, 0, EOM, '\0'};
   if(argc == 2){
     x[2] = (unsigned char)atoi(argv[1]);
     cyg_mbox_put( mbx1H, x );
@@ -170,7 +170,7 @@ void cmd_aa(int argc, char** argv){
 | Function: cmd_ir  - information about registers (NREG, nr, iread, iwrite)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_ir(int argc, char** argv){
-  unsigned char x[] = {SOM, IREG, CMD_OK, EOM};
+  unsigned char x[] = {SOM, IREG, CMD_OK, EOM, '\0'};
   cyg_mbox_put( mbx1H, x );
 
 }
@@ -179,7 +179,7 @@ void cmd_ir(int argc, char** argv){
 | Function: cmd_trc  - transfer n registers from current iread position
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_trc(int argc, char** argv){
-  unsigned char x[] = {SOM, TRGC, 0, EOM};
+  unsigned char x[] = {SOM, TRGC, 0, EOM, '\0'};
   if(argc == 2){
     x[2] = (unsigned char)atoi(argv[1]);
     n_reg = x[2];
@@ -200,7 +200,7 @@ void cmd_trc(int argc, char** argv){
 | Function: cmd_tri  - transfer n registers from index i (0 - oldest)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_tri(int argc, char** argv){
-  unsigned char x[] = {SOM, TRGI, 0, 0, EOM};
+  unsigned char x[] = {SOM, TRGI, 0, 0, EOM, '\0'};
   if(argc == 3){
     x[2] = (unsigned char)atoi(argv[1]);
     n_reg = (int)x[2];
