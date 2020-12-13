@@ -47,6 +47,45 @@
 
     #define INTERRUPT_TMR0InterruptEnable()         do { TMR0IE = 1; } while(0)
     #define INTERRUPT_TMR0InterruptDisable()        do { TMR0IE = 0; } while(0)
+
+    #define MAGIC_NUMBER 0xF000 // this memory slot will save if we already runned the program ones or not
+    #define NREG 0xF001 //number of data registers
+    #define PMON 0xF002  //sec monitoring period
+    #define TALA 0xF003  //sec duration of alarm signal (PWM)
+    #define ALAH 0xF004 //hours of alarm clock
+    #define ALAM 0xF005  //minutes of alarm clock
+    #define ALAS 0xF006  //seconds of alarm clock
+    #define ALAT 0xF007 //oC threshold for temperature alarm
+    #define ALAL 0xF008  //threshold for luminosity level alarm
+    #define ALAF 0xF009  //alarm flag initially disabled
+    #define CLKH 0xF00A  //initial value for clock hours
+    #define CLKM 0xF00B  //initial value for clock minutes
+    #define LAST_REG 0xF00C //this memory slot will save the last register number we used
+    #define CHECKSUM 0xF00D //The sum is going to be saved in byte 0xF00D and 0xF00E cause its 16 bits
+
+    #define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
+        
+
+    #define SOM 0xFD /* start of message */
+    #define EOM 0xFE /* end of message */
+    #define RCLK 0xC0 /* read clock */
+    #define SCLK 0XC1 /* set clock */
+    #define RTL 0XC2 /* read temperature and luminosity */
+    #define RPAR 0XC3 /* read parameters */
+    #define MMP 0XC4 /* modify monitoring period */
+    #define MTA 0XC5 /* modify time alarm */
+    #define RALA 0XC6 /* read alarms (clock, temperature, luminosity, active/inactive) */
+    #define DAC 0XC7 /* define alarm clock */
+    #define DATL 0XC8 /* define alarm temperature and luminosity */
+    #define AALA 0XC9 /* activate/deactivate alarms */
+    #define IREG 0XCA /* information about registers (NREG, nr, iread, iwrite)*/
+    #define TRGC 0XCB /* transfer registers (curr. position)*/
+    #define TRGI 0XCC /* transfer registers (index) */
+    #define NMFL 0XCD /* notification memory (half) full */
+
+    #define CMD_OK 0 /* command successful */
+    #define CMD_ERROR 0xFF /* error in command */
+
 /**
   Section: Variable Definitions
  */
@@ -122,6 +161,7 @@ int LCDbusy(void);
 
 void LCD_write(void);
 void count_time_ISR(void);
+void count_time(void);
 void sensor(void);
 void save_sensor(void);
 void check_alarm(void);
@@ -139,7 +179,7 @@ void PWM_Output_D4_Disable (void);
 void change_alarm(void);
 void read_memory(void);
 void write_checksum(void);
-
+void update_LCD(void);
 
 
 void init_communication(void);
@@ -157,7 +197,8 @@ void aala();
 void ireg();
 void trgc(uint8_t buff[8]);
 void trgi(uint8_t buff[8]);
-void nmfl();
+
+void send_msg(uint8_t*, uint8_t);
 
 #endif	/* PROJECT_H */
 /**
