@@ -253,6 +253,7 @@ void cmd_irl(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_lr(int argc, char** argv){
   int k = 0;
+  int k_true = 0;
   int n = atoi(argv[1]);
   int i = atoi(argv[2]);
   for(k=i; k>iread || k>i+n; k++){
