@@ -113,7 +113,7 @@ void write_program(cyg_addrword_t data){
   unsigned int n;
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
-    n = (unsigned int)strlen(bufw);
+    n = (unsigned int)bufw[0];
 
     err = cyg_io_write(serH, bufw, &n);
     cyg_mutex_lock(&cliblock);
@@ -129,7 +129,7 @@ void process_program(cyg_addrword_t data){
 
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned int)strlen(buffer_process);
+    n = (unsigned int)bufw[0];
     /*
     int i=0;
     cyg_mutex_lock(&cliblock);
