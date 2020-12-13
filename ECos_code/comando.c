@@ -194,7 +194,7 @@ void cmd_trc(int argc, char** argv){
   x[0] = sizeof(x);
   if(argc == 2){
     x[3] = (unsigned char)atoi(argv[1]);
-    n_reg = x[2];
+    n_reg = (unsigned int)x[3];
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -216,7 +216,7 @@ void cmd_tri(int argc, char** argv){
   x[0] = sizeof(x);
   if(argc == 3){
     x[3] = (unsigned char)atoi(argv[1]);
-    n_reg = (int)x[2];
+    n_reg = (unsigned int)x[3];
     x[4] = (unsigned char)atoi(argv[2]);
     cyg_mbox_put( mbx1H, x );
   }
