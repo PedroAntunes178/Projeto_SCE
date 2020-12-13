@@ -370,6 +370,7 @@ void read_buffer(unsigned char *buffer) {
         printf("MyCmd>\n");
         cyg_mutex_unlock(&cliblock);
 
+      }
     }
   }
   else if (buffer[0] == NMFL ){
