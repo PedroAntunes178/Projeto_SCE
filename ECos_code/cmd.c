@@ -87,42 +87,16 @@ void read_program(cyg_addrword_t data){
 
   while(1){
     err = cyg_io_read(serH, &c, &n);
-    /*
-    cyg_mutex_lock(&cliblock);
-    printf("\nio_read err=%x, n=%d\n", err, n);
-    cyg_mutex_unlock(&cliblock);
-    */
     if (c == SOM ){
       flag = 1;
       buff_index = 0;
-      /*
-      cyg_mutex_lock(&cliblock);
-      printf("debug som\n");
-      cyg_mutex_unlock(&cliblock);
-      */
     }
     else if (c == EOM){
       flag = 0;
       cyg_mbox_put( mbx2H, buff );
-      /*
-      cyg_mutex_lock(&cliblock);
-      printf("debug fini\n");
-      printf("\nMyCmd>\n");
-      cyg_mutex_unlock(&cliblock);
-      */
     }
     else if (flag == 1){
-      /*
-      cyg_mutex_lock(&cliblock);
-      printf("debug buff\n");
-      cyg_mutex_unlock(&cliblock);
-      */
       buff[buff_index]=c;
-      /*
-      cyg_mutex_lock(&cliblock);
-      printf("buf[%d]=%x\n", buff_index, buff[buff_index]);
-      cyg_mutex_unlock(&cliblock);
-      */
       buff_index++;
     }
     else{
@@ -141,16 +115,6 @@ void write_program(cyg_addrword_t data){
     bufw = cyg_mbox_get( mbx1H );    // wait for message
     n = strlen(bufw);
 
-    int i=0;
-    cyg_mutex_lock(&cliblock);
-    printf("debug, %d!\n", n);
-    cyg_mutex_unlock(&cliblock);
-    for(i=0;i<n;i++){
-      cyg_mutex_lock(&cliblock);
-      printf("debug, %x!\n", bufw[i]);
-      cyg_mutex_unlock(&cliblock);
-    }
-
     err = cyg_io_write(serH, bufw, &n);
     cyg_mutex_lock(&cliblock);
     printf("io_write err=%x, n=%d\n", err, n);
@@ -165,7 +129,7 @@ void process_program(cyg_addrword_t data){
 
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned char)sizeof(buffer_process);
+    n = strlen(buffer_process);
     /*
     int i=0;
     cyg_mutex_lock(&cliblock);
