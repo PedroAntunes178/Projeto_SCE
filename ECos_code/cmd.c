@@ -139,7 +139,7 @@ void write_program(cyg_addrword_t data){
   unsigned int n;
   while (1) {
     bufw = cyg_mbox_get( mbx1H );    // wait for message
-    n = sizeof((unsigned char *)bufw);
+    n = strlen(bufw);
 
     int i=0;
     cyg_mutex_lock(&cliblock);
