@@ -41,16 +41,14 @@ void cmd_rc(int argc, char** argv){
 | Function: cmd_sc  - set clock
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_sc(int argc, char** argv){
-  
-  if(argc == 4){
-    unsigned char x1[] = {SOM, SCLK, 0, 0};
-    unsigned char x2[] = {0,EOM};
 
-    x1[2] = atoi(argv[1]);
-    x1[3] = atoi(argv[2]);
-    x2[0] = atoi(argv[3]);
+  if(argc == 4){
+    unsigned char x1[] = {SOM, SCLK, 0, 0, 0, EOM};
+
+    x1[2] = (unsigned char)atoi(argv[1]);
+    x1[3] = (unsigned char)atoi(argv[2]);
+    x1[4] = (unsigned char)atoi(argv[3]);
     cyg_mbox_put( mbx1H, x1 );
-    cyg_mbox_put( mbx1H, x2 );
   }
   else{
     cyg_mutex_lock(&cliblock);
