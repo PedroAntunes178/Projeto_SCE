@@ -129,7 +129,7 @@ void process_program(cyg_addrword_t data){
 
   while (1) {
     buffer_process = cyg_mbox_get( mbx2H );    // wait for message
-    n = (unsigned int)bufw[0];
+    n = (unsigned int)buffer_process[0];
     /*
     int i=0;
     cyg_mutex_lock(&cliblock);
