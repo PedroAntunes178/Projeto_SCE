@@ -27,6 +27,7 @@ extern unsigned char  l, old_l;
 uint8_t old_register_counter = 0;
 uint8_t register_counter = 0;
 uint8_t register_not_transfered = 0;
+extern uint8_t iread;
 
 void read_memory(void)
 {
@@ -49,6 +50,7 @@ void read_memory(void)
         pmon = DATAEE_ReadByte(PMON);
         tala = DATAEE_ReadByte(TALA);
         register_counter = DATAEE_ReadByte(LAST_REG);
+        iread = register_counter;
         count = alah + alam + alas + alat + alal + nreg + pmon + tala;
         
         if (DATAEE_ReadByte(CHECKSUM)!=count){
@@ -61,6 +63,7 @@ void read_memory(void)
             pmon = 3;
             tala = 5;
             register_counter = 0;
+            iread = 0;
             DATAEE_WriteByte(ALAH, alah);
             DATAEE_WriteByte(ALAM, alam);
             DATAEE_WriteByte(ALAS, alas);
@@ -307,18 +310,22 @@ void save_sensor()
     register_counter++;
     register_not_transfered++;
     
-    if (register_counter == nreg)
+    if (register_counter == nreg){
         register_counter = 0;
+        if (iread==register_counter){
+            iread++;
+        }
+    }
     
     if (register_not_transfered > nreg/2){
         LCDcmd(0xc7);
         sprintf(buf,"M");
         LCDstr("M");
         uint8_t nmfl_msg[]={SOM, NMFL, 0, 0, 0, 0, EOM};
-        nmfl_msg[1]= NREG;
         nmfl_msg[2]= nreg;
-        nmfl_msg[3]= register_counter;
-        nmfl_msg[3]= old_register_counter;
+        nmfl_msg[3]= register_not_transfered;
+        nmfl_msg[4]= iread;
+        nmfl_msg[5]= register_counter;
 
         send_msg(nmfl_msg, 7);
     }
