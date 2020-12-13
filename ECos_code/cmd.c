@@ -149,6 +149,7 @@ void write_program(cyg_addrword_t data){
       cyg_mutex_lock(&cliblock);
       printf("debug, %x!\n", bufw[i]);
       cyg_mutex_unlock(&cliblock);
+    }
 
     err = cyg_io_write(serH, bufw, &n);
     cyg_mutex_lock(&cliblock);
