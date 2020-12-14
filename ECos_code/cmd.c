@@ -130,8 +130,8 @@ void process_program(cyg_addrword_t data){
   int transfer_period = 6000;
   int threshold_temperature = 0;
   int threshold_luminosity = 0;
-  int max = 0;
-  int min = 0;
+  int *max;
+  int *min;
 
   system_clockH = cyg_real_time_clock();
   cyg_clock_to_counter(system_clockH, &counterH);
@@ -168,12 +168,12 @@ void process_program(cyg_addrword_t data){
       threshold_luminosity = atoi(bufw);
     }
     else if (bufw[0] == '5'){
-      &min = cyg_mbox_get( mbx2H );
-      &max = cyg_mbox_get( mbx2H );
+      min = cyg_mbox_get( mbx2H );
+      max = cyg_mbox_get( mbx2H );
       cyg_mutex_lock(&cliblock);
-      printf("\n%d\t%d\n", max, min);
+      printf("\n%d\t%d\n", *max, *min);
       cyg_mutex_unlock(&cliblock);
-      process_registers(max, min);
+      process_registers(*max, *min);
     }
   }
 }
