@@ -201,7 +201,7 @@ void process_registers(int max, int min) {
   int som_t=0;
   int som_l=0;
 
-  while((i<iread) && (i<NRBUF)){
+  while(i<NRBUF){
     cyg_mutex_lock(&cliblock);
     printf("\nEnter debug\n");
     cyg_mutex_unlock(&cliblock);
