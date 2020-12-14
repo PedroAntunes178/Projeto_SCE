@@ -199,12 +199,9 @@ void process_registers(int max, int min) {
   int som_t=0;
   int som_l=0;
 
-  while(i<NRBUF-1){
+  while(i<NRBUF){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
-    cyg_mutex_lock(&cliblock);
-    printf("\n-_-\n");
-    cyg_mutex_unlock(&cliblock);
       k++;
       som_t = som_t + registers[i][3];
       som_l = som_l + registers[i][4];
@@ -214,12 +211,12 @@ void process_registers(int max, int min) {
       if(min_l>registers[i][4]) min_l=registers[i][4];
     }
     i++;
-  }
+  }/*
   cyg_mutex_lock(&cliblock);
   printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
   printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
   printf("\nMyCmd>");
-  cyg_mutex_unlock(&cliblock);
+  cyg_mutex_unlock(&cliblock);*/
 }
 
 void read_buffer(unsigned char *buffer) {
