@@ -347,12 +347,10 @@ void cmd_pr(int argc, char** argv){
   int time_max = 0;
 
   if(argc == 7){
-    time_min = atoi(argv[1])+atoi(argv[2])+atoi(argv[3]);
-    time_max = atoi(argv[4])+atoi(argv[5])+atoi(argv[6]);
+    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3]);
+    time_max = atoi(argv[4])*60*60+atoi(argv[5])*60+atoi(argv[6]);
     cyg_mbox_put( mbx2H, &x );
-    sscanf(buffer,"%d", &time_min);
     cyg_mbox_put( mbx2H, &time_min);
-    sscanf(buffer,"%d", &time_max);
     cyg_mbox_put( mbx2H, &time_max);
   }
   else{

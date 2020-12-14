@@ -202,6 +202,9 @@ void process_registers(int max, int min) {
   while(i<NRBUF-1){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
+    cyg_mutex_lock(&cliblock);
+    printf("\n-_-\n");
+    cyg_mutex_unlock(&cliblock);
       k++;
       som_t = som_t + registers[i][3];
       som_l = som_l + registers[i][4];
