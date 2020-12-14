@@ -168,10 +168,8 @@ void process_program(cyg_addrword_t data){
       threshold_luminosity = atoi(bufw);
     }
     else if (bufw[0] == '5'){
-      bufw = cyg_mbox_get( mbx2H );
-      min = atoi(bufw);
-      bufw = cyg_mbox_get( mbx2H );
-      max = atoi(bufw);
+      &min = cyg_mbox_get( mbx2H );
+      &max = cyg_mbox_get( mbx2H );
       cyg_mutex_lock(&cliblock);
       printf("\n%d\t%d\n", max, min);
       cyg_mutex_unlock(&cliblock);
@@ -203,7 +201,7 @@ void process_registers(int max, int min) {
 
   while(i<NRBUF){
     cyg_mutex_lock(&cliblock);
-    printf("\nEnter debug\n");
+    printf("\nEnter debug %d\n", i);
     cyg_mutex_unlock(&cliblock);
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
