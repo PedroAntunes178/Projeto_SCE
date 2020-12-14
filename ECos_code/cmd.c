@@ -200,16 +200,12 @@ void process_registers(int max, int min) {
   int min_l=100;
   int som_t=0;
   int som_l=0;
-      cyg_mutex_lock(&cliblock);
-    printf("\n uck debug\n");
-    cyg_mutex_unlock(&cliblock);
 
   while((i<iread) && (i<NRBUF)){
-    i++;
-      cyg_mutex_lock(&cliblock);
+    cyg_mutex_lock(&cliblock);
     printf("\nEnter debug\n");
     cyg_mutex_unlock(&cliblock);
-    time_s = registers[0][0]*60*60+registers[0][1]*60+registers[0][2];
+    time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
       k++;
       som_t = som_t + registers[i][3];
@@ -219,6 +215,7 @@ void process_registers(int max, int min) {
       if(min_t>registers[i][3]) min_t=registers[i][3];
       if(min_l>registers[i][4]) min_l=registers[i][4];
     }
+    i++;
   }
   cyg_mutex_lock(&cliblock);
   printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
