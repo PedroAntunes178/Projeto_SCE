@@ -170,9 +170,6 @@ void process_program(cyg_addrword_t data){
     else if (bufw[0] == '5'){
       min = cyg_mbox_get( mbx2H );
       max = cyg_mbox_get( mbx2H );
-      cyg_mutex_lock(&cliblock);
-      printf("\n%d\t%d\n", *max, *min);
-      cyg_mutex_unlock(&cliblock);
       process_registers(*max, *min);
     }
   }
@@ -211,12 +208,12 @@ void process_registers(int max, int min) {
       if(min_l>registers[i][4]) min_l=registers[i][4];
     }
     i++;
-  }/*
-  cyg_mutex_lock(&cliblock);
+  }
+  //cyg_mutex_lock(&cliblock);
   printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
   printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
   printf("\nMyCmd>");
-  cyg_mutex_unlock(&cliblock);*/
+  //cyg_mutex_unlock(&cliblock);
 }
 
 void read_buffer(unsigned char *buffer) {
