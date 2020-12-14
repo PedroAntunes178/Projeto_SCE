@@ -209,11 +209,11 @@ void process_registers(int max, int min) {
     }
     i++;
   }
-  //cyg_mutex_lock(&cliblock);
-  printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
-  printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
+  cyg_mutex_lock(&cliblock);
+  printf("\nTemperature: max = %d; min = %d; mean = .\n", max_t, min_t);
+  printf("\nLuminosity: max = %d; min = %d; mean = .\n", max_l, min_l);
   printf("\nMyCmd>");
-  //cyg_mutex_unlock(&cliblock);
+  cyg_mutex_unlock(&cliblock);
 }
 
 void read_buffer(unsigned char *buffer) {
