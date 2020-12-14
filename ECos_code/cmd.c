@@ -211,7 +211,7 @@ void process_registers(int max, int min) {
       if(max_t<registers[i][3]) max_t=registers[i][3];
       if(max_l<registers[i][4]) max_l=registers[i][4];
       if(min_t>registers[i][3]) min_t=registers[i][3];
-      if(min_l>registers[i][4]) min_l>registers[i][4];
+      if(min_l>registers[i][4]) min_l=registers[i][4];
     }
   }
   cyg_mutex_lock(&cliblock);
