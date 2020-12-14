@@ -342,7 +342,6 @@ void cmd_dttl(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_pr(int argc, char** argv){
   unsigned char x = '5';
-  char buffer[8];
   int time_min = 0;
   int time_max = 0;
 
