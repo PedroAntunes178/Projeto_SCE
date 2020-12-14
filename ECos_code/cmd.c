@@ -189,14 +189,7 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
 void process_registers(int max, int min) {
   int i=0, k=0;
   int time_s = 0;
-  int max_t=0;
-  int max_l=0;
-  int min_t=100;
-  int min_l=100;
-  int som_t=0;
-  int som_l=0;
-  int mean_t=0;
-  int mean_l=0;
+  int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
 
   while(i<NRBUF){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
@@ -211,12 +204,17 @@ void process_registers(int max, int min) {
     }
     i++;
   }
-  mean_t=som_t/k;
-  mean_l=som_l/k;
-  cyg_mutex_lock(&cliblock);
-  printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, mean_t);
-  printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, mean_l);
-  cyg_mutex_unlock(&cliblock);
+  if(k>0){
+    cyg_mutex_lock(&cliblock);
+    printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
+    printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
+    cyg_mutex_unlock(&cliblock);
+  }
+  else{
+    cyg_mutex_lock(&cliblock);
+    printf("\nNo registers found in the intervel given.\n");
+    cyg_mutex_unlock(&cliblock);
+  }
 }
 
 void read_buffer(unsigned char *buffer) {
