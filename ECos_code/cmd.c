@@ -147,15 +147,10 @@ void process_program(cyg_addrword_t data){
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == '2'){
+      cyg_alarm_delete(alarmH);
       bufw = cyg_mbox_get( mbx2H );
-      if(transfer_period==0){
-        transfer_period = atoi((char *)bufw);
-        if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
-      }
-      else{
-        transfer_period = atoi((char *)bufw);
-        if (transfer_period ==0) cyg_alarm_delete(alarmH);
-      }
+      transfer_period = atoi((char *)bufw);
+      if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
       cyg_mutex_lock(&cliblock);
       printf("\nModified period of transference: %d\n", transfer_period);
       cyg_mutex_unlock(&cliblock);
