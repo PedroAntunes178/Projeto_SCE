@@ -291,7 +291,7 @@ void cmd_dr(int argc, char** argv){
 | Function: cmd_cpt  - check period of transference
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cpt(int argc, char** argv){
-  unsigned char x = '1'
+  unsigned char x = '1';
   cyg_mbox_put( mbx1H, &x );
 }
 
@@ -299,7 +299,7 @@ void cmd_cpt(int argc, char** argv){
 | Function: cmd_mpt  - modify period of transference (minutes - 0 deactivate)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mpt(int argc, char** argv){
-  unsigned char x = '2'
+  unsigned char x = '2';
   if(argc == 2){
     cyg_mbox_put( mbx1H, &x );
     cyg_mbox_put( mbx1H, argv[1]);
@@ -315,7 +315,7 @@ void cmd_mpt(int argc, char** argv){
 | Function: cmd_cttl  - check threshold temperature and luminosity for processing
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cttl(int argc, char** argv){
-  unsigned char x = '3'
+  unsigned char x = '3';
   cyg_mbox_put( mbx1H, &x );
 }
 
@@ -323,7 +323,7 @@ void cmd_cttl(int argc, char** argv){
 | Function: cmd_dttl  - define threshold temperature and luminosity for processing
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dttl(int argc, char** argv){
-  unsigned char x = '4'
+  unsigned char x = '4';
   if(argc == 3){
     cyg_mbox_put( mbx1H, &x );
     cyg_mbox_put( mbx1H, argv[1]);
@@ -341,7 +341,7 @@ void cmd_dttl(int argc, char** argv){
 | Function: cmd_pr  - process registers (max, min, mean) between instants t1 and t2 (h,m,s)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_pr(int argc, char** argv){
-  unsigned char x = '5'
+  unsigned char x = '5';
   char buffer[8];
   int time_min = 0;
   int time_max = 0;
@@ -350,9 +350,9 @@ void cmd_pr(int argc, char** argv){
     time_min = atoi(argv[1])+atoi(argv[2])+atoi(argv[3]);
     time_max = atoi(argv[4])+atoi(argv[5])+atoi(argv[6]);
     cyg_mbox_put( mbx1H, &x );
-    sscanf(buffer,"%d", time_min);
+    sscanf(buffer,"%d", &time_min);
     cyg_mbox_put( mbx1H, buffer);
-    sscanf(buffer,"%d", time_min);
+    sscanf(buffer,"%d", &time_min);
     cyg_mbox_put( mbx1H, buffer);
   }
   else{

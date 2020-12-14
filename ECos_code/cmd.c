@@ -124,7 +124,6 @@ void write_program(cyg_addrword_t data){
 
 void process_program(cyg_addrword_t data){
   cyg_handle_t counterH, system_clockH, alarmH;
-  cyg_tick_count_t ticks;
   cyg_alarm alarm;
   unsigned char variable = 0;
   unsigned char *bufw;
@@ -151,11 +150,11 @@ void process_program(cyg_addrword_t data){
     else if (bufw[0] == '2'){
       bufw = cyg_mbox_get( mbx2H );
       if(transfer_period==0){
-        transfer_period = atoi(bufw);
+        transfer_period = atoi((char *)bufw);
         if (transfer_period !=0) cyg_alarm_enable(alarmH);
       }
       else{
-        transfer_period = atoi(bufw);
+        transfer_period = atoi((char *)bufw);
         if (transfer_period ==0) cyg_alarm_disable(alarmH);
       }
       cyg_mutex_lock(&cliblock);
@@ -172,15 +171,15 @@ void process_program(cyg_addrword_t data){
     }
     else if (bufw[0] == '4'){
       bufw = cyg_mbox_get( mbx2H );
-      threshold_temperature = atoi(bufw);
+      threshold_temperature = atoi((char *)bufw);
       bufw = cyg_mbox_get( mbx2H );
-      threshold_luminosity = atoi(bufw);
+      threshold_luminosity = atoi((char *)bufw);
     }
     else if (bufw[0] == '5'){
       bufw = cyg_mbox_get( mbx2H );
-      min = atoi(bufw);
+      min = atoi((char *)bufw);
       bufw = cyg_mbox_get( mbx2H );
-      max = atoi(bufw);
+      max = atoi((char *)bufw);
       process_registers(max, min);
     }
   }
