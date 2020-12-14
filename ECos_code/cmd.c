@@ -150,11 +150,11 @@ void process_program(cyg_addrword_t data){
       bufw = cyg_mbox_get( mbx2H );
       if(transfer_period==0){
         transfer_period = atoi((char *)bufw);
-        if (transfer_period !=0) cyg_alarm_enable(alarmH);
+        if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
       }
       else{
         transfer_period = atoi((char *)bufw);
-        if (transfer_period ==0) cyg_alarm_disable(alarmH);
+        if (transfer_period ==0) cyg_alarm_delete(alarmH);
       }
       cyg_mutex_lock(&cliblock);
       printf("\nModified period of transference: %d\n", transfer_period);
