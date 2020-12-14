@@ -144,7 +144,6 @@ void process_program(cyg_addrword_t data){
     if(bufw[0] == '1'){
       cyg_mutex_lock(&cliblock);
       printf("\nPeriod of transference: %d\n", transfer_period);
-      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == '2'){
@@ -159,14 +158,12 @@ void process_program(cyg_addrword_t data){
       }
       cyg_mutex_lock(&cliblock);
       printf("\nModified period of transference: %d\n", transfer_period);
-      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == '3'){
       cyg_mutex_lock(&cliblock);
       printf("\nThreshold temperature: %d\n", threshold_temperature);
       printf("Threshold luminosity: %d\n", threshold_luminosity);
-      printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == '4'){
@@ -191,7 +188,6 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
   ++*((unsigned *) data);
   cyg_mutex_lock(&cliblock);
   printf("\nAsked for Registers\n");
-  printf("\nMyCmd>");
   cyg_mutex_unlock(&cliblock);
   unsigned char x[] = {5, SOM, TRGC, 25, EOM};
   cyg_mbox_put( mbx1H, x );
@@ -202,7 +198,7 @@ void process_registers(int max, int min) {
   int time_s = 0;
   int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
 
-  for(i=0; i<iread && i<NRBUF;i++){
+  for(i=0; (i<iread) && (i<NRBUF);i++){
     time_s = registers[0][0]*60*60+registers[0][1]*60+registers[0][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
       k++;
