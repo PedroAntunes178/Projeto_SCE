@@ -353,6 +353,20 @@ void cmd_pr(int argc, char** argv){
     cyg_mbox_put( mbx2H, &time_min);
     cyg_mbox_put( mbx2H, &time_max);
   }
+  else if(argc == 4){
+    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3]);
+    time_max = 24*60*60;
+    cyg_mbox_put( mbx2H, &x );
+    cyg_mbox_put( mbx2H, &time_min);
+    cyg_mbox_put( mbx2H, &time_max);
+  }
+  else if(argc == 1){
+    time_min = 0;
+    time_max = 24*60*60;
+    cyg_mbox_put( mbx2H, &x );
+    cyg_mbox_put( mbx2H, &time_min);
+    cyg_mbox_put( mbx2H, &time_max);
+  }
   else{
     cyg_mutex_lock(&cliblock);
     printf("Not the right number of parameters were given.\n");
