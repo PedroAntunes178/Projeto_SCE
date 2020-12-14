@@ -172,6 +172,9 @@ void process_program(cyg_addrword_t data){
       min = atoi((char *)bufw);
       bufw = cyg_mbox_get( mbx2H );
       max = atoi((char *)bufw);
+      cyg_mutex_lock(&cliblock);
+      printf("\n%d\t%d\n", max, min);
+      cyg_mutex_unlock(&cliblock);
       process_registers(max, min);
     }
   }
@@ -194,6 +197,9 @@ void process_registers(int max, int min) {
   int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
 
   for(i=0; (i<iread) && (i<NRBUF);i++){
+      cyg_mutex_lock(&cliblock);
+    printf("\nEnter debug\n");
+    cyg_mutex_unlock(&cliblock);
     time_s = registers[0][0]*60*60+registers[0][1]*60+registers[0][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
       k++;
