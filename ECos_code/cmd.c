@@ -193,7 +193,7 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
   printf("\nAsked for Registers\n");
   printf("\nMyCmd>");
   cyg_mutex_unlock(&cliblock);
-  unsigned char x[] = {0, SOM, TRGC, 25, EOM};
+  unsigned char x[] = {5, SOM, TRGC, 25, EOM};
   cyg_mbox_put( mbx1H, x );
 }
 
