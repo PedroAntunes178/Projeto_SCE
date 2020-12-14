@@ -117,8 +117,7 @@ void write_program(cyg_addrword_t data){
 
     err = cyg_io_write(serH, bufw, &n);
     cyg_mutex_lock(&cliblock);
-    printf("\nio_write err=%x, n=%d\n", err, n);
-    printf("\nMyCmd>");
+    printf("io_write err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
   }
 }

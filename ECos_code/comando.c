@@ -292,7 +292,7 @@ void cmd_dr(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cpt(int argc, char** argv){
   unsigned char x = '1';
-  cyg_mbox_put( mbx1H, &x );
+  cyg_mbox_put( mbx2H, &x );
 }
 
 /*----------------------------------------------------------------------------------------------------+
@@ -301,8 +301,8 @@ void cmd_cpt(int argc, char** argv){
 void cmd_mpt(int argc, char** argv){
   unsigned char x = '2';
   if(argc == 2){
-    cyg_mbox_put( mbx1H, &x );
-    cyg_mbox_put( mbx1H, argv[1]);
+    cyg_mbox_put( mbx2H, &x );
+    cyg_mbox_put( mbx2H, argv[1]);
   }
   else{
     cyg_mutex_lock(&cliblock);
@@ -316,7 +316,7 @@ void cmd_mpt(int argc, char** argv){
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cttl(int argc, char** argv){
   unsigned char x = '3';
-  cyg_mbox_put( mbx1H, &x );
+  cyg_mbox_put( mbx2H, &x );
 }
 
 /*----------------------------------------------------------------------------------------------------+
@@ -325,9 +325,9 @@ void cmd_cttl(int argc, char** argv){
 void cmd_dttl(int argc, char** argv){
   unsigned char x = '4';
   if(argc == 3){
-    cyg_mbox_put( mbx1H, &x );
-    cyg_mbox_put( mbx1H, argv[1]);
-    cyg_mbox_put( mbx1H, argv[2]);
+    cyg_mbox_put( mbx2H, &x );
+    cyg_mbox_put( mbx2H, argv[1]);
+    cyg_mbox_put( mbx2H, argv[2]);
   }
   else{
     cyg_mutex_lock(&cliblock);
@@ -349,11 +349,11 @@ void cmd_pr(int argc, char** argv){
   if(argc == 7){
     time_min = atoi(argv[1])+atoi(argv[2])+atoi(argv[3]);
     time_max = atoi(argv[4])+atoi(argv[5])+atoi(argv[6]);
-    cyg_mbox_put( mbx1H, &x );
+    cyg_mbox_put( mbx2H, &x );
     sscanf(buffer,"%d", &time_min);
-    cyg_mbox_put( mbx1H, buffer);
+    cyg_mbox_put( mbx2H, buffer);
     sscanf(buffer,"%d", &time_min);
-    cyg_mbox_put( mbx1H, buffer);
+    cyg_mbox_put( mbx2H, buffer);
   }
   else{
     cyg_mutex_lock(&cliblock);
