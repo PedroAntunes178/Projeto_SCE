@@ -204,7 +204,8 @@ void process_registers(int max, int min) {
     printf("\n uck debug\n");
     cyg_mutex_unlock(&cliblock);
 
-  for(i=0; (i<iread) && (i<NRBUF);i++){
+  while((i<iread) && (i<NRBUF)){
+    i++;
       cyg_mutex_lock(&cliblock);
     printf("\nEnter debug\n");
     cyg_mutex_unlock(&cliblock);
