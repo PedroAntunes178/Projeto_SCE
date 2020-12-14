@@ -11,7 +11,7 @@
 #define THREAD_WRITE_PRI 8
 #define THREAD_PROCESS_PRI 7
 #define NUMBER_OF_THREADS 4 //two thread objects
-#define STACKSIZE 4096 //4K stacks
+#define STACKSIZE 8128 //8K stacks
 
 
 /* now declare (and allocate space for) some kernel objects, like the two threads we will use */
@@ -126,7 +126,7 @@ void process_program(cyg_addrword_t data){
   cyg_handle_t counterH, system_clockH, alarmH;
   cyg_alarm alarm;
   unsigned char variable = 0;
-  unsigned char *bufw;
+  char *bufw;
   int transfer_period = 6000;
   int threshold_temperature = 0;
   int threshold_luminosity = 0;
@@ -149,7 +149,7 @@ void process_program(cyg_addrword_t data){
     else if (bufw[0] == '2'){
       cyg_alarm_delete(alarmH);
       bufw = cyg_mbox_get( mbx2H );
-      transfer_period = atoi((char *)bufw);
+      transfer_period = atoi(bufw);
       if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
       cyg_mutex_lock(&cliblock);
       printf("\nModified period of transference: %d\n", transfer_period);
@@ -163,15 +163,15 @@ void process_program(cyg_addrword_t data){
     }
     else if (bufw[0] == '4'){
       bufw = cyg_mbox_get( mbx2H );
-      threshold_temperature = atoi((char *)bufw);
+      threshold_temperature = atoi(bufw);
       bufw = cyg_mbox_get( mbx2H );
-      threshold_luminosity = atoi((char *)bufw);
+      threshold_luminosity = atoi(bufw);
     }
     else if (bufw[0] == '5'){
       bufw = cyg_mbox_get( mbx2H );
-      min = atoi((char *)bufw);
+      min = atoi(bufw);
       bufw = cyg_mbox_get( mbx2H );
-      max = atoi((char *)bufw);
+      max = atoi(bufw);
       cyg_mutex_lock(&cliblock);
       printf("\n%d\t%d\n", max, min);
       cyg_mutex_unlock(&cliblock);
@@ -194,7 +194,15 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
 void process_registers(int max, int min) {
   int i=0, k=0;
   int time_s = 0;
-  int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
+  int max_t=0;
+  int max_l=0;
+  int min_t=100;
+  int min_l=100;
+  int som_t=0;
+  int som_l=0;
+      cyg_mutex_lock(&cliblock);
+    printf("\n uck debug\n");
+    cyg_mutex_unlock(&cliblock);
 
   for(i=0; (i<iread) && (i<NRBUF);i++){
       cyg_mutex_lock(&cliblock);
