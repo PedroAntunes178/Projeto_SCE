@@ -199,10 +199,7 @@ void process_registers(int max, int min) {
   int som_t=0;
   int som_l=0;
 
-  while(i<NRBUF){
-    cyg_mutex_lock(&cliblock);
-    printf("\nEnter debug %d\n", i);
-    cyg_mutex_unlock(&cliblock);
+  while(i<NRBUF-1){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
       k++;
