@@ -128,7 +128,7 @@ void process_program(cyg_addrword_t data){
   cyg_alarm alarm;
   unsigned char variable = 0;
   unsigned char *bufw;
-  int transfer_period = 60000;
+  int transfer_period = 6000;
   int threshold_temperature = 0;
   int threshold_luminosity = 0;
   int max = 0;

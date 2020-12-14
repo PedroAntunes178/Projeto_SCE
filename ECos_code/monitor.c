@@ -37,7 +37,7 @@ struct 	command_d {
   {cmd_irl,  "irl","                             information about local registers (NRBUF, nr, iread, iwrite)"},
   {cmd_lr,   "lr","<n> <i>                       list n registers (local memory) from index i (0 - oldest)"},
   {cmd_dr,   "dr","                              delete registers (local memory)"},
-  {cmd_irl,  "irl","                             information about local registers (NRBUF, nr, iread, iwrite)"},
+  {cmd_cpt,  "cpt","                             check period of transference"},
   {cmd_mpt,  "mpt","<p>                          modify period of transference (minutes - 0 deactivate)"},
   {cmd_cttl, "cttl","                            check threshold temperature and luminosity for processing"},
   {cmd_dttl, "dttl","                            define threshold temperature and luminosity for processing"},
