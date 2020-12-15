@@ -173,7 +173,7 @@ void process_program(cyg_addrword_t data){
       max = cyg_mbox_get( mbx2H );
       process_registers(*max, *min);
     }
-    else if (auto_flag=1){
+    else if (auto_flag==1){
       check_threshold(threshold_temperature, threshold_luminosity, bufw);
       auto_flag = 0;
     }
@@ -183,7 +183,7 @@ void process_program(cyg_addrword_t data){
    it should be quick and simple. in this case it increments
    the data that is passed to it. */
 void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
-  unsigned char x[] = {5, SOM, TRGC, 25, EOM}
+  unsigned char x[] = {5, SOM, TRGC, 25, EOM};
 
   cyg_mutex_lock(&cliblock);
   printf("\nAsked for Registers\n");
