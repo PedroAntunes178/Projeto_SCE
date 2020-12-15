@@ -432,7 +432,7 @@ void read_buffer(unsigned char *buffer) {
     else{
       unsigned char x = 120;
       n_reg = buffer[1];
-      if(n_reg>0) iwrite++;
+      if((iwrite==-1)&&(n_reg>0)) iwrite++;
       for(i=0;i<n_reg;i++){
         if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
         if(ng!=NRBUF) ng++;
@@ -442,7 +442,6 @@ void read_buffer(unsigned char *buffer) {
         registers[iwrite][2]=buffer[i*5+1+3];
         registers[iwrite][3]=buffer[i*5+1+4];
         registers[iwrite][4]=buffer[i*5+1+5];
-        iwrite++;
 
         cyg_mutex_lock(&cliblock);
         printf("\nIndex %d register:\n", iwrite);
@@ -451,6 +450,7 @@ void read_buffer(unsigned char *buffer) {
         printf("MyCmd>\n");
         cyg_mutex_unlock(&cliblock);
 
+        iwrite++;
       }
       cyg_mbox_put( mbx2H, &x );
     }
