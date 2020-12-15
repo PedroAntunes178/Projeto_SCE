@@ -39,7 +39,7 @@ cyg_mbox mbx1, mbx2;
 /*Register related variables*/
 unsigned int n_reg = 0;
 unsigned char registers[NRBUF][5];
-int iread = 0;
+int iread = -1;
 int iwrite = -1;
 int ng = 0;
 
@@ -228,21 +228,21 @@ void check_threshold(int t, int l) {
   int i=0;
   if (iwrite<iread) iwrite = iwrite+NRBUF;
   while(iread<=iwrite){
+    iread++;
     if (iread>=NRBUF){
       iwrite = iwrite-NRBUF;
       iread = iread-NRBUF;
     }
-    if(registers[i][3]>t){
+    if(registers[iread][3]>t){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", buff[0], t, buff[1]);
+      printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", iread, t, registers[iread][3]);
       cyg_mutex_unlock(&cliblock);
     }
-    if(registers[i][4]>l){
+    if(registers[iread][4]>l){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", buff[0], t, buff[1]);
+      printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", iread, l, registers[iread][4]);
       cyg_mutex_unlock(&cliblock);
     }
-    iread++;
   }
 }
 
