@@ -291,7 +291,7 @@ void cmd_dr(int argc, char** argv){
 | Function: cmd_cpt  - check period of transference
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cpt(int argc, char** argv){
-  unsigned char x = '1';
+  unsigned char x = 123;
   cyg_mbox_put( mbx2H, &x );
 }
 
@@ -299,7 +299,7 @@ void cmd_cpt(int argc, char** argv){
 | Function: cmd_mpt  - modify period of transference (minutes - 0 deactivate)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_mpt(int argc, char** argv){
-  unsigned char x = '2';
+  unsigned char x = 124;
   if(argc == 2){
     cyg_mbox_put( mbx2H, &x );
     cyg_mbox_put( mbx2H, argv[1]);
@@ -315,7 +315,7 @@ void cmd_mpt(int argc, char** argv){
 | Function: cmd_cttl  - check threshold temperature and luminosity for processing
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_cttl(int argc, char** argv){
-  unsigned char x = '3';
+  unsigned char x = 125;
   cyg_mbox_put( mbx2H, &x );
 }
 
@@ -323,7 +323,7 @@ void cmd_cttl(int argc, char** argv){
 | Function: cmd_dttl  - define threshold temperature and luminosity for processing
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dttl(int argc, char** argv){
-  unsigned char x = '4';
+  unsigned char x = 126;
   if(argc == 3){
     cyg_mbox_put( mbx2H, &x );
     cyg_mbox_put( mbx2H, argv[1]);
@@ -341,7 +341,7 @@ void cmd_dttl(int argc, char** argv){
 | Function: cmd_pr  - process registers (max, min, mean) between instants t1 and t2 (h,m,s)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_pr(int argc, char** argv){
-  unsigned char x = '5';
+  unsigned char x = 127;
   int time_min = 0;
   int time_max = 0;
 

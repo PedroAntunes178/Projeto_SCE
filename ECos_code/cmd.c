@@ -42,6 +42,7 @@ unsigned char registers[NRBUF][5];
 int iread = 0;
 int iwrite = 0;
 
+
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
   printf("Entrou no programa do ECos ->\n");
@@ -125,7 +126,7 @@ void write_program(cyg_addrword_t data){
 void process_program(cyg_addrword_t data){
   cyg_handle_t counterH, system_clockH, alarmH;
   cyg_alarm alarm;
-  unsigned char variable = 0;
+  unsigned char auto_flag = 0;
   char *bufw;
   int transfer_period = 6000;
   int threshold_temperature = 0;
@@ -135,19 +136,19 @@ void process_program(cyg_addrword_t data){
 
   system_clockH = cyg_real_time_clock();
   cyg_clock_to_counter(system_clockH, &counterH);
-  cyg_alarm_create(counterH, alarm_func, (cyg_addrword_t) &variable, &alarmH, &alarm);
+  cyg_alarm_create(counterH, alarm_func, (cyg_addrword_t) &auto_flag, &alarmH, &alarm);
   cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
 
   for (;;) {
     bufw = cyg_mbox_get( mbx2H );    // wait for message
 
-    if(bufw[0] == '1'){
+    if(bufw[0] == 123){
       cyg_mutex_lock(&cliblock);
       printf("\nPeriod of transference: %d\n", transfer_period);
       cyg_mutex_unlock(&cliblock);
     }
-    else if (bufw[0] == '2'){
-      cyg_alarm_delete(alarmH);
+    else if (bufw[0] == 124){
+      if (transfer_period !=0) cyg_alarm_delete(alarmH);
       bufw = cyg_mbox_get( mbx2H );
       transfer_period = atoi(bufw);
       if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
@@ -155,22 +156,26 @@ void process_program(cyg_addrword_t data){
       printf("\nModified period of transference: %d\n", transfer_period);
       cyg_mutex_unlock(&cliblock);
     }
-    else if (bufw[0] == '3'){
+    else if (bufw[0] == 125){
       cyg_mutex_lock(&cliblock);
       printf("\nThreshold temperature: %d\n", threshold_temperature);
       printf("Threshold luminosity: %d\n", threshold_luminosity);
       cyg_mutex_unlock(&cliblock);
     }
-    else if (bufw[0] == '4'){
+    else if (bufw[0] == 126){
       bufw = cyg_mbox_get( mbx2H );
       threshold_temperature = atoi(bufw);
       bufw = cyg_mbox_get( mbx2H );
       threshold_luminosity = atoi(bufw);
     }
-    else if (bufw[0] == '5'){
+    else if (bufw[0] == 127){
       min = cyg_mbox_get( mbx2H );
       max = cyg_mbox_get( mbx2H );
       process_registers(*max, *min);
+    }
+    else if (auto_flag=1){
+      check_threshold(threshold_temperature, threshold_luminosity, bufw);
+      auto_flag = 0;
     }
   }
 }
@@ -178,11 +183,12 @@ void process_program(cyg_addrword_t data){
    it should be quick and simple. in this case it increments
    the data that is passed to it. */
 void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
-  ++*((unsigned *) data);
+  unsigned char x[] = {5, SOM, TRGC, 25, EOM}
+
   cyg_mutex_lock(&cliblock);
   printf("\nAsked for Registers\n");
   cyg_mutex_unlock(&cliblock);
-  unsigned char x[] = {5, SOM, TRGC, 25, EOM};
+  *((unsigned *) data) = 1;
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -213,6 +219,19 @@ void process_registers(int max, int min) {
   else{
     cyg_mutex_lock(&cliblock);
     printf("\nNo registers found in the intervel given.\n");
+    cyg_mutex_unlock(&cliblock);
+  }
+}
+
+void check_threshold(int t, int l, char * buff) {
+  if(buff[1]>t){
+    cyg_mutex_lock(&cliblock);
+    printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", buff[0], t, buff[1]);
+    cyg_mutex_unlock(&cliblock);
+  }
+  if(buff[2]>l){
+    cyg_mutex_lock(&cliblock);
+    printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", buff[0], t, buff[1]);
     cyg_mutex_unlock(&cliblock);
   }
 }
@@ -404,6 +423,7 @@ void read_buffer(unsigned char *buffer) {
 
     }
     else{
+      unsigned char auto_buf[3];
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
         if(iread+i>NRBUF) iread = iread - NRBUF;
@@ -412,6 +432,11 @@ void read_buffer(unsigned char *buffer) {
         registers[iread+i][2]=buffer[i*5+1+3];
         registers[iread+i][3]=buffer[i*5+1+4];
         registers[iread+i][4]=buffer[i*5+1+5];
+        auto_buf[0]=iread+i;
+        auto_buf[1]=registers[iread+i][3];
+        auto_buf[2]=registers[iread+i][4];
+        cyg_mbox_put( mbx2H, auto_buf );
+
         cyg_mutex_lock(&cliblock);
         printf("\nIndex %d register:\n", iread+i);
         printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);

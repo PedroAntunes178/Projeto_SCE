@@ -41,6 +41,7 @@ void read_program(cyg_addrword_t);
 void cmd_program(cyg_addrword_t data);
 void alarm_func(cyg_handle_t, cyg_addrword_t);
 void process_registers(int, int);
+void check_threshold(int, int, char *);
 
 /*-------------------------------------------------------------------------+
 | Headers of command functions in monitor.c
