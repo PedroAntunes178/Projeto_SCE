@@ -225,7 +225,6 @@ void process_registers(int max, int min) {
 }
 
 void check_threshold(int t, int l) {
-  int i=0;
   if (iwrite<iread) iwrite = iwrite+NRBUF;
   while(iread<=iwrite){
     iread++;
@@ -238,7 +237,7 @@ void check_threshold(int t, int l) {
       printf("Register %d has a temperature (%d) higher than the threshold temperature(%d).\n", iread, registers[iread][3], l);
       cyg_mutex_unlock(&cliblock);
     }
-    if(registers[iread][4]>l){
+    if(registers[iread][4]<l){
       cyg_mutex_lock(&cliblock);
       printf("Register %d has a luminosity (%d) lower than the threshold luminosity(%d).\n", iread, registers[iread][4], l);
       cyg_mutex_unlock(&cliblock);

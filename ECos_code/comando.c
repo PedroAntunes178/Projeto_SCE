@@ -275,7 +275,7 @@ void cmd_lr(int argc, char** argv){
       }
       else k_true = k;
       cyg_mutex_lock(&cliblock);
-      printf("Register index: %d\nTime: %d:%d:%d, Luminosity: %d, Temperature: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
+      printf("Register index: %d\nTime: %d:%d:%d, Temperature: %d, Luminosity: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
       cyg_mutex_unlock(&cliblock);
     }
   }
