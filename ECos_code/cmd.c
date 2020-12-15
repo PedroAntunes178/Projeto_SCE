@@ -130,8 +130,8 @@ void process_program(cyg_addrword_t data){
   unsigned char auto_flag = 0;
   char *bufw;
   int transfer_period = 6000;
-  int threshold_temperature = 0;
-  int threshold_luminosity = 0;
+  int threshold_temperature = 28;
+  int threshold_luminosity = 4;
   int *max;
   int *min;
 
@@ -235,12 +235,12 @@ void check_threshold(int t, int l) {
     }
     if(registers[iread][3]>t){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", iread, t, registers[iread][3]);
+      printf("Register %d has a temperature (%d) higher than the threshold temperature(%d).\n", iread, registers[iread][3], l);
       cyg_mutex_unlock(&cliblock);
     }
     if(registers[iread][4]>l){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", iread, l, registers[iread][4]);
+      printf("Register %d has a luminosity (%d) lower than the threshold luminosity(%d).\n", iread, registers[iread][4], l);
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -399,7 +399,7 @@ void read_buffer(unsigned char *buffer) {
     }
     else{
       cyg_mutex_lock(&cliblock);
-      printf("\nActivated alarm.\n");
+      printf("\nChanged alarm state.\n");
       printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
     }
@@ -432,8 +432,8 @@ void read_buffer(unsigned char *buffer) {
     }
     else{
       unsigned char x = 120;
-      iwrite++;
       n_reg = buffer[1];
+      if(n_reg>0) iwrite++;
       for(i=0;i<n_reg;i++){
         if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
         if(ng!=NRBUF) ng++;
@@ -465,8 +465,8 @@ void read_buffer(unsigned char *buffer) {
     }
     else{
       unsigned char x = 120;
-      iwrite++;
       n_reg = buffer[1];
+      if(n_reg>0) iwrite++;
       for(i=0;i<n_reg;i++){
         if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
         if(ng!=NRBUF) ng++;
