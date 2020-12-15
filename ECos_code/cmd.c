@@ -40,7 +40,8 @@ cyg_mbox mbx1, mbx2;
 unsigned int n_reg = 0;
 unsigned char registers[NRBUF][5];
 int iread = 0;
-int iwrite = 0;
+int iwrite = -1;
+int ng = 0;
 
 
 /* we install our own startup routine which sets up threads */
@@ -174,7 +175,7 @@ void process_program(cyg_addrword_t data){
       process_registers(*max, *min);
     }
     else if (auto_flag==1){
-      check_threshold(threshold_temperature, threshold_luminosity, bufw);
+      check_threshold(threshold_temperature, threshold_luminosity);
       auto_flag = 0;
     }
   }
@@ -223,16 +224,25 @@ void process_registers(int max, int min) {
   }
 }
 
-void check_threshold(int t, int l, char * buff) {
-  if(buff[1]>t){
-    cyg_mutex_lock(&cliblock);
-    printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", buff[0], t, buff[1]);
-    cyg_mutex_unlock(&cliblock);
-  }
-  if(buff[2]>l){
-    cyg_mutex_lock(&cliblock);
-    printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", buff[0], t, buff[1]);
-    cyg_mutex_unlock(&cliblock);
+void check_threshold(int t, int l) {
+  int i=0;
+  if (iwrite<iread) iwrite = iwrite+NRBUF;
+  while(iread<=iwrite){
+    if (iread>=NRBUF){
+      iwrite = iwrite-NRBUF;
+      iread = iread-NRBUF;
+    }
+    if(registers[i][3]>t){
+      cyg_mutex_lock(&cliblock);
+      printf("Register %d has a temperature (%d) higher then the threshold temperature(%d).\n", buff[0], t, buff[1]);
+      cyg_mutex_unlock(&cliblock);
+    }
+    if(registers[i][4]>l){
+      cyg_mutex_lock(&cliblock);
+      printf("Register %d has a luminosity (%d) higher then the threshold luminosity(%d).\n", buff[0], t, buff[1]);
+      cyg_mutex_unlock(&cliblock);
+    }
+    iread++;
   }
 }
 
@@ -407,11 +417,9 @@ void read_buffer(unsigned char *buffer) {
       printf("\nRing Buffer size on PIC side (NREG): %d\n", buffer[1]);
       printf("Number of valid registers on PIC (nr):%d\n", buffer[2]);
       printf("Last register index read (iread):%d\n", buffer[3]);
-      printf("Last register index still not transfered (iwrite):%d\n", buffer[4]);
+      printf("Last register index wrote (iwrite):%d\n", buffer[4]);
       printf("\nMyCmd>");
       cyg_mutex_unlock(&cliblock);
-      iwrite = (int)(buffer[4]-buffer[3]);
-      if (iwrite<0) iwrite = iwrite + (int)(buffer[1]);
     }
   }
   else if (buffer[0] == TRGC){
@@ -423,31 +431,29 @@ void read_buffer(unsigned char *buffer) {
 
     }
     else{
-      unsigned char auto_buf[3];
+      unsigned char x = 120;
+      iwrite++;
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
-        if(iread+i>NRBUF) iread = iread - NRBUF;
-        registers[iread+i][0]=buffer[i*5+1+1];
-        registers[iread+i][1]=buffer[i*5+1+2];
-        registers[iread+i][2]=buffer[i*5+1+3];
-        registers[iread+i][3]=buffer[i*5+1+4];
-        registers[iread+i][4]=buffer[i*5+1+5];
-        auto_buf[0]=iread+i;
-        auto_buf[1]=registers[iread+i][3];
-        auto_buf[2]=registers[iread+i][4];
-        cyg_mbox_put( mbx2H, auto_buf );
+        if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+        if(ng!=NRBUF) ng++;
+        if((iwrite==iread)&&(ng==NRBUF)) iread++;
+        registers[iwrite][0]=buffer[i*5+1+1];
+        registers[iwrite][1]=buffer[i*5+1+2];
+        registers[iwrite][2]=buffer[i*5+1+3];
+        registers[iwrite][3]=buffer[i*5+1+4];
+        registers[iwrite][4]=buffer[i*5+1+5];
+        iwrite++;
 
         cyg_mutex_lock(&cliblock);
-        printf("\nIndex %d register:\n", iread+i);
+        printf("\nIndex %d register:\n", iwrite);
         printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
         printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+1+4], buffer[i*5+1+5]);
         printf("MyCmd>\n");
         cyg_mutex_unlock(&cliblock);
 
       }
-      iread = iread+i;
-      iwrite = iwrite-i;
-      if (iwrite < 0) iwrite = 0;
+      cyg_mbox_put( mbx2H, &x );
     }
   }
   else if (buffer[0] == TRGI){
@@ -458,23 +464,29 @@ void read_buffer(unsigned char *buffer) {
       cyg_mutex_unlock(&cliblock);
     }
     else{
+      unsigned char x = 120;
+      iwrite++;
       n_reg = buffer[1];
       for(i=0;i<n_reg;i++){
-        if(iread+i>NRBUF) iread = iread - NRBUF;
-        registers[iread+i][0]=buffer[i*5+2+1];
-        registers[iread+i][1]=buffer[i*5+2+2];
-        registers[iread+i][2]=buffer[i*5+2+3];
-        registers[iread+i][3]=buffer[i*5+2+4];
-        registers[iread+i][4]=buffer[i*5+2+5];
+        if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+        if(ng!=NRBUF) ng++;
+        if((iwrite==iread)&&(ng==NRBUF)) iread++;
+        registers[iwrite][0]=buffer[i*5+2+1];
+        registers[iwrite][1]=buffer[i*5+2+2];
+        registers[iwrite][2]=buffer[i*5+2+3];
+        registers[iwrite][3]=buffer[i*5+2+4];
+        registers[iwrite][4]=buffer[i*5+2+5];
+        iwrite++;
 
         cyg_mutex_lock(&cliblock);
-        printf("\nIndex %d register:\n", iread+i);
+        printf("\nIndex %d register:\n", iwrite);
         printf("Time: %d:%d:%d\n", buffer[i*5+2+1], buffer[i*5+2+2], buffer[i*5+2+3]);
         printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+2+4], buffer[i*5+2+5]);
         printf("MyCmd>\n");
         cyg_mutex_unlock(&cliblock);
 
       }
+      cyg_mbox_put( mbx2H, &x );
     }
   }
   else if (buffer[0] == NMFL ){

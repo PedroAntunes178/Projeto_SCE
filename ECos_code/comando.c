@@ -234,15 +234,12 @@ void cmd_tri(int argc, char** argv){
 | Function: cmd_irl  - information about local registers (NRBUF, nr, iread, iwrite)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_irl(int argc, char** argv){
-  unsigned int ng = 0;
 
-  if(iread>NRBUF) ng = NRBUF;
-  else ng = iread;
   cyg_mutex_lock(&cliblock);
-  printf("NRBUF = %d\n", NRBUF);
-  printf("Number of valid registers in PC = %d\n", ng);
-  printf("Number of registers wrote/read = %d\n", iread);
-  printf("Number of registers to write/read = %d\n", iwrite);
+  printf("Number of registers in ring buffer (NRBUF): %d\n", NRBUF);
+  printf("Number of valid registers in PC: %d\n", ng);
+  printf("Last register read index: %d\n", iread);
+  printf("Last registor wrote index: %d\n", iwrite);
   cyg_mutex_unlock(&cliblock);
 
 }
@@ -257,12 +254,24 @@ void cmd_lr(int argc, char** argv){
   if(argc == 3){
     int n = atoi(argv[1]);
     int i = atoi(argv[2]);
-    for(k=i; k<iread && k<i+n; k++){
-      if (k>NRBUF){
-        k_true = k;
-        while(k_true>NRBUF){
-          k_true = k_true - NRBUF;
-        }
+    if(i>ng){
+      i=0;
+      cyg_mutex_lock(&cliblock);
+      printf("Index asked doen't have a resgister saved.\n Printing registers from index 0.\n");
+      cyg_mutex_unlock(&cliblock);
+    }
+    if((i+n>ng) && (ng!=NRBUF)){
+      cyg_mutex_lock(&cliblock);
+      printf("There aren't %d registers from index %d to oldest.\n Printing %d registers.\n", n, i, ng-i);
+      cyg_mutex_unlock(&cliblock);
+      n=ng-i;
+    }
+    if((iwrite<i) && (i+n>=NRBUF)) iwrite = iwrite+NRBUF;
+    for(k=i; k<iwrite && k<i+n; k++){
+      if (k>=NRBUF){
+        iwrite = iwrite-NRBUF;
+        i = i-NRBUF;
+        k = k-NRBUF;
       }
       else k_true = k;
       cyg_mutex_lock(&cliblock);

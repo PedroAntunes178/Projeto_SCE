@@ -94,3 +94,4 @@ extern unsigned int n_reg;
 extern unsigned char registers[NRBUF][5];
 extern int iread;
 extern int iwrite;
+extern int ng;
