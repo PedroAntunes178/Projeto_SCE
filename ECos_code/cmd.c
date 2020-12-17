@@ -226,9 +226,9 @@ void process_registers(int max, int min) {
 
 void check_threshold(int t, int l) {
   if (iwrite<iread) iwrite = iwrite+NRBUF;
-  while(iread<=iwrite){
+  while(iread<iwrite){
     iread++;
-    if (iread>=NRBUF){
+    if (iread>NRBUF-1){
       iwrite = iwrite-NRBUF;
       iread = iread-NRBUF;
     }
