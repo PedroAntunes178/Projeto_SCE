@@ -43,6 +43,8 @@ int iread = -1;
 int iwrite = -1;
 int ng = 0;
 
+unsigned char auto_flag = 0;
+
 
 /* we install our own startup routine which sets up threads */
 void cyg_user_start(void){
@@ -103,7 +105,7 @@ void read_program(cyg_addrword_t data){
     }
     else{
       cyg_mutex_lock(&cliblock);
-      printf("Received not a valid char. Ignored.\n");
+      printf("\nReceived not a valid char. Ignored.");
       cyg_mutex_unlock(&cliblock);
     }
   }
@@ -118,16 +120,17 @@ void write_program(cyg_addrword_t data){
     n = (unsigned int)bufw[0];
 
     err = cyg_io_write(serH, bufw, &n);
+    /*
     cyg_mutex_lock(&cliblock);
     printf("io_write err=%x, n=%d\n", err, n);
     cyg_mutex_unlock(&cliblock);
+    */
   }
 }
 
 void process_program(cyg_addrword_t data){
   cyg_handle_t counterH, system_clockH, alarmH;
   cyg_alarm alarm;
-  unsigned char auto_flag = 0;
   char *bufw;
   int transfer_period = 6000;
   int threshold_temperature = 28;
@@ -145,7 +148,7 @@ void process_program(cyg_addrword_t data){
 
     if(bufw[0] == 123){
       cyg_mutex_lock(&cliblock);
-      printf("\nPeriod of transference: %d\n", transfer_period);
+      printf("\nPeriod of transference: %d", transfer_period);
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == 124){
@@ -154,13 +157,13 @@ void process_program(cyg_addrword_t data){
       transfer_period = atoi(bufw);
       if (transfer_period !=0) cyg_alarm_initialize(alarmH, cyg_current_time()+transfer_period, transfer_period);
       cyg_mutex_lock(&cliblock);
-      printf("\nModified period of transference: %d\n", transfer_period);
+      printf("\nModified period of transference: %d", transfer_period);
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == 125){
       cyg_mutex_lock(&cliblock);
-      printf("\nThreshold temperature: %d\n", threshold_temperature);
-      printf("Threshold luminosity: %d\n", threshold_luminosity);
+      printf("\nThreshold temperature: %d", threshold_temperature);
+      printf("\nThreshold luminosity: %d", threshold_luminosity);
       cyg_mutex_unlock(&cliblock);
     }
     else if (bufw[0] == 126){
@@ -187,9 +190,8 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
   unsigned char x[] = {5, SOM, TRGC, 25, EOM};
 
   cyg_mutex_lock(&cliblock);
-  printf("\nAsked for Registers\n");
+  printf("\nAsked for Registers.");
   cyg_mutex_unlock(&cliblock);
-  *((unsigned *) data) = 1;
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -213,20 +215,20 @@ void process_registers(int max, int min) {
   }
   if(k>0){
     cyg_mutex_lock(&cliblock);
-    printf("\nTemperature: max = %d; min = %d; mean = %d.\n", max_t, min_t, som_t/k);
-    printf("\nLuminosity: max = %d; min = %d; mean = %d.\n", max_l, min_l, som_l/k);
+    printf("\nTemperature: max = %d; min = %d; mean = %d.", max_t, min_t, som_t/k);
+    printf("\nLuminosity: max = %d; min = %d; mean = %d.", max_l, min_l, som_l/k);
     cyg_mutex_unlock(&cliblock);
   }
   else{
     cyg_mutex_lock(&cliblock);
-    printf("\nNo registers found in the intervel given.\n");
+    printf("\nNo registers found in the intervel given.");
     cyg_mutex_unlock(&cliblock);
   }
 }
 
 void check_threshold(int t, int l) {
   if (iwrite<iread) iwrite = iwrite+NRBUF;
-  while(iread<=iwrite){
+  while(iread<iwrite){
     iread++;
     if (iread>NRBUF-1){
       iwrite = iwrite-NRBUF;
@@ -234,15 +236,18 @@ void check_threshold(int t, int l) {
     }
     if(registers[iread][3]>t){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a temperature (%d) higher than the threshold temperature(%d).\n", iread, registers[iread][3], l);
+      printf("\nRegister %d has a temperature (%d) higher than the threshold temperature(%d).", iread, registers[iread][3], l);
       cyg_mutex_unlock(&cliblock);
     }
     if(registers[iread][4]<l){
       cyg_mutex_lock(&cliblock);
-      printf("Register %d has a luminosity (%d) lower than the threshold luminosity(%d).\n", iread, registers[iread][4], l);
+      printf("\nRegister %d has a luminosity (%d) lower than the threshold luminosity(%d).", iread, registers[iread][4], l);
       cyg_mutex_unlock(&cliblock);
     }
   }
+  cyg_mutex_lock(&cliblock);
+  printf("\nMyCmd>");
+  cyg_mutex_unlock(&cliblock);
 }
 
 void read_buffer(unsigned char *buffer) {
@@ -443,15 +448,12 @@ void read_buffer(unsigned char *buffer) {
           registers[iwrite][2]=buffer[i*5+1+3];
           registers[iwrite][3]=buffer[i*5+1+4];
           registers[iwrite][4]=buffer[i*5+1+5];
-
-          cyg_mutex_lock(&cliblock);
-          printf("\nIndex %d register:\n", iwrite);
-          printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
-          printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+1+4], buffer[i*5+1+5]);
-          printf("MyCmd>\n");
-          cyg_mutex_unlock(&cliblock);
-
         }
+        cyg_mutex_lock(&cliblock);
+        printf("\nTranfered %d registers.", n_reg);
+        printf("\nMyCmd>");
+        cyg_mutex_unlock(&cliblock);
+        auto_flag = 1;
         cyg_mbox_put( mbx2H, &x );
       }
       else{
@@ -483,15 +485,13 @@ void read_buffer(unsigned char *buffer) {
           registers[iwrite][2]=buffer[i*5+2+3];
           registers[iwrite][3]=buffer[i*5+2+4];
           registers[iwrite][4]=buffer[i*5+2+5];
-
-          cyg_mutex_lock(&cliblock);
-          printf("\nIndex %d register:\n", iwrite);
-          printf("Time: %d:%d:%d\n", buffer[i*5+2+1], buffer[i*5+2+2], buffer[i*5+2+3]);
-          printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+2+4], buffer[i*5+2+5]);
-          printf("MyCmd>\n");
-          cyg_mutex_unlock(&cliblock);
-
         }
+        cyg_mutex_lock(&cliblock);
+        printf("\nTranfered %d registers.", n_reg);
+        printf("\nStarting from index %d.", buffer[2]);
+        printf("\nMyCmd>");
+        cyg_mutex_unlock(&cliblock);
+        auto_flag = 1;
         cyg_mbox_put( mbx2H, &x );
       }
       else{
