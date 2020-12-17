@@ -253,10 +253,13 @@ void cmd_irl(int argc, char** argv){
 void cmd_lr(int argc, char** argv){
   int k = 0;
   int k_true = 0;
+  int n = 0;
+  int i = 0;
 
-  if(argc == 3){
-    int n = atoi(argv[1]);
-    int i = atoi(argv[2]);
+  if((argc == 3)||(argc == 2)){
+    n = atoi(argv[1]);
+    if(argc == 3) i = atoi(argv[2]);
+    else i = iread;
     if(i>ng){
       i=0;
       cyg_mutex_lock(&cliblock);

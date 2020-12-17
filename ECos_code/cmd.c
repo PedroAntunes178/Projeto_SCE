@@ -192,6 +192,7 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
   cyg_mutex_lock(&cliblock);
   printf("\nAsked for Registers.");
   cyg_mutex_unlock(&cliblock);
+  auto_flag = 1;
   cyg_mbox_put( mbx1H, x );
 }
 
@@ -453,7 +454,6 @@ void read_buffer(unsigned char *buffer) {
         printf("\nTranfered %d registers.", n_reg);
         printf("\nMyCmd>");
         cyg_mutex_unlock(&cliblock);
-        auto_flag = 1;
         cyg_mbox_put( mbx2H, &x );
       }
       else{
@@ -492,7 +492,6 @@ void read_buffer(unsigned char *buffer) {
         printf("\nStarting from index %d.", buffer[2]);
         printf("\nMyCmd>");
         cyg_mutex_unlock(&cliblock);
-        auto_flag = 1;
         cyg_mbox_put( mbx2H, &x );
       }
       else{
