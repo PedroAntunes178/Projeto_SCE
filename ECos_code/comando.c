@@ -260,6 +260,10 @@ void cmd_lr(int argc, char** argv){
     n = atoi(argv[1]);
     if(argc == 3) i = atoi(argv[2]);
     else i = iread;
+    /*if((ng==NRBUF)&&(i=0)){
+      i = iwrite + 1;
+      if(i=NRBUF) i = 0;
+    }*/
     if(i>ng){
       i=0;
       cyg_mutex_lock(&cliblock);
