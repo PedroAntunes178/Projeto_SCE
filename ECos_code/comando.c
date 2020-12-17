@@ -202,9 +202,10 @@ void cmd_trc(int argc, char** argv){
     printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
+  /*
   cyg_mutex_lock(&cliblock);
   printf("Debug %d.\n", n_reg);
-  cyg_mutex_unlock(&cliblock);
+  cyg_mutex_unlock(&cliblock);*/
 
 }
 
@@ -225,9 +226,10 @@ void cmd_tri(int argc, char** argv){
     printf("Not the right number of parameters were given.\n");
     cyg_mutex_unlock(&cliblock);
   }
+  /*
   cyg_mutex_lock(&cliblock);
   printf("Debug %d.\n", n_reg);
-  cyg_mutex_unlock(&cliblock);
+  cyg_mutex_unlock(&cliblock);*/
 }
 
 /*----------------------------------------------------------------------------------------------------+
@@ -291,7 +293,9 @@ void cmd_lr(int argc, char** argv){
 | Function: cmd_dr  - delete registers (local memory)
 +-----------------------------------------------------------------------------------------------------*/
 void cmd_dr(int argc, char** argv){
-  iread = 0;
+  iread = -1;
+  iwrite = -1;
+  ng = 0;
   cyg_mutex_lock(&cliblock);
   printf("Deleted Registers.\n");
   cyg_mutex_unlock(&cliblock);
@@ -356,14 +360,14 @@ void cmd_pr(int argc, char** argv){
   int time_max = 0;
 
   if(argc == 7){
-    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3]);
-    time_max = atoi(argv[4])*60*60+atoi(argv[5])*60+atoi(argv[6]);
+    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3])-1;
+    time_max = atoi(argv[4])*60*60+atoi(argv[5])*60+atoi(argv[6])+1;
     cyg_mbox_put( mbx2H, &x );
     cyg_mbox_put( mbx2H, &time_min);
     cyg_mbox_put( mbx2H, &time_max);
   }
   else if(argc == 4){
-    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3]);
+    time_min = atoi(argv[1])*60*60+atoi(argv[2])*60+atoi(argv[3])-1;
     time_max = 24*60*60;
     cyg_mbox_put( mbx2H, &x );
     cyg_mbox_put( mbx2H, &time_min);

@@ -215,8 +215,8 @@ void process_registers(int max, int min) {
   }
   if(k>0){
     cyg_mutex_lock(&cliblock);
-    printf("\nTemperature: max = %d; min = %d; mean = %d.", max_t, min_t, som_t/k);
-    printf("\nLuminosity: max = %d; min = %d; mean = %d.", max_l, min_l, som_l/k);
+    printf("\nTemperature: max = %d; min = %d; mean = %.2f.", max_t, min_t, som_t/k);
+    printf("\nLuminosity: max = %d; min = %d; mean = %.2f.", max_l, min_l, som_l/k);
     cyg_mutex_unlock(&cliblock);
   }
   else{
