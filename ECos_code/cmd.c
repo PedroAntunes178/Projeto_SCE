@@ -457,6 +457,7 @@ void read_buffer(unsigned char *buffer) {
         cyg_mbox_put( mbx2H, &x );
       }
       else{
+        auto_flag = 0;
         cyg_mutex_lock(&cliblock);
         printf("\nNo registers to be sent from pic.\n");
         printf("\nMyCmd>");
@@ -495,6 +496,7 @@ void read_buffer(unsigned char *buffer) {
         cyg_mbox_put( mbx2H, &x );
       }
       else{
+        auto_flag = 0;
         cyg_mutex_lock(&cliblock);
         printf("\nNo registers to be sent from pic.\n");
         printf("\nMyCmd>");
