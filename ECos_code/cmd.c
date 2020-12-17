@@ -456,7 +456,7 @@ void read_buffer(unsigned char *buffer) {
       }
       else{
         cyg_mutex_lock(&cliblock);
-        printf("\nNo registers to be sent from pic.\n", buffer[0]);
+        printf("\nNo registers to be sent from pic.\n");
         printf("\nMyCmd>");
         cyg_mutex_unlock(&cliblock);
       }
@@ -496,7 +496,7 @@ void read_buffer(unsigned char *buffer) {
       }
       else{
         cyg_mutex_lock(&cliblock);
-        printf("\nNo registers to be sent from pic.\n", buffer[0]);
+        printf("\nNo registers to be sent from pic.\n");
         printf("\nMyCmd>");
         cyg_mutex_unlock(&cliblock);
       }
