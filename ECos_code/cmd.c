@@ -432,27 +432,34 @@ void read_buffer(unsigned char *buffer) {
     else{
       unsigned char x = 120;
       n_reg = buffer[1];
-      if((iwrite==-1)&&(n_reg>0)) iwrite++;
-      for(i=0;i<n_reg;i++){
-        if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
-        if(ng!=NRBUF) ng++;
-        if((iwrite==iread)&&(ng==NRBUF)) iread++;
-        registers[iwrite][0]=buffer[i*5+1+1];
-        registers[iwrite][1]=buffer[i*5+1+2];
-        registers[iwrite][2]=buffer[i*5+1+3];
-        registers[iwrite][3]=buffer[i*5+1+4];
-        registers[iwrite][4]=buffer[i*5+1+5];
+      if(n_reg>0){
+        for(i=0;i<n_reg;i++){
+          iwrite++;
+          if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+          if(ng!=NRBUF) ng++;
+          if((iwrite==iread)&&(ng==NRBUF)) iread++;
+          registers[iwrite][0]=buffer[i*5+1+1];
+          registers[iwrite][1]=buffer[i*5+1+2];
+          registers[iwrite][2]=buffer[i*5+1+3];
+          registers[iwrite][3]=buffer[i*5+1+4];
+          registers[iwrite][4]=buffer[i*5+1+5];
 
-        cyg_mutex_lock(&cliblock);
-        printf("\nIndex %d register:\n", iwrite);
-        printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
-        printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+1+4], buffer[i*5+1+5]);
-        printf("MyCmd>\n");
-        cyg_mutex_unlock(&cliblock);
+          cyg_mutex_lock(&cliblock);
+          printf("\nIndex %d register:\n", iwrite);
+          printf("Time: %d:%d:%d\n", buffer[i*5+1+1], buffer[i*5+1+2], buffer[i*5+1+3]);
+          printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+1+4], buffer[i*5+1+5]);
+          printf("MyCmd>\n");
+          cyg_mutex_unlock(&cliblock);
 
-        iwrite++;
+        }
+        cyg_mbox_put( mbx2H, &x );
       }
-      cyg_mbox_put( mbx2H, &x );
+      else{
+        cyg_mutex_lock(&cliblock);
+        printf("\nNo registers to be sent from pic.\n", buffer[0]);
+        printf("\nMyCmd>");
+        cyg_mutex_unlock(&cliblock);
+      }
     }
   }
   else if (buffer[0] == TRGI){
@@ -465,27 +472,34 @@ void read_buffer(unsigned char *buffer) {
     else{
       unsigned char x = 120;
       n_reg = buffer[1];
-      if(n_reg>0) iwrite++;
-      for(i=0;i<n_reg;i++){
-        if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
-        if(ng!=NRBUF) ng++;
-        if((iwrite==iread)&&(ng==NRBUF)) iread++;
-        registers[iwrite][0]=buffer[i*5+2+1];
-        registers[iwrite][1]=buffer[i*5+2+2];
-        registers[iwrite][2]=buffer[i*5+2+3];
-        registers[iwrite][3]=buffer[i*5+2+4];
-        registers[iwrite][4]=buffer[i*5+2+5];
-        iwrite++;
+      if(n_reg>0){
+        for(i=0;i<n_reg;i++){
+          iwrite++;
+          if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+          if(ng!=NRBUF) ng++;
+          if((iwrite==iread)&&(ng==NRBUF)) iread++;
+          registers[iwrite][0]=buffer[i*5+2+1];
+          registers[iwrite][1]=buffer[i*5+2+2];
+          registers[iwrite][2]=buffer[i*5+2+3];
+          registers[iwrite][3]=buffer[i*5+2+4];
+          registers[iwrite][4]=buffer[i*5+2+5];
 
-        cyg_mutex_lock(&cliblock);
-        printf("\nIndex %d register:\n", iwrite);
-        printf("Time: %d:%d:%d\n", buffer[i*5+2+1], buffer[i*5+2+2], buffer[i*5+2+3]);
-        printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+2+4], buffer[i*5+2+5]);
-        printf("MyCmd>\n");
-        cyg_mutex_unlock(&cliblock);
+          cyg_mutex_lock(&cliblock);
+          printf("\nIndex %d register:\n", iwrite);
+          printf("Time: %d:%d:%d\n", buffer[i*5+2+1], buffer[i*5+2+2], buffer[i*5+2+3]);
+          printf("Temprature: %d\nLuminosity:%d\n", buffer[i*5+2+4], buffer[i*5+2+5]);
+          printf("MyCmd>\n");
+          cyg_mutex_unlock(&cliblock);
 
+        }
+        cyg_mbox_put( mbx2H, &x );
       }
-      cyg_mbox_put( mbx2H, &x );
+      else{
+        cyg_mutex_lock(&cliblock);
+        printf("\nNo registers to be sent from pic.\n", buffer[0]);
+        printf("\nMyCmd>");
+        cyg_mutex_unlock(&cliblock);
+      }
     }
   }
   else if (buffer[0] == NMFL ){
