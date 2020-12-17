@@ -1,7 +1,7 @@
 /***************************************************************************
 | File: comando.c  -  Concretizacao de comandos (projecto SCE)
 |
-| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida Rubio (IST98319)
 | Data:  Dezembro 2020
 ***************************************************************************/
 #include "project.h"
@@ -260,10 +260,11 @@ void cmd_lr(int argc, char** argv){
     n = atoi(argv[1]);
     if(argc == 3) i = atoi(argv[2]);
     else i = iread;
-    /*if((ng==NRBUF)&&(i=0)){
+    if(i==-1) i=0;
+    /*if((ng==NRBUF)&&(i==0)){
       i = iwrite + 1;
-      if(i=NRBUF) i = 0;
     }*/
+    if(i==NRBUF) i = 0;
     if(i>ng){
       i=0;
       cyg_mutex_lock(&cliblock);
@@ -288,6 +289,7 @@ void cmd_lr(int argc, char** argv){
       printf("Register index: %d\nTime: %d:%d:%d, Temperature: %d, Luminosity: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
       cyg_mutex_unlock(&cliblock);
     }
+    if(i+n>iread) iread = i + n;
   }
   else{
     cyg_mutex_lock(&cliblock);

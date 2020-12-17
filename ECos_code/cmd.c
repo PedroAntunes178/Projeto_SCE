@@ -1,7 +1,7 @@
 /***************************************************************************
 | File: cmd.c  -  Codigo principal da parte do pc (projecto SCE)
 |
-| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida Rubio (IST98319)
 | Data:  Dezembro 2020
 ***************************************************************************/
 #include "project.h"
@@ -202,7 +202,7 @@ void process_registers(int max, int min) {
   int max_t=0, max_l=0, min_t=100, min_l=100;
   float som_t=0, som_l=0;
 
-  while(i<NRBUF){
+  while(i<ng){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
     if((time_s>min) && (time_s<max) && (time_s!=0)){
       k++;
@@ -441,15 +441,22 @@ void read_buffer(unsigned char *buffer) {
       n_reg = buffer[1];
       if(n_reg>0){
         for(i=0;i<n_reg;i++){
-          iwrite++;
-          if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
-          if(ng!=NRBUF) ng++;
-          if((iwrite==iread)&&(ng==NRBUF)) iread++;
-          registers[iwrite][0]=buffer[i*5+1+1];
-          registers[iwrite][1]=buffer[i*5+1+2];
-          registers[iwrite][2]=buffer[i*5+1+3];
-          registers[iwrite][3]=buffer[i*5+1+4];
-          registers[iwrite][4]=buffer[i*5+1+5];
+          if((50>buffer[i*5+1+4])&&(8>buffer[i*5+1+5])){
+            iwrite++;
+            if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+            if(ng!=NRBUF) ng++;
+            if((iwrite==iread)&&(ng==NRBUF)) iread++;
+            registers[iwrite][0]=buffer[i*5+1+1];
+            registers[iwrite][1]=buffer[i*5+1+2];
+            registers[iwrite][2]=buffer[i*5+1+3];
+            registers[iwrite][3]=buffer[i*5+1+4];
+            registers[iwrite][4]=buffer[i*5+1+5];
+          }
+          else{
+            cyg_mutex_lock(&cliblock);
+            printf("\nReceived an invalid register.");
+            cyg_mutex_unlock(&cliblock);
+          }
         }
         cyg_mutex_lock(&cliblock);
         printf("\nTranfered %d registers.", n_reg);
@@ -478,15 +485,22 @@ void read_buffer(unsigned char *buffer) {
       n_reg = buffer[1];
       if(n_reg>0){
         for(i=0;i<n_reg;i++){
-          iwrite++;
-          if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
-          if(ng!=NRBUF) ng++;
-          if((iwrite==iread)&&(ng==NRBUF)) iread++;
-          registers[iwrite][0]=buffer[i*5+2+1];
-          registers[iwrite][1]=buffer[i*5+2+2];
-          registers[iwrite][2]=buffer[i*5+2+3];
-          registers[iwrite][3]=buffer[i*5+2+4];
-          registers[iwrite][4]=buffer[i*5+2+5];
+          if((50>buffer[i*5+1+4])&&(8>buffer[i*5+1+5])){
+            iwrite++;
+            if(iwrite==NRBUF) iwrite = iwrite - NRBUF;
+            if(ng!=NRBUF) ng++;
+            if((iwrite==iread)&&(ng==NRBUF)) iread++;
+            registers[iwrite][0]=buffer[i*5+2+1];
+            registers[iwrite][1]=buffer[i*5+2+2];
+            registers[iwrite][2]=buffer[i*5+2+3];
+            registers[iwrite][3]=buffer[i*5+2+4];
+            registers[iwrite][4]=buffer[i*5+2+5];
+          }
+          else{
+            cyg_mutex_lock(&cliblock);
+            printf("\nReceived an invalid register.");
+            cyg_mutex_unlock(&cliblock);
+          }
         }
         cyg_mutex_lock(&cliblock);
         printf("\nTranfered %d registers.", n_reg);

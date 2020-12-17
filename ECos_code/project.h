@@ -1,3 +1,9 @@
+/***************************************************************************
+| File: project.h  -  Header File (projecto SCE)
+|
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida Rubio (IST98319)
+| Data:  Dezembro 2020
+***************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

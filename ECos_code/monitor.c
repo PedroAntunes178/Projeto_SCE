@@ -1,7 +1,7 @@
 /***************************************************************************
 | File: monitor.c
 |
-| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida
+| Autor: Pedro Antunes (IST90170), Carolina Zebre (IST86961), Shaida Rubio (IST98319)
 | Data:  Dezembro 2020
 ***************************************************************************/
 #include "project.h"
