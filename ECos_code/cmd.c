@@ -515,7 +515,7 @@ void read_buffer(unsigned char *buffer) {
       cyg_mutex_lock(&cliblock);
       printf("Memory half full!\n");
       cyg_mutex_unlock(&cliblock);
-      unsigned char x[] = {0, SOM, TRGC, 25, EOM};
+      unsigned char x[] = {5, SOM, TRGC, 25, EOM};
       cyg_mbox_put( mbx1H, x );
     }
   }
