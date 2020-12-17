@@ -238,10 +238,11 @@ void cmd_irl(int argc, char** argv){
   cyg_mutex_lock(&cliblock);
   printf("Number of registers in ring buffer (NRBUF): %d\n", NRBUF);
   printf("Number of valid registers in PC: %d\n", ng);
-  printf("Last register read index: %d\n", iread);
-  printf("Last registor wrote index: %d\n", iwrite);
+  if(iread==-1) printf("No register read by the PC.\n");
+  else printf("Last register read index: %d\n", iread);
+  if(iwrite==-1) printf("No register wrote from PIC to PC.\n");
+  else printf("Last registor wrote index: %d\n", iwrite);
   cyg_mutex_unlock(&cliblock);
-
 }
 
 /*----------------------------------------------------------------------------------------------------+
@@ -267,7 +268,7 @@ void cmd_lr(int argc, char** argv){
       n=ng-i;
     }
     if((iwrite<i) && (i+n>=NRBUF)) iwrite = iwrite+NRBUF;
-    for(k=i; k<iwrite && k<i+n; k++){
+    for(k=i; k<=iwrite && k<i+n; k++){
       if (k>=NRBUF){
         iwrite = iwrite-NRBUF;
         i = i-NRBUF;
