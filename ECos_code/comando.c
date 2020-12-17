@@ -243,7 +243,7 @@ void cmd_irl(int argc, char** argv){
   if(iread==-1) printf("No register read by the PC.\n");
   else printf("Last register read index: %d\n", iread);
   if(iwrite==-1) printf("No register wrote from PIC to PC.\n");
-  else printf("Last registor wrote index: %d\n", iwrite);
+  else printf("Last register wrote index: %d\n", iwrite);
   cyg_mutex_unlock(&cliblock);
 }
 
@@ -289,7 +289,7 @@ void cmd_lr(int argc, char** argv){
       printf("Register index: %d\nTime: %d:%d:%d, Temperature: %d, Luminosity: %d\n", k_true, registers[k_true][0], registers[k_true][1], registers[k_true][2], registers[k_true][3], registers[k_true][4]);
       cyg_mutex_unlock(&cliblock);
     }
-    if(i+n>iread) iread = i + n;
+    if(i+n>iread) iread = i+n-1;
   }
   else{
     cyg_mutex_lock(&cliblock);
