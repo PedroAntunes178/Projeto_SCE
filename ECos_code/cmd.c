@@ -199,7 +199,8 @@ void alarm_func(cyg_handle_t alarmH, cyg_addrword_t data){
 void process_registers(int max, int min) {
   int i=0, k=0;
   int time_s = 0;
-  int max_t=0, max_l=0, min_t=100, min_l=100, som_t=0, som_l=0;
+  int max_t=0, max_l=0, min_t=100, min_l=100;
+  float som_t=0, som_l=0;
 
   while(i<NRBUF){
     time_s = registers[i][0]*60*60+registers[i][1]*60+registers[i][2];
