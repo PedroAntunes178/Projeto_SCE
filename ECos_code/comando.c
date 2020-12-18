@@ -128,9 +128,9 @@ void cmd_dac(int argc, char** argv){
     unsigned char x[] = {0, SOM, DAC, 0, 0, 0, EOM};
     x[0] = sizeof(x);
 
-    x[3] = (unsigned char)atoi(argv[1]);
-    x[4] = (unsigned char)atoi(argv[2]);
-    x[5] = (unsigned char)atoi(argv[3]);
+    x[3] = atoi(argv[1]);
+    x[4] = atoi(argv[2]);
+    x[5] = atoi(argv[3]);
     cyg_mbox_put( mbx1H, x );
   }
   else{
