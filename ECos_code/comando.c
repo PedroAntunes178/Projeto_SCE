@@ -128,9 +128,9 @@ void cmd_dac(int argc, char** argv){
     unsigned char x[] = {0, SOM, DAC, 0, 0, 0, EOM};
     x[0] = sizeof(x);
 
-    x[3] = atoi(argv[1]);
-    x[4] = atoi(argv[2]);
-    x[5] = atoi(argv[3]);
+    x[3] = (unsigned char)atoi(argv[1]);
+    x[4] = (unsigned char)atoi(argv[2]);
+    x[5] = (unsigned char)atoi(argv[3]);
     cyg_mbox_put( mbx1H, x );
   }
   else{
@@ -261,9 +261,9 @@ void cmd_lr(int argc, char** argv){
     if(argc == 3) i = atoi(argv[2]);
     else i = iread;
     if(i==-1) i=0;
-    /*if((ng==NRBUF)&&(i==0)){
+    if((ng==NRBUF)&&(i==0)){
       i = iwrite + 1;
-    }*/
+    }
     if(i==NRBUF) i = 0;
     if(i>ng){
       i=0;
