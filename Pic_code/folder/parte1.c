@@ -25,8 +25,11 @@ extern unsigned char t, old_t;
 extern unsigned char  l, old_l;
 
 uint8_t old_register_counter = 0;
+uint8_t oldest_register = 0;
+uint8_t first = 0;
+uint8_t valid_registers = 0;
 uint8_t register_counter = 0;
-uint8_t register_not_transfered = 0;
+extern uint8_t register_not_transfered ;
 extern uint8_t iread;
 
 void read_memory(void)
@@ -35,6 +38,7 @@ void read_memory(void)
     uint16_t mem;
     uint16_t count;
     if (DATAEE_ReadByte(MAGIC_NUMBER)==magic_nr){
+        first = 1;
         mem = START_REG + 5*DATAEE_ReadByte(LAST_REG);
         mem = mem + 3;
         t = DATAEE_ReadByte(mem);
@@ -49,21 +53,28 @@ void read_memory(void)
         nreg = DATAEE_ReadByte(NREG);
         pmon = DATAEE_ReadByte(PMON);
         tala = DATAEE_ReadByte(TALA);
+        iread = DATAEE_ReadByte(IREAD);
+        oldest_register = DATAEE_ReadByte(OLDR);
+        register_not_transfered = DATAEE_ReadByte(RNT);
         register_counter = DATAEE_ReadByte(LAST_REG);
-        iread = register_counter;
-        count = alah + alam + alas + alat + alal + nreg + pmon + tala;
+        valid_registers = register_counter;
+        count = alah + alam + alas + alat + alal + nreg + pmon + tala + iread + register_not_transfered;
         
-        if (DATAEE_ReadByte(CHECKSUM)!=count){
+        if (DATAEE_ReadByte(CHECKSUM)!= count){
             alah = 12;
-            alam = 0;
+            alam = 2;
             alas = 0;
             alat = 28;
             alal = 4;
             nreg = 25;
             pmon = 3;
             tala = 5;
-            register_counter = 0;
             iread = 0;
+            first = 0;
+            oldest_register = 0;
+            valid_registers = 0;
+            register_not_transfered = 0;
+            register_counter = 0;
             DATAEE_WriteByte(ALAH, alah);
             DATAEE_WriteByte(ALAM, alam);
             DATAEE_WriteByte(ALAS, alas);
@@ -72,6 +83,9 @@ void read_memory(void)
             DATAEE_WriteByte(NREG, nreg);
             DATAEE_WriteByte(PMON, pmon);
             DATAEE_WriteByte(TALA, tala);
+            DATAEE_WriteByte(IREAD, iread);
+            DATAEE_WriteByte(OLDR, oldest_register);
+            DATAEE_WriteByte(RNT, register_not_transfered);
             DATAEE_WriteByte(LAST_REG, register_counter);
             write_checksum();
         }
@@ -86,6 +100,9 @@ void read_memory(void)
         DATAEE_WriteByte(NREG, nreg);
         DATAEE_WriteByte(PMON, pmon);
         DATAEE_WriteByte(TALA, tala);
+        DATAEE_WriteByte(IREAD, iread);
+        DATAEE_WriteByte(OLDR, oldest_register);
+        DATAEE_WriteByte(RNT, register_not_transfered);
         DATAEE_WriteByte(LAST_REG, register_counter);
         write_checksum();
     }
@@ -95,7 +112,7 @@ void write_checksum()
 {
     uint16_t count;
     
-    count = alah + alam + alas + alat + alal + nreg + pmon + tala;
+    count = alah + alam + alas + alat + alal + nreg + pmon + tala + iread + register_not_transfered;
     
     DATAEE_WriteByte(CHECKSUM, count);
 }
@@ -217,28 +234,23 @@ void count_time(){
             check_alarm();
         }   
     }
-    
-   
 }
 
 void sensor()
 {
     unsigned char buf[17];
-    //if (sensor_enable == 1)
-    //{
-        NOP();
-        //t = get_Temprature();
-        t = 25;
-        LCDcmd(0xc0);
-        sprintf(buf, "%02d C ", t);
-        LCDstr(buf);
 
-        NOP();
-        get_Luminosity(buf);
-        LCDcmd(0xcD);
-        LCDstr(buf);
-    //}
+    NOP();
+    //t = get_Temprature();
+    t = 25;
+    LCDcmd(0xc0);
+    sprintf(buf, "%02d C ", t);
+    LCDstr(buf);
 
+    NOP();
+    get_Luminosity(buf);
+    LCDcmd(0xcD);
+    LCDstr(buf);
 }
 
 void check_alarm()
@@ -292,7 +304,6 @@ void save_sensor()
 {      
     uint16_t Addr; 
     unsigned char buf[17];
-    
     Addr = START_REG+register_counter*5;
     
     DATAEE_WriteByte(Addr, hours);
@@ -306,24 +317,44 @@ void save_sensor()
     DATAEE_WriteByte(Addr, l);
     
     DATAEE_WriteByte(LAST_REG, register_counter);
-    old_register_counter = register_counter;
-    register_counter++;
-    register_not_transfered++;
     
+    old_register_counter = register_counter;
+    valid_registers++;
+    if(valid_registers > 25)
+        valid_registers = 25;
+    
+    register_counter++;
+    
+    register_not_transfered++;
+    if (register_not_transfered > nreg){
+        register_not_transfered = nreg;
+    }
+    
+    if (iread==old_register_counter && register_not_transfered == nreg){
+        iread++;
+        if(iread == nreg)
+            iread = 0;
+    }
     if (register_counter == nreg){
+        first = 1;
         register_counter = 0;
-        if (iread==register_counter){
-            iread++;
+    }
+    
+    if (first == 1)
+    {
+        oldest_register ++;
+        if (oldest_register == nreg){
+            oldest_register = 0;
         }
+        DATAEE_WriteByte(OLDR, oldest_register);
     }
     
     if (register_not_transfered > nreg/2){
         LCDcmd(0xc7);
-        sprintf(buf,"M");
         LCDstr("M");
         uint8_t nmfl_msg[]={SOM, NMFL, 0, 0, 0, 0, EOM};
         nmfl_msg[2]= nreg;
-        nmfl_msg[3]= register_not_transfered;
+        nmfl_msg[3]= valid_registers;
         nmfl_msg[4]= iread;
         nmfl_msg[5]= register_counter;
 
@@ -334,10 +365,15 @@ void save_sensor()
         sprintf(buf," ");
         LCDstr(" ");
     }
+    
+    
+    DATAEE_WriteByte(IREAD, iread);
+    DATAEE_WriteByte(RNT, register_not_transfered);
+    write_checksum();
 }
 
-void checkButtonS1(void) {
-    
+void checkButtonS1(void) 
+{
     if (btn1State == NOT_PRESSED) {
         if (SWITCH_S1_PORT == LOW) {
             __delay_ms(100); 
@@ -352,7 +388,6 @@ void checkButtonS1(void) {
     
 
 void checkButtonS2(void) {
-
     if (btn2State == NOT_PRESSED) {
     if (SWITCH_S2_PORT == LOW) {
         __delay_ms(100);
