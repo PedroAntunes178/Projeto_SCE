@@ -49,13 +49,13 @@
     #define INTERRUPT_TMR0InterruptDisable()        do { TMR0IE = 0; } while(0)
 
     #define MAGIC_NUMBER 0xF000 // this memory slot will save if we already runned the program ones or not
-    #define NREG 0xF001 //number of data registers
+    #define NREG 0xF001  //number of data registers
     #define PMON 0xF002  //sec monitoring period
     #define TALA 0xF003  //sec duration of alarm signal (PWM)
-    #define ALAH 0xF004 //hours of alarm clock
+    #define ALAH 0xF004  //hours of alarm clock
     #define ALAM 0xF005  //minutes of alarm clock
     #define ALAS 0xF006  //seconds of alarm clock
-    #define ALAT 0xF007 //oC threshold for temperature alarm
+    #define ALAT 0xF007  //oC threshold for temperature alarm
     #define ALAL 0xF008  //threshold for luminosity level alarm
     #define ALAF 0xF009  //alarm flag initially disabled
     #define CLKH 0xF00A  //initial value for clock hours
@@ -63,8 +63,11 @@
     #define LAST_REG 0xF00C //this memory slot will save the last register number we used
     #define CHECKSUM 0xF00D //The sum is going to be saved in byte 0xF00D and 0xF00E cause its 16 bits
 
-    #define START_REG  0xF00F        // EEPROM starting address if there are 25 reg then the last reg will be at F027
-        
+    #define START_REG  0xF011        // EEPROM starting address if there are 25 reg then the last reg will be at F027
+
+    #define IREAD  0xF00E
+    #define RNT  0xF00F
+    #define OLDR  0xF010
 
     #define SOM 0xFD /* start of message */
     #define EOM 0xFE /* end of message */
